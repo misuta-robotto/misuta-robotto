@@ -9,7 +9,7 @@ find_package(qibuild)
 
 # Create an executable named movehead,
 # with the source file : movehead.cpp
-qi_create_lib(bridge alvalue.cpp almotionproxy.cpp)
+qi_create_lib(bridge SHARED alvalue.cpp almotionproxy.cpp)
 
 # Tell CMake that movehead depends on ALCOMMON and ALPROXIES
 # This will set the libraries to link movehead with,
