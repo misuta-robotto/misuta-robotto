@@ -28,6 +28,9 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API InitOpenCV()
         // cerr << "ERROR: Unable to open camera\n";
         // return -1;
     }
+
+	cap.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
+	cap.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
 }
 
 // --------------------------------------------------------------------------
@@ -324,7 +327,7 @@ static void ModifyVertexBuffer()
 		const MeshVertex& src = g_VertexSource[i];
 		MeshVertex& dst = *(MeshVertex*)bufferPtr;
 		dst.pos[0] = src.pos[0];
-		dst.pos[1] = src.pos[1] + sinf(src.pos[0] * 1.1f + t) * 0.4f + sinf(src.pos[2] * 0.9f - t) * 0.3f;
+		dst.pos[1] = src.pos[1];
 		dst.pos[2] = src.pos[2];
 		dst.normal[0] = src.normal[0];
 		dst.normal[1] = src.normal[1];
