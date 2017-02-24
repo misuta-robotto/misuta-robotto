@@ -1,13 +1,19 @@
 namespace AL {
     public class ALValue {
-        [DllImport("libbridge")]
-        {
-            public static extern IntPtr ALValue_f(float value);
-            public static extern IntPtr ALValue_s(string value);
-            public static extern IntPtr ALValue_fv(float[] value);
-            public static extern IntPtr ALValue_sv(string[] value);
-            public static extern void ALValueFree(IntPtr memory);
-        }
+        [DllImport("bridge_d.dll")]
+        private static extern IntPtr ALValue_f(float value);
+
+        [DllImport("bridge_d.dll")]
+        private static extern IntPtr ALValue_s(string value);
+
+        [DllImport("bridge_d.dll")]
+        private static extern IntPtr ALValue_fv(float[] value);
+
+        [DllImport("bridge_d.dll")]
+        private static extern IntPtr ALValue_sv(string[] value);
+
+        [DllImport("bridge_d.dll")]
+        private static extern void ALValueFree(IntPtr memory);
 
         private IntPtr unmanagedMem;
 
