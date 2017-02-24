@@ -12,13 +12,14 @@ void* ALValue_s(char* value)
     return new AL::ALValue(value_s);
 }
 
-void* ALValue_fv(const std::vector<float> &pListFloat)
+void* ALValue_fv(std::vector<float> pListFloat)
 {
     return new AL::ALValue(pListFloat);
 }
 
-void* ALValue_sv(const std::vector<std::string> &pListString)
+void* ALValue_sv(std::vector<char*> pListString_)
 {
+    std::vector<std::string> pListString(pListString_.begin(), pListString_.end());
     return new AL::ALValue(pListString);
 }
 
