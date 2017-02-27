@@ -6,8 +6,8 @@
 
 EXTERN void* ALValue_f(float value);
 EXTERN void* ALValue_s(char* value);
-EXTERN void* ALValue_fv(std::vector<float> pListFloat);
-EXTERN void* ALValue_sv(std::vector<char*> pListString);
+EXTERN void* ALValue_fv(float* pListFloat, int numValues);
+EXTERN void* ALValue_sv(char** pListString, int numValues);
 EXTERN void ALValueFree(void* alvalue);
 
 #endif

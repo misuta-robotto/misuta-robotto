@@ -5,7 +5,7 @@
 #define THIS ((AL::ALMotionProxy*)self)
 #define ALVALUE(x) *((AL::ALValue*) x)
 
-void* ALMotionProxy(char* server_, int port)
+void* ALMotionProxyNew(char* server_, int port)
 {
     std::string server(server_);
     return new AL::ALMotionProxy(server, port);

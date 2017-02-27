@@ -3,3 +3,4 @@
 #endif
 
 #include "alvalue.h"
+#include "almotionproxy.h"
