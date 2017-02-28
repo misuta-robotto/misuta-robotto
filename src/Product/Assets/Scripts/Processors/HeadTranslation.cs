@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Assets
 {
-    
     class HeadTranslator
     {
         const float PI = (float)Math.PI; 

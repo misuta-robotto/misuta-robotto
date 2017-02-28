@@ -8,8 +8,8 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class HeadMove : MonoBehaviour {
-    private readonly string[] JOINT_NAMES = new string[] { "HeadYaw", "HeadPitch" };
-    private readonly float SPEED_FRACTION = 1;
+    private const readonly string[] JOINT_NAMES = new string[] { "HeadYaw", "HeadPitch" };
+    private const readonly float SPEED_FRACTION = 1;
 
     private HeadTranslator headTranslator;
     private ALMotionProxy motionProxy;
@@ -30,6 +30,6 @@ public class HeadMove : MonoBehaviour {
         pitch = headTranslator.TranslatePitch(pitch);
         yaw = headTranslator.TranslateYaw(yaw);
         
-        motionProxy.SetAngles(JOINT_NAMES, new float[] {-yaw, pitch }, SPEED_FRACTION); //Send angles to robot
+        motionProxy.SetAngles(JOINT_NAMES, new float[] { -yaw, pitch }, SPEED_FRACTION); //Send angles to robot
     }
 }
