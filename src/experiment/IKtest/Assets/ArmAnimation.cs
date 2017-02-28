@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class ArmAnimation : MonoBehaviour {
+    public Transform elbowHint;
     private Animator animator;
 
 	void Start() {
@@ -26,6 +27,12 @@ public class ArmAnimation : MonoBehaviour {
         animator.SetIKRotation(AvatarIKGoal.RightHand, applyHandRotation(rightHandOrientation, -90));
         var leftHandOrientation = InputTracking.GetLocalRotation(VRNode.LeftHand);
         animator.SetIKRotation(AvatarIKGoal.LeftHand, applyHandRotation(leftHandOrientation, 90));
+
+        if (elbowHint != null)
+        {
+            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
+            animator.SetIKHintPosition(AvatarIKHint.RightElbow, elbowHint.position);
+        }
     }
 
     private Quaternion applyHandRotation(Quaternion rot, float amount)
