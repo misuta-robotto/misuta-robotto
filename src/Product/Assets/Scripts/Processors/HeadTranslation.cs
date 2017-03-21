@@ -35,7 +35,7 @@ namespace Assets
         }
         /*
          Translate HMD-rotation to robot. Must send radians instead of degrees. 
-         the angles between pi and 2*pi must be negative 
+         the angles between pi and 2*pi must be negative.
         */
         private float TranslateAngle(float rawAngle)
         {
