@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class ArmAnimation : MonoBehaviour {
-    public Transform elbowHint;
+    public Transform leftElbowHint;
+    public Transform rightElbowHint;
     private Animator animator;
 
 	void Start() {
@@ -28,10 +29,16 @@ public class ArmAnimation : MonoBehaviour {
         var leftHandOrientation = InputTracking.GetLocalRotation(VRNode.LeftHand);
         animator.SetIKRotation(AvatarIKGoal.LeftHand, applyHandRotation(leftHandOrientation, 90));
 
-        if (elbowHint != null)
+        if (rightElbowHint != null)
         {
             animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
-            animator.SetIKHintPosition(AvatarIKHint.RightElbow, elbowHint.position);
+            animator.SetIKHintPosition(AvatarIKHint.RightElbow, rightElbowHint.position);
+        }
+
+        if (leftElbowHint != null)
+        {
+            animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 1);
+            animator.SetIKHintPosition(AvatarIKHint.LeftElbow, leftElbowHint.position);
         }
     }
 

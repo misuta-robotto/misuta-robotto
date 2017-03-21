@@ -6,13 +6,16 @@ using System.Runtime.InteropServices;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
-	// Native plugin rendering events are only called if a plugin is used
-	// by some script. This means we have to DllImport at least
-	// one function in some active script.
-	// For this example, we'll call into plugin's SetTimeFromUnity
-	// function and pass the current time so the plugin can animate.
 
-	[DllImport ("RenderingPlugin")]
+    private int number_of_devices;
+    private int current_device;
+    // Native plugin rendering events are only called if a plugin is used
+    // by some script. This means we have to DllImport at least
+    // one function in some active script.
+    // For this example, we'll call into plugin's SetTimeFromUnity
+    // function and pass the current time so the plugin can animate.
+
+    [DllImport ("RenderingPlugin")]
 	private static extern void SetTimeFromUnity(float t);
 
 
@@ -33,15 +36,44 @@ public class UseRenderingPlugin : MonoBehaviour
     [DllImport("RenderingPlugin")]
     private static extern void InitOpenCV();
 
-	IEnumerator Start()
+    [DllImport("RenderingPlugin")]
+    private static extern int GetDeviceCount();
+
+    [DllImport("RenderingPlugin")]
+    private static extern void SetDevice(int dev);
+
+    IEnumerator Start()
 	{
 		CreateTextureAndPassToPlugin();
 		SendMeshBuffersToPlugin();
         InitOpenCV();
+        number_of_devices = GetDeviceCount();
+        current_device = 0;
 		yield return StartCoroutine("CallPluginAtEndOfFrames");
+        
 	}
 
-	private void CreateTextureAndPassToPlugin()
+    private void OnEnable()
+    {
+        ControllerEventManager.OnClicked += cycleDevice;
+    }
+
+    private void OnDisable()
+    {
+        ControllerEventManager.OnClicked -= cycleDevice;
+    }
+
+    private void cycleDevice()
+    {
+        Debug.Log(number_of_devices);
+        if (current_device++ > number_of_devices) {
+            current_device = 0;
+        }
+        Debug.Log(current_device);
+        SetDevice(current_device);
+    }
+
+    private void CreateTextureAndPassToPlugin()
 	{
 		// Create a texture
 		Texture2D tex = new Texture2D(1920,1080,TextureFormat.ARGB32,false);
@@ -102,4 +134,6 @@ public class UseRenderingPlugin : MonoBehaviour
 			GL.IssuePluginEvent(GetRenderEventFunc(), 1);
 		}
 	}
+
+
 }
