@@ -21,7 +21,7 @@ namespace Assets
 
         /*
          Update yaw unless we are in the dead zone between -2.0857 and 2.0857 radians
-         The dead zone is the area behind the robot where the yaw can't move any further
+         The dead zone is the area behind the robot where the yaw can't move any further.
          */
         public float TranslateYaw(float rawYaw) 
         {
