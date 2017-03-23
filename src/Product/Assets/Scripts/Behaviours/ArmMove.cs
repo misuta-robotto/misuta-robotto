@@ -30,7 +30,7 @@ public class ArmMove : MonoBehaviour {
             rightHandPos.x, rightHandPos.y, rightHandPos.z,
             rightEuler.x, rightEuler.y, rightEuler.z,
         };
-        motionProxy.SetPositions(arms, ALMotionProxy.FRAME_ROBOT, pos_data, 1,
-            ALMotionProxy.AXIS_MASK_POSITION | ALMotionProxy.AXIS_MASK_ROTATION);
+        //motionProxy.SetPositions(arms, ALMotionProxy.FRAME_ROBOT, pos_data, 1,
+        //    ALMotionProxy.AXIS_MASK_POSITION | ALMotionProxy.AXIS_MASK_ROTATION);
     }
 }
