@@ -19,6 +19,7 @@ public class HeadMove : MonoBehaviour {
      }
 
      void Update () {
+       if (Controller.GetAxis() != Vector2.zero) {
          Debug.Log(gameObject.name + Controller.GetAxis());
        }
      }
