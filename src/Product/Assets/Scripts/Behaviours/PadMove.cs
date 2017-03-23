@@ -7,7 +7,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.VR;
 
-public class HeadMove : MonoBehaviour {
+public class PadMove : MonoBehaviour {
      private SteamVR_TrackedObject trackedObj;
      private SteamVR_Controller.Device Controller
      {
