@@ -48,9 +48,9 @@ public class UseRenderingPlugin : MonoBehaviour
         InitOpenCV();
         number_of_devices = GetDeviceCount();
         current_device = 0;
-		yield return StartCoroutine("CallPluginAtEndOfFrames");
-        
+        yield return StartCoroutine("CallPluginAtEndOfFrames"); 
 	}
+
 
     private void OnEnable()
     {
@@ -65,8 +65,8 @@ public class UseRenderingPlugin : MonoBehaviour
     private void cycleDevice()
     {
         Debug.Log(number_of_devices);
-        if (current_device++ > number_of_devices) {
-            current_device = 0;
+        if (++current_device > number_of_devices) {
+            current_device = 1;
         }
         Debug.Log(current_device);
         SetDevice(current_device);

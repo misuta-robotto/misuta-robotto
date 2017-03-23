@@ -17,15 +17,15 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetDevice(int dev);
 
 static cv::Mat frame;
 static cv::VideoCapture cap;
-static int device_count;
+static int device_count = 0;
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API InitOpenCV()
 {
-	device_count = 0;
-	while (cap.open(device_count)) {
-		device_count++;
-	}
-	SetDevice(0);
+	//device_count = 0;
+	//while (cap.open(device_count)) {
+	//	device_count++;
+	//}
+	SetDevice(1);
 }
 
 extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetDeviceCount()
@@ -35,9 +35,6 @@ extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetDeviceCount()
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetDevice(int dev)
 {
-	if (cap.isOpened()) {
-		cap.release();
-	}
 	cap.open(dev);
 	cap.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
 	cap.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);

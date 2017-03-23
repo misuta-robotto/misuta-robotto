@@ -48,9 +48,14 @@ public class UseRenderingPlugin : MonoBehaviour
         InitOpenCV();
         number_of_devices = GetDeviceCount();
         current_device = 0;
-		yield return StartCoroutine("CallPluginAtEndOfFrames");
+		//yield return StartCoroutine("CallPluginAtEndOfFrames");
         
 	}
+
+    public static void Update()
+    {
+        GL.IssuePluginEvent(GetRenderEventFunc(), 1);
+    }
 
     private void OnEnable()
     {
