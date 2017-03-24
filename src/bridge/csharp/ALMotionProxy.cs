@@ -1,34 +1,51 @@
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using UnityEngine;
+
 namespace AL {
     public class ALMotionProxy {
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyNew(string server, int port);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolation(IntPtr self, IntPtr names, IntPtr angleList, IntPtr timeLists, bool isAbsolute);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolationWithSpeed(IntPtr self, IntPtr names, IntPtr targetAngles, float maxSpeedFraction);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolationBezier(IntPtr self, IntPtr jointNames, IntPtr times, IntPtr controlPoints);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxySetAngles(IntPtr self, IntPtr names, IntPtr angles, float fractionMaxSpeed);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyChangeAngles(IntPtr self, IntPtr names, IntPtr changes, float fractionMaxSpeed);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyGetAngles(IntPtr self, IntPtr names, bool useSensors);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyCloseHand(IntPtr self, string handName);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr AlMotionProxyFree(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveInit(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyStopMove(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyKillMove(IntPtr self);
 
         private IntPtr unmanagedMem;
 
@@ -36,13 +53,18 @@ namespace AL {
             this.unmanagedMem = ALMotionProxyNew(server, port);
         }
 
+        ~ALMotionProxy()
+        {
+            AlMotionProxyFree(unmanagedMem);
+        }
+
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)
         {
             ALMotionProxyAngleInterpolation(
                 unmanagedMem,
-                new ALValue(names),
-                new ALValue(angles),
-                new ALValue(timeLists),
+                new ALValue(names).Pointer,
+                new ALValue(angles).Pointer,
+                new ALValue(timeLists).Pointer,
                 isAbsolute
             );
         }
@@ -51,8 +73,8 @@ namespace AL {
         {
             ALMotionProxyAngleInterpolationWithSpeed(
                 unmanagedMem,
-                new ALValue(names),
-                new ALValue(targetAngles),
+                new ALValue(names).Pointer,
+                new ALValue(targetAngles).Pointer,
                 maxSpeedFraction
             );
         }
@@ -61,50 +83,76 @@ namespace AL {
         {
             ALMotionProxyAngleInterpolationBezier(
                 unmanagedMem,
-                new ALValue(jointNames),
-                new ALValue(times),
-                new ALValue(controlPoints)
+                new ALValue(jointNames).Pointer,
+                new ALValue(times).Pointer,
+                new ALValue(controlPoints).Pointer
             );
         }
-
+        
         public void SetAngles(string[] names, float[] angles, float fractionMaxSpeed)
         {
             ALMotionProxySetAngles(
                 unmanagedMem,
-                new ALValue(names),
-                new ALValue(angles),
+                new ALValue(names).Pointer,
+                new ALValue(angles).Pointer,
                 fractionMaxSpeed
             );
         }
-
+        
         public void ChangeAngles(string[] names, float[] changes, float fractionMaxSpeed)
         {
             ALMotionProxyChangeAngles(
                 unmanagedMem,
-                new ALValue(names),
-                new ALValue(changes),
+                new ALValue(names).Pointer,
+                new ALValue(changes).Pointer,
                 fractionMaxSpeed
             );
         }
 
         public ALValue GetAngles(string[] names, bool useSensors)
         {
-            throw new NotImplementedError();
+            throw new Exception("Not implemented");
         }
 
         public void CloseHand(string handName)
         {
-            ALMotionProxyCloseHand(handName);
+            ALMotionProxyCloseHand(unmanagedMem, handName);
         }
 
         public void OpenHand(string handName)
         {
-            ALMotionProxyOpenHand(handName);
+            ALMotionProxyOpenHand(unmanagedMem, handName);
         }
 
-        protected override void Finalize()
+        public void MoveInit()
         {
-            AlMotionProxyFree(unmanagedMem);
+            ALMotionProxyMoveInit(
+                unmanagedMem
+            );
+        }
+
+        public void Move(float x, float y, float theta)
+        {
+            ALMotionProxyMove(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public void StopMove()
+        {
+            ALMotionProxyStopMove(
+                unmanagedMem
+            );
+        }
+
+        public void KillMove()
+        {
+            ALMotionProxyKillMove(
+                unmanagedMem
+            );
         }
     }
 }

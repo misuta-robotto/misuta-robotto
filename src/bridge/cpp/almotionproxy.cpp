@@ -54,7 +54,7 @@ void ALMotionProxyOpenHand(void* self, char* handName_)
     THIS->openHand(handName);
 }
 
-void AlMotionProxyFree(void* self)
+void ALMotionProxyFree(void* self)
 {
     delete THIS;
 }
@@ -65,22 +65,22 @@ void AlMotionProxyFree(void* self)
  * stopMove
  * killmove
  */
-void AlMotionProxyMoveInit(void* self)
+void ALMotionProxyMoveInit(void* self)
 {
     THIS->moveInit();
 }
 
-void AlMotionProxyMove(void* self, float x, float y, float theta)
+void ALMotionProxyMove(void* self, float x, float y, float theta)
 {
     THIS->move(x, y, theta);
 }
 
-void AlMotionProxyStopMove(void* self)
+void ALMotionProxyStopMove(void* self)
 {
     THIS->stopMove();
 }
 
-void AlMotionProxyKillMove(void* self)
+void ALMotionProxyKillMove(void* self)
 {
     THIS->killMove();
 }

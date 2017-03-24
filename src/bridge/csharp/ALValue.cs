@@ -1,41 +1,47 @@
+using System;
+using System.Runtime.InteropServices;
+
 namespace AL {
     public class ALValue {
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge")]
         private static extern IntPtr ALValue_f(float value);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge")]
         private static extern IntPtr ALValue_s(string value);
 
-        [DllImport("bridge_d.dll")]
-        private static extern IntPtr ALValue_fv(float[] value);
+        [DllImport("bridge")]
+        private static extern IntPtr ALValue_fv(float[] values, int numValues);
 
-        [DllImport("bridge_d.dll")]
-        private static extern IntPtr ALValue_sv(string[] value);
+        [DllImport("bridge")]
+        private static extern IntPtr ALValue_sv(string[] value, int numValues);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge")]
         private static extern void ALValueFree(IntPtr memory);
 
-        private IntPtr unmanagedMem;
+        public IntPtr Pointer
+        {
+            get; private set;
+        }
 
         public ALValue(float value) {
-            this.unmanagedMem = ALValue_f(value);
+            this.Pointer = ALValue_f(value);
         }
 
         public ALValue(string value) {
-            this.unmanagedMem = ALValue_s(value);
+            this.Pointer = ALValue_s(value);
         }
 
         public ALValue(float[] value) {
-            this.unmanagedMem = ALValue_fv(value);
+            this.Pointer = ALValue_fv(value, value.Length);
         }
 
         public ALValue(string[] value) {
-            this.unmanagedMem = ALValue_sv(value);
+            this.Pointer = ALValue_sv(value, value.Length);
         }
 
-        protected override void Finalize()
+        ~ALValue()
         {
-            ALValueFree(unmanagedMem);
+            ALValueFree(Pointer);
         }
     }
 }

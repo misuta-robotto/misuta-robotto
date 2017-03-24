@@ -33,7 +33,7 @@ namespace AL {
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
         [DllImport("bridge_d")]
-        private static extern IntPtr AlMotionProxyFree(IntPtr self);
+        private static extern IntPtr ALMotionProxyFree(IntPtr self);
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyMoveInit(IntPtr self);
@@ -55,7 +55,7 @@ namespace AL {
 
         ~ALMotionProxy()
         {
-            AlMotionProxyFree(unmanagedMem);
+            ALMotionProxyFree(unmanagedMem);
         }
 
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)

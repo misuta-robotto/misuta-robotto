@@ -3,19 +3,19 @@ using System.Runtime.InteropServices;
 
 namespace AL {
     public class ALValue {
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALValue_f(float value);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALValue_s(string value);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALValue_fv(float[] values, int numValues);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALValue_sv(string[] value, int numValues);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern void ALValueFree(IntPtr memory);
 
         public IntPtr Pointer

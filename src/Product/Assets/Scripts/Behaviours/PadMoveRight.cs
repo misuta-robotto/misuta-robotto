@@ -9,11 +9,11 @@ using UnityEngine.VR;
 
 public class PadMoveRight : MonoBehaviour {
      private ALMotionProxy motionProxy;
-     //private SteamVR_TrackedObject trackedObj;
-     //private SteamVR_Controller.Device Controller
-     /*{
+     private SteamVR_TrackedObject trackedObj;
+     private SteamVR_Controller.Device Controller
+     {
 	      get { return SteamVR_Controller.Input((int)trackedObj.index); }
-     }*/
+     }
 
      void Start () {
         motionProxy = new ALMotionProxy("127.0.0.1", 2104);
@@ -21,12 +21,22 @@ public class PadMoveRight : MonoBehaviour {
         //motionProxy.MoveInit();
      }
 
-     /*void Awake () {
+     void Awake () {
      	  trackedObj = GetComponent<SteamVR_TrackedObject>();
-     }*/
+     }
 
      void Update () {
+        float theta = 0;
 
-        motionProxy.Move(?, ?, ?);
-     }
+        if (System.Math.Abs(Controller.GetAxis().y) > 0.2)
+        {
+            theta = -Controller.GetAxis().y;
+        }
+
+        motionProxy.Move(0, 0, theta);
+
+        //motionProxy.Move(0, 0, -Controller.GetAxis().x);
+        //Debug.Log(gameObject.name + Controller.GetAxis());
+        //}
+    }
 }
