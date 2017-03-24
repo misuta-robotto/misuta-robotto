@@ -12,21 +12,21 @@ public class PadMoveLeft : MonoBehaviour {
      private SteamVR_TrackedObject trackedObj;
      private SteamVR_Controller.Device Controller
      {
-	      get { return SteamVR_Controller.Input((int)trackedObj.index); }
+	    get { return SteamVR_Controller.Input((int)trackedObj.index); }
      }
 
      void Start () {
         motionProxy = new ALMotionProxy("127.0.0.1", 2104);
         Debug.Log("Started ");
-        //motionProxy.MoveInit();
+        motionProxy.MoveInit();
      }
 
      void Awake () {
-     	  trackedObj = GetComponent<SteamVR_TrackedObject>();
+     	trackedObj = GetComponent<SteamVR_TrackedObject>();
      }
 
      void Update () {
-        //if (Controller.GetAxis().x, 0, 0) {
+        // Ej testat!
         float x = 0;
         float y = 0;
 
@@ -34,15 +34,15 @@ public class PadMoveLeft : MonoBehaviour {
         {
             x = Controller.GetAxis().y;
         }
-        /* SIDLEDSFÖRFLYTTNING
+
+        // Sidledsförflyttning
         if (System.Math.Abs(Controller.GetAxis().x) > 0.2)
         {
             y = Controller.GetAxis().x;
-        }*/
+        }
 
-        motionProxy.Move(x, 0, 0);
+        motionProxy.Move(x, y, 0);
 
-         //Debug.Log(gameObject.name + Controller.GetAxis());
-    }
-     
+        //Debug.Log(gameObject.name + Controller.GetAxis());
+    }  
 }
