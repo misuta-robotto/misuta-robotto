@@ -5,35 +5,47 @@ using UnityEngine;
 
 namespace AL {
     public class ALMotionProxy {
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyNew(string server, int port);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolation(IntPtr self, IntPtr names, IntPtr angleList, IntPtr timeLists, bool isAbsolute);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolationWithSpeed(IntPtr self, IntPtr names, IntPtr targetAngles, float maxSpeedFraction);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolationBezier(IntPtr self, IntPtr jointNames, IntPtr times, IntPtr controlPoints);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxySetAngles(IntPtr self, IntPtr names, IntPtr angles, float fractionMaxSpeed);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyChangeAngles(IntPtr self, IntPtr names, IntPtr changes, float fractionMaxSpeed);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyGetAngles(IntPtr self, IntPtr names, bool useSensors);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyCloseHand(IntPtr self, string handName);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
-        [DllImport("bridge")]
+        [DllImport("bridge_d")]
         private static extern IntPtr AlMotionProxyFree(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveInit(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyStopMove(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyKillMove(IntPtr self);
 
         private IntPtr unmanagedMem;
 
@@ -76,7 +88,7 @@ namespace AL {
                 new ALValue(controlPoints).Pointer
             );
         }
-
+        
         public void SetAngles(string[] names, float[] angles, float fractionMaxSpeed)
         {
             ALMotionProxySetAngles(
@@ -86,7 +98,7 @@ namespace AL {
                 fractionMaxSpeed
             );
         }
-
+        
         public void ChangeAngles(string[] names, float[] changes, float fractionMaxSpeed)
         {
             ALMotionProxyChangeAngles(
@@ -110,6 +122,37 @@ namespace AL {
         public void OpenHand(string handName)
         {
             ALMotionProxyOpenHand(unmanagedMem, handName);
+        }
+
+        public void MoveInit()
+        {
+            ALMotionProxyMoveInit(
+                unmanagedMem
+            );
+        }
+
+        public void Move(float x, float y, float theta)
+        {
+            ALMotionProxyMove(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public void StopMove()
+        {
+            ALMotionProxyStopMove(
+                unmanagedMem
+            );
+        }
+
+        public void KillMove()
+        {
+            ALMotionProxyKillMove(
+                unmanagedMem
+            );
         }
     }
 }

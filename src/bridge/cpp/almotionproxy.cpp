@@ -58,3 +58,29 @@ void AlMotionProxyFree(void* self)
 {
     delete THIS;
 }
+
+/* use-case-5:
+ * moveInit
+ * move
+ * stopMove
+ * killmove
+ */
+void AlMotionProxyMoveInit(void* self)
+{
+    THIS->moveInit();
+}
+
+void AlMotionProxyMove(void* self, float x, float y, float theta)
+{
+    THIS->move(x, y, theta);
+}
+
+void AlMotionProxyStopMove(void* self)
+{
+    THIS->stopMove();
+}
+
+void AlMotionProxyKillMove(void* self)
+{
+    THIS->killMove();
+}

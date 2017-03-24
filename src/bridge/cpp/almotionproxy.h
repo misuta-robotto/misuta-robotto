@@ -13,5 +13,9 @@ EXTERN void* ALMotionProxyGetAngles(void* self, void* names, bool useSensors);
 EXTERN void ALMotionProxyCloseHand(void* self, char* handName);
 EXTERN void ALMotionProxyOpenHand(void* self, char* handName);
 EXTERN void AlMotionProxyFree(void* self);
+EXTERN void AlMotionProxyMoveInit(void* self);
+EXTERN void AlMotionProxyMove(void* self, float x, float y, float theta);
+EXTERN void AlMotionProxyStopMove(void* self);
+EXTERN void AlMotionProxyKillMove(void* self);
 
 #endif
