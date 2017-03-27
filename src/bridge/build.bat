@@ -22,5 +22,5 @@ qibuild add-config default -t default --default
 
 cd "%CURRENTDIR%"
 cd cpp
-configure 
-build
+CALL configure 
+CALL build
