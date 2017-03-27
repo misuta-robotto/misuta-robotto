@@ -9,24 +9,20 @@ using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour {
     private ALMotionProxy motionProxy;
-    private SteamVR_TrackedObject trackedObjLeft;
+    public SteamVR_TrackedObject trackedObjLeft;
     private SteamVR_Controller.Device ControllerLeft {
-	    get { return SteamVR_Controller.Input((int)trackedObj.index); }
+	    get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
     }
-    private SteamVR_TrackedObject trackedObjRight;
+
+    public SteamVR_TrackedObject trackedObjRight;
     private SteamVR_Controller.Device ControllerRight {
-        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+        get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
     }
 
     void Start () {
-        motionProxy = new ALMotionProxy("127.0.0.1", 2104);
+        motionProxy = new ALMotionProxy("127.0.0.1", 1743);
         Debug.Log("Started ");
         motionProxy.MoveInit();
-     }
-
-     void Awake () {
-     	trackedObjLeft = GetComponent<SteamVR_TrackedObject>();
-        trackedObjRight = GetComponent<SteamVR_TrackedObject>();
      }
 
      void Update () {
@@ -44,13 +40,13 @@ public class PadMove : MonoBehaviour {
         // ControllerLeft - Sidledsförflyttning
         if (System.Math.Abs(ControllerLeft.GetAxis().x) > 0.2)
         {
-            y = ControllerLeft.GetAxis().x;
+            y = -ControllerLeft.GetAxis().x;
         }
 
         // ControllerRight - Rotation
-        if (System.Math.Abs(ControllerRight.GetAxis().y) > 0.2)
+        if (System.Math.Abs(ControllerRight.GetAxis().x) > 0.2)
         {
-            theta = -ControllerRight.GetAxis().y;
+            theta = -ControllerRight.GetAxis().x;
         }
 
         motionProxy.Move(x, y, theta);
