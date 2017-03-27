@@ -1,17 +1,12 @@
-##
-# Copyright (c) 2011 Aldebaran Robotics. All Rights Reserved.
-
 cmake_minimum_required(VERSION 2.6.4 FATAL_ERROR)
-# Give a name to the project.
+
+# Set up project name and qibuild dependency
 project(bridge)
-# This include enable you to use our CMake framework
 find_package(qibuild)
 
-# Create an executable named movehead,
-# with the source file : movehead.cpp
+# Add another filename before the end paranthesis to include it in the compiled library
 qi_create_lib(bridge SHARED SRC alvalue.cpp almotionproxy.cpp)
 
-# Tell CMake that movehead depends on ALCOMMON and ALPROXIES
-# This will set the libraries to link movehead with,
-# the include paths, and so on
+# Tell CMake that bridge depends on ALCOMMON and ALPROXIES
+# If you want to extend a completely different functionality in the SDK you may have to include it here
 qi_use_lib(bridge ALCOMMON ALPROXIES)
