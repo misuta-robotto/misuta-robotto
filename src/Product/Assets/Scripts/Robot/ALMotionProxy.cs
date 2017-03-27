@@ -33,7 +33,19 @@ namespace AL {
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
         [DllImport("bridge_d")]
-        private static extern IntPtr AlMotionProxyFree(IntPtr self);
+        private static extern IntPtr ALMotionProxyFree(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveInit(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyStopMove(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyKillMove(IntPtr self);
 
         private IntPtr unmanagedMem;
 
@@ -43,7 +55,7 @@ namespace AL {
 
         ~ALMotionProxy()
         {
-            AlMotionProxyFree(unmanagedMem);
+            ALMotionProxyFree(unmanagedMem);
         }
 
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)
@@ -76,7 +88,7 @@ namespace AL {
                 new ALValue(controlPoints).Pointer
             );
         }
-
+        
         public void SetAngles(string[] names, float[] angles, float fractionMaxSpeed)
         {
             ALMotionProxySetAngles(
@@ -86,7 +98,7 @@ namespace AL {
                 fractionMaxSpeed
             );
         }
-
+        
         public void ChangeAngles(string[] names, float[] changes, float fractionMaxSpeed)
         {
             ALMotionProxyChangeAngles(
@@ -110,6 +122,37 @@ namespace AL {
         public void OpenHand(string handName)
         {
             ALMotionProxyOpenHand(unmanagedMem, handName);
+        }
+
+        public void MoveInit()
+        {
+            ALMotionProxyMoveInit(
+                unmanagedMem
+            );
+        }
+
+        public void Move(float x, float y, float theta)
+        {
+            ALMotionProxyMove(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public void StopMove()
+        {
+            ALMotionProxyStopMove(
+                unmanagedMem
+            );
+        }
+
+        public void KillMove()
+        {
+            ALMotionProxyKillMove(
+                unmanagedMem
+            );
         }
     }
 }
