@@ -31,13 +31,13 @@ public class ArmAnimation : MonoBehaviour {
 
         if (rightElbowHint != null)
         {
-            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
+            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 0.5f);
             animator.SetIKHintPosition(AvatarIKHint.RightElbow, rightElbowHint.position);
         }
 
         if (leftElbowHint != null)
         {
-            animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 1);
+            animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 0.5f);
             animator.SetIKHintPosition(AvatarIKHint.LeftElbow, leftElbowHint.position);
         }
     }
