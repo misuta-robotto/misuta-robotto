@@ -43,14 +43,18 @@ Edit `cpp/naobridge.h` and modify the included headers. Make sure that they are 
 ### Pre-conditions
 In order to build the library you must first install qibuild and configure the Aldebaran C++ SDK.
 
-1. Install qibuild by following the instructions [here](https://github.com/aldebaran/qibuild)
-2. Create a new directory and name it to something like "SDK"
-3. Execute `qibuild init` from a terminal with its current working directory set to the newly created directory.
-4. Download "C++ SDK 2.5.5 Win 32 (Beta)" from [here](https://developer.softbankrobotics.com/us-en/downloads/pepper)
-5. Unpack the SDK to a subfolder in your previously created directory
+1. Install CMake from [here](https://cmake.org/download/), **make sure to add it to your PATH**
+2. Install Microsoft Visual Studio Express 2013 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48131)
+3. Install qibuild by following the instructions [here](https://github.com/aldebaran/qibuild)
+4. Create a new directory and name it to something like "SDK"
+5. Execute `qibuild init` from a terminal with its current working directory set to the newly created directory.
+6. Download "C++ SDK 2.5.5 Win 32 (Beta)" from [here](https://developer.softbankrobotics.com/us-en/downloads/pepper)
+7. Unpack the SDK to a subfolder in your previously created directory
 
 ### Building
 Building is as simple as executing the file `build.bat` in this directory and following the instructions. For the library to compile successfully you should configure the build tool to "Microsoft Visual Studio 2013" (usually option #7). Other configurations options can be defaulted by pressing enter.
+
+**NOTE: Later versions of Visual Studio will find C3860 errors in the Aldebaran SDK.**
 
 ## Extending
 Extension of new functionality can be made by following the official Aldebaran C++ SDK documentation and looking at existing implementations. The rather un-complicated nature of this library should allow for much copy-pasting through-out the code base. Make sure to follow the recommendations mentioned previously in this document to ensure correct implementation in C#.
