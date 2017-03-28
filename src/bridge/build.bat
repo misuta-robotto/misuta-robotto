@@ -17,10 +17,10 @@ SET CURRENTDIR="%cd%"
 cd "%SDK_DIR%"
 
 qibuild config --wizard
-qitoolchain create default "%SDK_DIR%\naoqi-sdk\toolchain.xml"
+qitoolchain create default "%SDK_DIR%\naoqi-sdk-2.5.5.5-win32-vs2013\toolchain.xml"
 qibuild add-config default -t default --default
 
 cd "%CURRENTDIR%"
 cd cpp
-CALL configure 
-CALL build
+CALL configure %SDK_DIR%
+CALL build %SDK_DIR%
