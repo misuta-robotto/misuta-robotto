@@ -1,1 +1,1 @@
-qibuild configure --work-tree C:\tddd96-grupp3\SDK\ -c default
+qibuild configure --work-tree "%1%" -c default
