@@ -56,5 +56,8 @@ Building is as simple as executing the file `build.bat` in this directory and fo
 
 **NOTE: Later versions of Visual Studio will find C3860 errors in the Aldebaran SDK.**
 
+### Deploying to Unity
+Deployment is done manually by copying **all** built dll files from `build-default/sdk/bin` to `Assets/Plugins` in your Unity project.
+
 ## Extending
 Extension of new functionality can be made by following the official Aldebaran C++ SDK documentation and looking at existing implementations. The rather un-complicated nature of this library should allow for much copy-pasting through-out the code base. Make sure to follow the recommendations mentioned previously in this document to ensure correct implementation in C#.
