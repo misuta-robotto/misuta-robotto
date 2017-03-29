@@ -52,7 +52,7 @@ In order to build the library you must first install qibuild and configure the A
 7. Unpack the SDK to a subfolder in your previously created directory
 
 ### Building
-Building is as simple as executing the file `build.bat` in this directory and following the instructions. For the library to compile successfully you should configure the build tool to "Microsoft Visual Studio 2013" (usually option #7). Other configurations options can be defaulted by pressing enter.
+Building is as simple as executing the file `src/bridge/build.bat` and following the instructions. For the library to compile successfully you should configure the build tool to "Microsoft Visual Studio 2013" (usually option #7). Other configurations options can be defaulted by pressing enter.
 
 **NOTE: Later versions of Visual Studio will find C3860 errors in the Aldebaran SDK.**
 
