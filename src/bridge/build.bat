@@ -24,3 +24,5 @@ cd "%CURRENTDIR%"
 cd cpp
 CALL configure %SDK_DIR%
 CALL build %SDK_DIR%
+
+cd %CURRENTDIR%
