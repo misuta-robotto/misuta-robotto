@@ -1362,6 +1362,10 @@ MonoBehaviour:
   leftUpperArm: {fileID: 617402753}
   leftForearm: {fileID: 194059986}
   leftWrist: {fileID: 1781550450}
+  rightShoulder: {fileID: 888733196}
+  rightUpperArm: {fileID: 142069538}
+  rightForearm: {fileID: 1820520192}
+  rightWrist: {fileID: 866333092}
 --- !u!4 &1106226677
 Transform:
   m_ObjectHideFlags: 0
