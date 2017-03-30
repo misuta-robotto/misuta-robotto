@@ -10,6 +10,8 @@ using UnityEngine.VR;
 public class PadMove : MonoBehaviour {
     private ALMotionProxy motionProxy;
     public SteamVR_TrackedObject trackedObjLeft;
+
+    // Add controllers
     private SteamVR_Controller.Device ControllerLeft {
 	    get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
     }
@@ -21,7 +23,7 @@ public class PadMove : MonoBehaviour {
 
     void Start () {
         motionProxy = new ALMotionProxy("127.0.0.1", 1743);
-        Debug.Log("Started ");
+        //Debug.Log("Started ");
         motionProxy.MoveInit();
      }
 
@@ -31,13 +33,13 @@ public class PadMove : MonoBehaviour {
         float y = 0;
         float theta = 0;
 
-        // ControllerLeft - Förflyttning framåt och bakåt
+        // ControllerLeft - Fï¿½rflyttning framï¿½t och bakï¿½t
         if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
         {
             x = ControllerLeft.GetAxis().y;
         }
 
-        // ControllerLeft - Sidledsförflyttning
+        // ControllerLeft - Sidledsfï¿½rflyttning
         if (System.Math.Abs(ControllerLeft.GetAxis().x) > 0.2)
         {
             y = -ControllerLeft.GetAxis().x;
