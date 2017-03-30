@@ -1,4 +1,9 @@
 namespace AL {
+    // ALMotionProxy is used to communicate with a robot and perform
+    // various motion actions.
+    // 
+    // For more information see
+    // http://doc.aldebaran.com/2-1/naoqi/motion/control-cartesian-api.html
     public class ALMotionProxy {
         [DllImport("bridge_d.dll")]
         private static extern IntPtr ALMotionProxyNew(string server, int port);

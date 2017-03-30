@@ -26,15 +26,11 @@ void* ALValue_fv(float* pListFloat, int numValues)
 
 void* ALValue_sv(char** pListString, int numValues)
 {
-	printf("ALValue_sv\n");
-	printf("numValues length: %d\n", numValues);
 	std::vector<std::string> values;
 	for (int i = 0; i < numValues; ++i)
 	{
-		printf("Adding value: %s\n", pListString[i]);
 		values.push_back(std::string(pListString[i]));
 	}
-	printf("Constructing ALValue\n");
     return new AL::ALValue(values);
 }
 
