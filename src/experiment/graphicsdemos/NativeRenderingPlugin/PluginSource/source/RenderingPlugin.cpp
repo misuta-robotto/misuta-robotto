@@ -47,6 +47,13 @@ static void* g_TextureHandle = NULL;
 static int   g_TextureWidth  = 0;
 static int   g_TextureHeight = 0;
 
+// Variables and data used to perform camera feed capture on another thread.
+// Please note that access to this buffer is not synchronized as it does not have
+// serious consequences despite being accessed from multiple threads simultaniously.
+int textureRowPitch;
+int bufferSize;
+static void* cameraDataBuffer;
+
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTextureFromUnity(void* textureHandle, int w, int h)
 {
 	// A script calls this at initialization time; just remember the texture pointer here.
@@ -55,6 +62,12 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTextureFromUnity(v
 	g_TextureHandle = textureHandle;
 	g_TextureWidth = w;
 	g_TextureHeight = h;
+
+	// The camera data seems to consist of h rows, each with w pixels containing RGBA data (4 bytes).
+	// The above comment is assumed and may not be true, but it works at the moment.
+	textureRowPitch = w * 4;
+	bufferSize = textureRowPitch * h;
+	cameraDataBuffer = malloc(bufferSize);
 }
 
 
@@ -135,16 +148,11 @@ static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType ev
 // be the integer passed to IssuePluginEvent. In this example, we just ignore
 // that value.
 
-static void CopyCamPicture(void* textureDataPtr, int textureRowPitch)
+static void ReadCamPictureToBuffer(void* textureDataPtr, int textureRowPitch)
 {
-    cap.read(frame);
-    if (frame.empty()) {
-        // TODO: report error
-        // cerr << "ERROR: blank frame grabbed\n";
-        // return -1;
-    }
+	cap.read(frame);
 
-	int width = g_TextureWidth;
+    int width = g_TextureWidth;
 	int height = g_TextureHeight;
 
     const int opencv_bpp = 3;
@@ -180,17 +188,19 @@ static void ModifyTexturePixels()
 	if (!textureHandle)
 		return;
 
-	int textureRowPitch;
-	void* textureDataPtr = s_CurrentAPI->BeginModifyTexture(textureHandle, width, height, &textureRowPitch);
+	// Copy camera data from buffer to achieve minimal execution time.
+	int localTextureRowPitch;
+	void* textureDataPtr = s_CurrentAPI->BeginModifyTexture(textureHandle, width, height, &localTextureRowPitch);
 	if (!textureDataPtr)
 		return;
 
-    CopyCamPicture(textureDataPtr, textureRowPitch);
+	memcpy(textureDataPtr, cameraDataBuffer, bufferSize);
 
-	s_CurrentAPI->EndModifyTexture(textureHandle, width, height, textureRowPitch, textureDataPtr);
+	s_CurrentAPI->EndModifyTexture(textureHandle, width, height, localTextureRowPitch, textureDataPtr);
 }
 
 
+// NOTE: This function is executed on the rendering thread and MUST terminate as quickly as possible!
 static void UNITY_INTERFACE_API OnRenderEvent(int eventID)
 {
 	// Unknown / unsupported graphics device type? Do nothing
@@ -207,5 +217,12 @@ static void UNITY_INTERFACE_API OnRenderEvent(int eventID)
 extern "C" UnityRenderingEvent UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetRenderEventFunc()
 {
 	return OnRenderEvent;
+}
+
+// Used to update the camera data buffer.
+// Call this function as often as possible from a non-blocking thread in Unity.
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API ReadFromCamera()
+{
+	ReadCamPictureToBuffer(cameraDataBuffer, textureRowPitch);
 }
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 
 public class UseRenderingPlugin : MonoBehaviour
@@ -42,15 +43,19 @@ public class UseRenderingPlugin : MonoBehaviour
     [DllImport("RenderingPlugin")]
     private static extern void SetDevice(int dev);
 
+    [DllImport("RenderingPlugin")]
+    private static extern int ReadFromCamera();
+
     IEnumerator Start()
 	{
 		CreateTextureAndPassToPlugin();
         InitOpenCV();
         number_of_devices = GetDeviceCount();
         current_device = 0;
+
+        BeginUpdatingCameraData();
         yield return StartCoroutine("CallPluginAtEndOfFrames"); 
 	}
-
 
     private void OnEnable()
     {
@@ -91,8 +96,8 @@ public class UseRenderingPlugin : MonoBehaviour
 	private IEnumerator CallPluginAtEndOfFrames()
 	{
 		while (true) {
-			// Wait until all frame rendering is done
-			yield return new WaitForEndOfFrame();
+            // Wait until all frame rendering is done
+            yield return new WaitForEndOfFrame();
 
 			// Issue a plugin event with arbitrary integer identifier.
 			// The plugin can distinguish between different
@@ -101,4 +106,19 @@ public class UseRenderingPlugin : MonoBehaviour
 			GL.IssuePluginEvent(GetRenderEventFunc(), 1);
 		}
 	}
+
+    // Executed on a non-blocking thread.
+    private void UpdateCameraData()
+    {
+        while (true)
+        {
+            ReadFromCamera();
+        }
+    }
+
+    // Starts updating camera data in another thread.
+    private void BeginUpdatingCameraData()
+    {
+        new Thread(new ThreadStart(UpdateCameraData)).Start();
+    }
 }
