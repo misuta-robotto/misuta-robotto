@@ -23,23 +23,21 @@ public class PadMove : MonoBehaviour {
 
     void Start () {
         motionProxy = new ALMotionProxy("127.0.0.1", 1743);
-        //Debug.Log("Started ");
         motionProxy.MoveInit();
      }
 
      void Update () {
-        // Ej testat!
         float x = 0;
         float y = 0;
         float theta = 0;
 
-        // ControllerLeft - F�rflyttning fram�t och bak�t
+        // ControllerLeft - Movement back and forth
         if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
         {
             x = ControllerLeft.GetAxis().y;
         }
 
-        // ControllerLeft - Sidledsf�rflyttning
+        // ControllerLeft - Movement left and right
         if (System.Math.Abs(ControllerLeft.GetAxis().x) > 0.2)
         {
             y = -ControllerLeft.GetAxis().x;
@@ -52,6 +50,5 @@ public class PadMove : MonoBehaviour {
         }
 
         motionProxy.Move(x, y, theta);
-        //Debug.Log(gameObject.name + Controller.GetAxis());
     }
 }
