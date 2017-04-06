@@ -10,34 +10,34 @@ namespace AL {
     // For more information see
     // http://doc.aldebaran.com/2-1/naoqi/motion/control-cartesian-api.html
     public class ALMotionProxy {
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyNew(string server, int port);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolation(IntPtr self, IntPtr names, IntPtr angleList, IntPtr timeLists, bool isAbsolute);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolationWithSpeed(IntPtr self, IntPtr names, IntPtr targetAngles, float maxSpeedFraction);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyAngleInterpolationBezier(IntPtr self, IntPtr jointNames, IntPtr times, IntPtr controlPoints);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxySetAngles(IntPtr self, IntPtr names, IntPtr angles, float fractionMaxSpeed);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern void ALMotionProxyChangeAngles(IntPtr self, IntPtr names, IntPtr changes, float fractionMaxSpeed);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyGetAngles(IntPtr self, IntPtr names, bool useSensors);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyCloseHand(IntPtr self, string handName);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
-        [DllImport("bridge_d.dll")]
+        [DllImport("bridge_d")]
         private static extern IntPtr AlMotionProxyFree(IntPtr self);
 
         [DllImport("bridge_d")]
