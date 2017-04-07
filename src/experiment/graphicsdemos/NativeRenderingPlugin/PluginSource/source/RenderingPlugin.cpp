@@ -53,6 +53,7 @@ static int   g_TextureHeight = 0;
 int textureRowPitch;
 int bufferSize;
 static void* cameraDataBuffer;
+static void* writeBuffer; 
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTextureFromUnity(void* textureHandle, int w, int h)
 {
@@ -68,6 +69,7 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetTextureFromUnity(v
 	textureRowPitch = w * 4;
 	bufferSize = textureRowPitch * h;
 	cameraDataBuffer = malloc(bufferSize);
+	writeBuffer = malloc(bufferSize);
 }
 
 
@@ -178,6 +180,7 @@ static void ReadCamPictureToBuffer(void* textureDataPtr, int textureRowPitch)
 		// To next image row
 		dst += textureRowPitch;
 	}
+	
 }
 
 static void ModifyTexturePixels()
@@ -223,6 +226,10 @@ extern "C" UnityRenderingEvent UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetRen
 // Call this function as often as possible from a non-blocking thread in Unity.
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API ReadFromCamera()
 {
-	ReadCamPictureToBuffer(cameraDataBuffer, textureRowPitch);
+
+	ReadCamPictureToBuffer(writeBuffer, textureRowPitch);
+	void* temp = cameraDataBuffer;
+	cameraDataBuffer = writeBuffer;
+	writeBuffer = temp;
 }
 
