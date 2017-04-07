@@ -6,7 +6,7 @@ using UnityEngine;
 namespace AL {
     // ALMotionProxy is used to communicate with a robot and perform
     // various motion actions.
-    // 
+    //
     // For more information see
     // http://doc.aldebaran.com/2-1/naoqi/motion/control-cartesian-api.html
     public class ALMotionProxy {
@@ -38,13 +38,16 @@ namespace AL {
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
         [DllImport("bridge_d")]
-        private static extern IntPtr AlMotionProxyFree(IntPtr self);
+        private static extern IntPtr ALMotionProxyFree(IntPtr self);
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyMoveInit(IntPtr self);
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extren void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyStopMove(IntPtr self);
@@ -93,7 +96,7 @@ namespace AL {
                 new ALValue(controlPoints).Pointer
             );
         }
-        
+
         public void SetAngles(string[] names, float[] angles, float fractionMaxSpeed)
         {
             ALMotionProxySetAngles(
@@ -139,6 +142,16 @@ namespace AL {
         public void Move(float x, float y, float theta)
         {
             ALMotionProxyMove(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public void MoveTo(float x, float y, float theta)
+        {
+            ALMotionProxyMoveTo(
                 unmanagedMem,
                 x,
                 y,

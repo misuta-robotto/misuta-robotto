@@ -15,6 +15,7 @@ EXTERN void ALMotionProxyOpenHand(void* self, char* handName);
 EXTERN void ALMotionProxyFree(void* self);
 EXTERN void ALMotionProxyMoveInit(void* self);
 EXTERN void ALMotionProxyMove(void* self, float x, float y, float theta);
+EXTERN void ALMotionProxyMoveTo(void* self, float x, float y, float theta);
 EXTERN void ALMotionProxyStopMove(void* self);
 EXTERN void ALMotionProxyKillMove(void* self);
 

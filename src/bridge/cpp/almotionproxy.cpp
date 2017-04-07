@@ -69,6 +69,11 @@ void ALMotionProxyMove(void* self, float x, float y, float theta)
     THIS->move(x, y, theta);
 }
 
+void ALMotionProxyMoveTo(void* self, float x, float y, float theta)
+{
+    THIS->moveTo(x, y, theta);
+}
+
 void ALMotionProxyStopMove(void* self)
 {
     THIS->stopMove();
