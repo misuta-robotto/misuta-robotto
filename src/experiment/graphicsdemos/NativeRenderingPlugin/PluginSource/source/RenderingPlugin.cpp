@@ -42,6 +42,11 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API InitOpenCV()
 	SetDevice(1);
 }
 
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API ReleaseOpenCV()
+{
+	cap.release();
+}
+
 extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetDeviceCount()
 {
 	return device_count;
