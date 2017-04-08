@@ -7,6 +7,7 @@ using System.Threading;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
+    private bool isRunning = true;
 
     private int number_of_devices;
     private int current_device;
@@ -65,6 +66,7 @@ public class UseRenderingPlugin : MonoBehaviour
     private void OnDisable()
     {
         ControllerEventManager.OnClicked -= cycleDevice;
+        isRunning = false;
     }
 
     private void cycleDevice()
@@ -95,7 +97,7 @@ public class UseRenderingPlugin : MonoBehaviour
 
 	private IEnumerator CallPluginAtEndOfFrames()
 	{
-		while (true) {
+		while (isRunning) {
             // Wait until all frame rendering is done
             yield return new WaitForEndOfFrame();
 
@@ -110,7 +112,7 @@ public class UseRenderingPlugin : MonoBehaviour
     // Executed on a non-blocking thread.
     private void UpdateCameraData()
     {
-        while (true)
+        while (isRunning)
         {
             ReadFromCamera();
         }
