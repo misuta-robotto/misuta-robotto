@@ -9,6 +9,19 @@
 
 #include <opencv2/opencv.hpp>
 
+// --------------------------------------------------------------------------
+// SetTextureFromUnity, an example function we export which is called by one of the scripts.
+
+static void* g_TextureHandle = NULL;
+static int   g_TextureWidth  = 0;
+static int   g_TextureHeight = 0;
+
+// Variables and data used to perform camera feed capture on another thread.
+// Please note that access to this buffer is not synchronized as it does not have
+// serious consequences despite being accessed from multiple threads simultaniously.
+int textureRowPitch;
+int bufferSize;
+static void* cameraDataBuffer;
 
 // --------------------------------------------------------------------------
 // SetTimeFromUnity, an example function we export which is called by one of the scripts.
@@ -36,8 +49,8 @@ extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetDeviceCount()
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetDevice(int dev)
 {
 	cap.open(dev);
-	cap.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
-	cap.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
+	cap.set(cv::CAP_PROP_FRAME_WIDTH, g_TextureWidth);
+	cap.set(cv::CAP_PROP_FRAME_HEIGHT, g_TextureHeight);
 }
 
 // --------------------------------------------------------------------------
