@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <math.h>
 #include <vector>
+#include <mutex>
 
 #include <opencv2/opencv.hpp>
 
@@ -23,6 +24,7 @@ int textureRowPitch;
 int bufferSize;
 static void* cameraDataBuffer;
 static void* writeBuffer;
+std::mutex bufferMutex;
 
 // --------------------------------------------------------------------------
 // SetTimeFromUnity, an example function we export which is called by one of the scripts.
@@ -201,7 +203,9 @@ static void ModifyTexturePixels()
 	if (!textureDataPtr)
 		return;
 
-	memcpy(textureDataPtr, cameraDataBuffer, bufferSize);
+	bufferMutex.lock();
+		memcpy(textureDataPtr, cameraDataBuffer, bufferSize);
+	bufferMutex.unlock();
 
 	s_CurrentAPI->EndModifyTexture(textureHandle, width, height, localTextureRowPitch, textureDataPtr);
 }
@@ -230,10 +234,12 @@ extern "C" UnityRenderingEvent UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetRen
 // Call this function as often as possible from a non-blocking thread in Unity.
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API ReadFromCamera()
 {
-
 	ReadCamPictureToBuffer(writeBuffer, textureRowPitch);
-	void* temp = cameraDataBuffer;
-	cameraDataBuffer = writeBuffer;
-	writeBuffer = temp;
+
+	bufferMutex.lock();
+		void* temp = cameraDataBuffer;
+		cameraDataBuffer = writeBuffer;
+		writeBuffer = temp;
+	bufferMutex.unlock();
 }
 
