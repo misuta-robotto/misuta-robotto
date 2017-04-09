@@ -44,9 +44,17 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API InitOpenCV()
 	SetDevice(1);
 }
 
-extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API ReleaseOpenCV()
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API FreeResources()
 {
 	cap.release();
+
+	bufferMutex.lock();
+		free(cameraDataBuffer);
+		free(writeBuffer);
+
+		cameraDataBuffer = NULL;
+		writeBuffer = NULL;
+	bufferMutex.unlock();
 }
 
 extern "C" int UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetDeviceCount()
@@ -204,7 +212,10 @@ static void ModifyTexturePixels()
 		return;
 
 	bufferMutex.lock();
-		memcpy(textureDataPtr, cameraDataBuffer, bufferSize);
+		if (cameraDataBuffer != NULL)
+		{
+			memcpy(textureDataPtr, cameraDataBuffer, bufferSize);
+		}
 	bufferMutex.unlock();
 
 	s_CurrentAPI->EndModifyTexture(textureHandle, width, height, localTextureRowPitch, textureDataPtr);

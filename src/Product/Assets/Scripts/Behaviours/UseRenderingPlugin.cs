@@ -39,7 +39,7 @@ public class UseRenderingPlugin : MonoBehaviour
     private static extern void InitOpenCV();
 
     [DllImport("RenderingPlugin")]
-    private static extern void ReleaseOpenCV();
+    private static extern void FreeResources();
 
     [DllImport("RenderingPlugin")]
     private static extern int GetDeviceCount();
@@ -121,7 +121,7 @@ public class UseRenderingPlugin : MonoBehaviour
         }
 
         // Perform clean up and close camera feed
-        ReleaseOpenCV();
+        FreeResources();
     }
 
     // Starts updating camera data in another thread.
