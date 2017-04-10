@@ -47,10 +47,10 @@ namespace AL {
         private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
 
         [DllImport("bridge_d")]
-        private static extren void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
+        private static extern void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
 
         [DllImport("bridge_d")]
-        private static extern float[] ALMotionProxy
+        private static extern float[] ALMotionProxyGetRobotPosition(IntPtr self, bool useSensors);
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyStopMove(IntPtr self);
@@ -66,7 +66,7 @@ namespace AL {
 
         ~ALMotionProxy()
         {
-            AlMotionProxyFree(unmanagedMem);
+            ALMotionProxyFree(unmanagedMem);
         }
 
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)
@@ -159,6 +159,14 @@ namespace AL {
                 x,
                 y,
                 theta
+            );
+        }
+
+        public float[] GetRobotPosition(bool useSensors)
+        {
+            return ALMotionProxyGetRobotPosition(
+                unmanagedMem,
+                useSensors
             );
         }
 
