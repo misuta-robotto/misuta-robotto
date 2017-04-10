@@ -38,8 +38,10 @@ void ALMotionProxyChangeAngles(void* self, void* names, void* changes, float fra
 
 void* ALMotionProxyGetAngles(void* self, void* names, bool useSensors)
 {
-    // TODO: Implement
-    return 0;
+    std::vector<float> angles = THIS->getAngles(ALVALUE(names), useSensors);
+	std::vector<float>* anglesPointer = new std::vector<float>(angles);
+
+    return anglesPointer;
 }
 
 void ALMotionProxyCloseHand(void* self, char* handName_)
