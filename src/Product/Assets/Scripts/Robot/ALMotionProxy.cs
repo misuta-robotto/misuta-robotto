@@ -46,8 +46,10 @@ namespace AL {
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
 
+        /*
         [DllImport("bridge_d")]
         private static extren void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
+        */
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyStopMove(IntPtr self);
@@ -63,7 +65,7 @@ namespace AL {
 
         ~ALMotionProxy()
         {
-            AlMotionProxyFree(unmanagedMem);
+            ALMotionProxyFree(unmanagedMem);
         }
 
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)
@@ -117,9 +119,19 @@ namespace AL {
             );
         }
 
-        public ALValue GetAngles(string[] names, bool useSensors)
+        public float[] GetAngles(string[] names, bool useSensors)
         {
-            throw new Exception("Not implemented");
+            IntPtr returned = ALMotionProxyGetAngles(
+                unmanagedMem,
+                new ALValue(names).Pointer,
+                useSensors
+            );
+
+            float[] arr = new float[names.Length];
+            Marshal.Copy(returned, arr, 0, names.Length);
+            // TODO: Release memory
+
+            return arr;
         }
 
         public void CloseHand(string handName)
@@ -149,6 +161,7 @@ namespace AL {
             );
         }
 
+        /*
         public void MoveTo(float x, float y, float theta)
         {
             ALMotionProxyMoveTo(
@@ -158,6 +171,7 @@ namespace AL {
                 theta
             );
         }
+        */
 
         public void StopMove()
         {

@@ -17,9 +17,15 @@ public class HeadMove : MonoBehaviour {
     // Use this for initialization
     void Start () {
         headTranslator = new HeadTranslator();
-        motionProxy = new ALMotionProxy("127.0.0.1", 1743);
+        motionProxy = new ALMotionProxy("127.0.0.1", 49823);
 
         Debug.Log("Started");
+
+        float[] angles = motionProxy.GetAngles(jointNames, true);
+
+        Debug.Log("Number of angles returned: " + angles.Length);
+        Debug.Log("Angle 0: " + angles[0]);
+        Debug.Log("Angle 1: " + angles[1]);
     }
 	
 	// Update is called once per frame
