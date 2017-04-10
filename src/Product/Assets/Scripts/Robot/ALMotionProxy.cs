@@ -29,7 +29,7 @@ namespace AL {
         private static extern void ALMotionProxyChangeAngles(IntPtr self, IntPtr names, IntPtr changes, float fractionMaxSpeed);
 
         [DllImport("bridge_d")]
-        private static extern IntPtr ALMotionProxyGetAngles(IntPtr self, IntPtr names, bool useSensors);
+        private static extern float[] ALMotionProxyGetAngles(IntPtr self, IntPtr names, bool useSensors);
 
         [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyCloseHand(IntPtr self, string handName);
@@ -48,6 +48,9 @@ namespace AL {
 
         [DllImport("bridge_d")]
         private static extren void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern float[] ALMotionProxy
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyStopMove(IntPtr self);

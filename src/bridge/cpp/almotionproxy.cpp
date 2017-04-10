@@ -38,10 +38,8 @@ void ALMotionProxyChangeAngles(void* self, void* names, void* changes, float fra
 
 void* ALMotionProxyGetAngles(void* self, void* names, bool useSensors)
 {
-    std::vector<float> angles = THIS->getAngles(ALVALUE(names), useSensors);
-	std::vector<float>* anglesPointer = new std::vector<float>(angles);
-
-    return anglesPointer;
+    // TODO: Implement
+    return 0;
 }
 
 void ALMotionProxyCloseHand(void* self, char* handName_)
@@ -74,6 +72,12 @@ void ALMotionProxyMove(void* self, float x, float y, float theta)
 void ALMotionProxyMoveTo(void* self, float x, float y, float theta)
 {
     THIS->moveTo(x, y, theta);
+}
+
+void* ALMotionProxyGetRobotPosition(void* self, bool useSensors)
+{
+    std::vector<float> = THIS->getRobotPosition(useSensors);
+
 }
 
 void ALMotionProxyStopMove(void* self)
