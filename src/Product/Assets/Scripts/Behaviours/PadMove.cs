@@ -8,7 +8,14 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour {
-    private ALMotionProxy motionProxy;
+    public RobotCoordinator robCord {
+        get; set;
+    }
+    private float x = 0;
+    private float y = 0;
+    private float theta = 0;
+
+    //private ALMotionProxy motionProxy;
     public SteamVR_TrackedObject trackedObjLeft;
 
     // Add controllers
@@ -22,16 +29,12 @@ public class PadMove : MonoBehaviour {
     }
 
     void Start () {
-        motionProxy = new ALMotionProxy("127.0.0.1", 1743);
-        motionProxy.MoveInit();
-     }
+        //motionProxy = new ALMotionProxy("127.0.0.1", 1743);
+        //motionProxy.MoveInit();
+    }
 
-     void Update () {
-        float x = 0;
-        float y = 0;
-        float theta = 0;
-
-        // ControllerLeft - Movement back and forth
+    void Update () {
+    // ControllerLeft - Movement back and forth
         if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
         {
             x = ControllerLeft.GetAxis().y;
@@ -49,6 +52,6 @@ public class PadMove : MonoBehaviour {
             theta = -ControllerRight.GetAxis().x;
         }
 
-        motionProxy.Move(x, y, theta);
+        //motionProxy.Move(x, y, theta);
     }
 }
