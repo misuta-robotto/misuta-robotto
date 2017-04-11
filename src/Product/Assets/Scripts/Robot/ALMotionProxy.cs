@@ -3,13 +3,15 @@ using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace AL {
+namespace AL
+{
     // ALMotionProxy is used to communicate with a robot and perform
     // various motion actions.
     // 
     // For more information see
     // http://doc.aldebaran.com/2-1/naoqi/motion/control-cartesian-api.html
-    public class ALMotionProxy {
+    public class ALMotionProxy
+    {
         [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyNew(string server, int port);
 
@@ -54,7 +56,8 @@ namespace AL {
 
         private IntPtr unmanagedMem;
 
-        public ALMotionProxy(string server, int port) {
+        public ALMotionProxy(string server, int port)
+        {
             this.unmanagedMem = ALMotionProxyNew(server, port);
         }
 
@@ -93,7 +96,7 @@ namespace AL {
                 new ALValue(controlPoints).Pointer
             );
         }
-        
+
         public void SetAngles(string[] names, float[] angles, float fractionMaxSpeed)
         {
             ALMotionProxySetAngles(
