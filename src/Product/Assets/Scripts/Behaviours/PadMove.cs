@@ -8,9 +8,8 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour {
-    public RobotCoordinator robCord {
-        get; set;
-    }
+    public RobotCoordinator robCord;
+
     private float x = 0;
     private float y = 0;
     private float theta = 0;

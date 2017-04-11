@@ -8,9 +8,7 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class HeadMove : MonoBehaviour {
-    public RobotCoordinator robCord {
-        get; set;
-    }
+    public RobotCoordinator robCord;
 
     private HeadTranslator headTranslator;
 
