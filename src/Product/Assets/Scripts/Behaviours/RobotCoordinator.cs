@@ -28,7 +28,7 @@ public class RobotCoordinator : MonoBehaviour {
 
     public float HeadYaw {
         set {
-            headYaw = value;
+            headYaw = value - theta;
             motionProxy.SetAngles(yawJoint, new float[]{ headYaw }, SPEED_FRACTION);
         }
     }
@@ -39,6 +39,15 @@ public class RobotCoordinator : MonoBehaviour {
             y = value[1];
             theta = value[2];
             motionProxy.Move(x, y, theta);
+        }
+    }
+
+    public float Theta
+    {
+        set
+        {
+            theta = value;
+            motionProxy.MoveToAsync(x, y, theta);
         }
     }
 
