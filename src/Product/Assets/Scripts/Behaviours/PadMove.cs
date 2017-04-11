@@ -28,11 +28,6 @@ public class PadMove : MonoBehaviour {
         get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
     }
 
-    void Start () {
-        //motionProxy = new ALMotionProxy("127.0.0.1", 1743);
-        //motionProxy.MoveInit();
-    }
-
     void Update () {
     // ControllerLeft - Movement back and forth
         if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
@@ -52,6 +47,6 @@ public class PadMove : MonoBehaviour {
             theta = -ControllerRight.GetAxis().x;
         }
 
-        //motionProxy.Move(x, y, theta);
+        robCord.PadValues = [x, y, theta];
     }
 }
