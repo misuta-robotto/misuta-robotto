@@ -47,6 +47,6 @@ public class PadMove : MonoBehaviour {
             theta = -ControllerRight.GetAxis().x;
         }
 
-        robCord.PadValues = [x, y, theta];
+        robCord.PadValues = new float[] { x, y, theta };
     }
 }
