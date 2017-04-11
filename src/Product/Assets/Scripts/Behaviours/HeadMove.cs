@@ -18,8 +18,6 @@ public class HeadMove : MonoBehaviour {
     void Start () {
         headTranslator = new HeadTranslator();
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
-
-        Debug.Log("Started");
     }
 	
 	// Update is called once per frame

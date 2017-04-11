@@ -64,11 +64,9 @@ public class UseRenderingPlugin : MonoBehaviour
 
     private void cycleDevice()
     {
-        Debug.Log(number_of_devices);
         if (++current_device > number_of_devices) {
             current_device = 0;
         }
-        Debug.Log(current_device);
         SetDevice(current_device);
     }
 

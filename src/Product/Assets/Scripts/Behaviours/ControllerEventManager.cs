@@ -10,7 +10,6 @@ public class ControllerEventManager : MonoBehaviour {
     public void Update() {
         if (Input.GetKeyDown("space")) {
             OnClicked();
-            Debug.Log("hej");
         }
     }
 }
