@@ -7,26 +7,31 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.VR;
 
-public class PadMove : MonoBehaviour {
+public class PadMove : MonoBehaviour
+{
     private ALMotionProxy motionProxy;
     public SteamVR_TrackedObject trackedObjLeft;
 
     // Add controllers
-    private SteamVR_Controller.Device ControllerLeft {
-	    get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
+    private SteamVR_Controller.Device ControllerLeft
+    {
+        get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
     }
 
     public SteamVR_TrackedObject trackedObjRight;
-    private SteamVR_Controller.Device ControllerRight {
+    private SteamVR_Controller.Device ControllerRight
+    {
         get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
     }
 
-    void Start () {
+    void Start()
+    {
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
         motionProxy.MoveInit();
-     }
+    }
 
-     void Update () {
+    void Update()
+    {
         float x = 0;
         float y = 0;
         float theta = 0;

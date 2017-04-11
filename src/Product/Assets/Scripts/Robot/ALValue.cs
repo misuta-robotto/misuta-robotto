@@ -1,7 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace AL {
+namespace AL
+{
     // ALValue is a container object used in the Aldebaran SDK.
     // Because of its container nature it does not contain any type
     // information. The C# implementation uses ALValue internally to
@@ -10,7 +11,8 @@ namespace AL {
     //
     // For more information see
     // http://doc.aldebaran.com/2-4/ref/libalvalue/classAL_1_1ALValue.html     
-    public class ALValue {
+    public class ALValue
+    {
         [DllImport("bridge_d")]
         private static extern IntPtr ALValue_f(float value);
 
@@ -31,19 +33,23 @@ namespace AL {
             get; private set;
         }
 
-        public ALValue(float value) {
+        public ALValue(float value)
+        {
             this.Pointer = ALValue_f(value);
         }
 
-        public ALValue(string value) {
+        public ALValue(string value)
+        {
             this.Pointer = ALValue_s(value);
         }
 
-        public ALValue(float[] value) {
+        public ALValue(float[] value)
+        {
             this.Pointer = ALValue_fv(value, value.Length);
         }
 
-        public ALValue(string[] value) {
+        public ALValue(string[] value)
+        {
             this.Pointer = ALValue_sv(value, value.Length);
         }
 
