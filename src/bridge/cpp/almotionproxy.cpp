@@ -81,7 +81,7 @@ void* ALMotionProxyGetRobotPosition(void* self, bool useSensors)
     std::vector<float> robotPosition = THIS->getRobotPosition(useSensors);
     std::vector<float>* positionsPointer = new std::vector<float>(robotPosition);
 
-    return positionsPointer;
+    return &positionsPointer[0];
 }
 
 void ALMotionProxyStopMove(void* self)
