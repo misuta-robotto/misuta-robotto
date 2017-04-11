@@ -7,12 +7,11 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.VR;
 
-public class PadMove : MonoBehaviour {
+public class Calibration : MonoBehaviour {
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
-    private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
     private float userHeight;
-    public script robotCoordinator;
+    public HeadMove robotCoordinator;
 
     private void OnEnable() {
         leftController.TriggerClicked += HandleTriggerClicked;
@@ -29,14 +28,14 @@ public class PadMove : MonoBehaviour {
     }
 
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
-        if( leftController.GetPressDown(triggerButton) && rightController.GetPressDown(triggerButton) && !robotCoordinator.Enable) {
+        if( leftController.triggerPressed && rightController.triggerPressed && !robotCoordinator.enabled) {
             userHeight = InputTracking.GetLocalPosition(VRNode.Head).y;
             Debug.Log(userHeight);        
         }
     }
 
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e) {
-        robotCoordinator.Enable = !robotCoordinator.Enable;
+        robotCoordinator.enabled = !robotCoordinator.enabled;
     }
 
 }
