@@ -12,12 +12,10 @@ public class HeadMove : MonoBehaviour {
 
     private HeadTranslator headTranslator;
 
-    // Use this for initialization
     void Start () {
         headTranslator = new HeadTranslator();
     }
 
-	// Update is called once per frame
 	void Update () {
         float pitch = InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.x; //get Vive pitch
         float yaw = InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y; //get Vive yaw

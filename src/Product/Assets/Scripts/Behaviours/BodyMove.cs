@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class BodyMove : MonoBehaviour {
+    public RobotCoordinator robCord;
+
     void Update () {
         Vector3 headPos = InputTracking.GetLocalPosition(VRNode.Head);
         Vector3 leftHandPos = InputTracking.GetLocalPosition(VRNode.LeftHand) - headPos;
