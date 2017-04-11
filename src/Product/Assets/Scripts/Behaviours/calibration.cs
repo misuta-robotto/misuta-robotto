@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class Calibration : MonoBehaviour {
+    private const float VRNODE_TO_REAL_HEIGHT_RATIO = 1.16f;
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
     private float userHeight;
@@ -23,13 +24,13 @@ public class Calibration : MonoBehaviour {
     private void OnDisable() {
         leftController.TriggerClicked -= HandleTriggerClicked;
         rightController.TriggerClicked -= HandleTriggerClicked;
-        leftController.MenuButtonClicked += HandleMenuButtonClicked;
-        rightController.MenuButtonClicked += HandleMenuButtonClicked;
+        leftController.MenuButtonClicked -= HandleMenuButtonClicked;
+        rightController.MenuButtonClicked -= HandleMenuButtonClicked;
     }
 
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
         if( leftController.triggerPressed && rightController.triggerPressed && !robotCoordinator.enabled) {
-            userHeight = InputTracking.GetLocalPosition(VRNode.Head).y;
+            userHeight = InputTracking.GetLocalPosition(VRNode.Head).y * VRNODE_TO_REAL_HEIGHT_RATIO;
             Debug.Log(userHeight);        
         }
     }
