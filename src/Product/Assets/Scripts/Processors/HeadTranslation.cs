@@ -21,7 +21,7 @@ namespace Assets
 
         /*
          Update yaw unless we are in the dead zone between -2.0857 and 2.0857 radians
-         The dead zone is the area behind the robot where the yaw can't move any further
+         The dead zone is the area behind the robot where the yaw can't move any further.
          */
         public float TranslateYaw(float rawYaw) 
         {
@@ -35,7 +35,7 @@ namespace Assets
         }
         /*
          Translate HMD-rotation to robot. Must send radians instead of degrees. 
-         the angles between pi and 2*pi must be negative 
+         the angles between pi and 2*pi must be negative.
         */
         private float TranslateAngle(float rawAngle)
         {

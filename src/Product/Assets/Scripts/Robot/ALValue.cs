@@ -2,6 +2,14 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace AL {
+    // ALValue is a container object used in the Aldebaran SDK.
+    // Because of its container nature it does not contain any type
+    // information. The C# implementation uses ALValue internally to
+    // call the rest of the Aldebaran SDK which means that any consumer
+    // of this library must not bother with this limitation.
+    //
+    // For more information see
+    // http://doc.aldebaran.com/2-4/ref/libalvalue/classAL_1_1ALValue.html     
     public class ALValue {
         [DllImport("bridge_d")]
         private static extern IntPtr ALValue_f(float value);
