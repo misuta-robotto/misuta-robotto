@@ -9,8 +9,10 @@ using UnityEngine.VR;
 
 public class Calibration : MonoBehaviour {
     private const float VRNODE_TO_REAL_HEIGHT_RATIO = 1.16f;
+    private const float KYLE_HEIGHT = 1.8f;
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
+    public Transform kyle;
     private float userHeight;
     public HeadMove robotCoordinator;
 
@@ -31,6 +33,8 @@ public class Calibration : MonoBehaviour {
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
         if( leftController.triggerPressed && rightController.triggerPressed && !robotCoordinator.enabled) {
             userHeight = InputTracking.GetLocalPosition(VRNode.Head).y * VRNODE_TO_REAL_HEIGHT_RATIO;
+            float sizeRatio = userHeight / KYLE_HEIGHT;
+            kyle.localScale = new Vector3(sizeRatio, sizeRatio, sizeRatio);
             Debug.Log(userHeight);        
         }
     }
