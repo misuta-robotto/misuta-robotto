@@ -37,11 +37,7 @@ static int device_count = 0;
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API InitOpenCV()
 {
-	//device_count = 0;
-	//while (cap.open(device_count)) {
-	//	device_count++;
-	//}
-	SetDevice(1);
+	SetDevice(0);
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API FreeResources()
