@@ -15,6 +15,7 @@ public class RobotCoordinator : MonoBehaviour {
     private string[] yawJoint = new string[] { "HeadYaw" };
     private float headPitch = 0;
     private float headYaw = 0;
+    private float rawHeadYaw = 0;
     private float x = 0;
     private float y = 0;
     private float theta = 0;
@@ -28,8 +29,8 @@ public class RobotCoordinator : MonoBehaviour {
 
     public float HeadYaw {
         set {
-            headYaw = value - theta;
-            motionProxy.SetAngles(yawJoint, new float[]{ headYaw }, SPEED_FRACTION);
+            rawHeadYaw = value;
+            UpdateJaw();
         }
     }
 
@@ -42,17 +43,30 @@ public class RobotCoordinator : MonoBehaviour {
         }
     }
 
+    // TODO: Maybe rename to Rotation or something
     public float Theta
     {
         set
         {
             theta = value;
-            motionProxy.MoveToAsync(x, y, theta);
+            UpdateTheta();
+            UpdateJaw();
         }
     }
 
     void Start () {
         motionProxy = new ALMotionProxy("127.0.0.1", 1234);
         motionProxy.MoveInit();
+    }
+
+    private void UpdateJaw()
+    {
+        headYaw = rawHeadYaw - theta;
+        motionProxy.SetAngles(yawJoint, new float[] { headYaw }, SPEED_FRACTION);
+    }
+
+    private void UpdateTheta()
+    {
+        motionProxy.MoveToAsync(x, y, theta);
     }
 }
