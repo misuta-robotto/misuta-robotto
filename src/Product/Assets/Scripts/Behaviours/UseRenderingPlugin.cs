@@ -4,22 +4,12 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-
 public class UseRenderingPlugin : MonoBehaviour
 {
     private bool isRunning = true;
 
     private int number_of_devices;
     private int current_device;
-    // Native plugin rendering events are only called if a plugin is used
-    // by some script. This means we have to DllImport at least
-    // one function in some active script.
-    // For this example, we'll call into plugin's SetTimeFromUnity
-    // function and pass the current time so the plugin can animate.
-
-    [DllImport ("RenderingPlugin")]
-	private static extern void SetTimeFromUnity(float t);
-
 
 	// We'll also pass native pointer to a texture in Unity.
 	// The plugin will fill texture data from native code.
