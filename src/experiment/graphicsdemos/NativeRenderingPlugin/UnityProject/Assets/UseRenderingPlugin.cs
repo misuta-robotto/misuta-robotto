@@ -6,13 +6,16 @@ using System.Runtime.InteropServices;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
-	// Native plugin rendering events are only called if a plugin is used
-	// by some script. This means we have to DllImport at least
-	// one function in some active script.
-	// For this example, we'll call into plugin's SetTimeFromUnity
-	// function and pass the current time so the plugin can animate.
 
-	[DllImport ("RenderingPlugin")]
+    private int number_of_devices;
+    private int current_device;
+    // Native plugin rendering events are only called if a plugin is used
+    // by some script. This means we have to DllImport at least
+    // one function in some active script.
+    // For this example, we'll call into plugin's SetTimeFromUnity
+    // function and pass the current time so the plugin can animate.
+
+    [DllImport ("RenderingPlugin")]
 	private static extern void SetTimeFromUnity(float t);
 
 
@@ -33,18 +36,51 @@ public class UseRenderingPlugin : MonoBehaviour
     [DllImport("RenderingPlugin")]
     private static extern void InitOpenCV();
 
-	IEnumerator Start()
+    [DllImport("RenderingPlugin")]
+    private static extern int GetDeviceCount();
+
+    [DllImport("RenderingPlugin")]
+    private static extern void SetDevice(int dev);
+
+    IEnumerator Start()
 	{
 		CreateTextureAndPassToPlugin();
-		SendMeshBuffersToPlugin();
         InitOpenCV();
-		yield return StartCoroutine("CallPluginAtEndOfFrames");
+        number_of_devices = GetDeviceCount();
+        current_device = 0;
+		//yield return StartCoroutine("CallPluginAtEndOfFrames");
+        
 	}
 
-	private void CreateTextureAndPassToPlugin()
+    public static void Update()
+    {
+        GL.IssuePluginEvent(GetRenderEventFunc(), 1);
+    }
+
+    private void OnEnable()
+    {
+        ControllerEventManager.OnClicked += cycleDevice;
+    }
+
+    private void OnDisable()
+    {
+        ControllerEventManager.OnClicked -= cycleDevice;
+    }
+
+    private void cycleDevice()
+    {
+        Debug.Log(number_of_devices);
+        if (current_device++ > number_of_devices) {
+            current_device = 0;
+        }
+        Debug.Log(current_device);
+        SetDevice(current_device);
+    }
+
+    private void CreateTextureAndPassToPlugin()
 	{
 		// Create a texture
-		Texture2D tex = new Texture2D(1920,1080,TextureFormat.ARGB32,false);
+		Texture2D tex = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
 		// Set point filtering just so we can see the pixels clearly
 		tex.filterMode = FilterMode.Point;
 		// Call Apply() so it's actually uploaded to the GPU
@@ -54,46 +90,14 @@ public class UseRenderingPlugin : MonoBehaviour
 		GetComponent<Renderer>().material.mainTexture = tex;
 
 		// Pass texture pointer to the plugin
-		SetTextureFromUnity (tex.GetNativeTexturePtr(), tex.width, tex.height);
+		SetTextureFromUnity(tex.GetNativeTexturePtr(), tex.width, tex.height);
 	}
-
-	private void SendMeshBuffersToPlugin ()
-	{
-		var filter = GetComponent<MeshFilter> ();
-		var mesh = filter.mesh;
-		// The plugin will want to modify the vertex buffer -- on many platforms
-		// for that to work we have to mark mesh as "dynamic" (which makes the buffers CPU writable --
-		// by default they are immutable and only GPU-readable).
-		mesh.MarkDynamic ();
-
-		// However, mesh being dynamic also means that the CPU on most platforms can not
-		// read from the vertex buffer. Our plugin also wants original mesh data,
-		// so let's pass it as pointers to regular C# arrays.
-		// This bit shows how to pass array pointers to native plugins without doing an expensive
-		// copy: you have to get a GCHandle, and get raw address of that.
-		var vertices = mesh.vertices;
-		var normals = mesh.normals;
-		var uvs = mesh.uv;
-		GCHandle gcVertices = GCHandle.Alloc (vertices, GCHandleType.Pinned);
-		GCHandle gcNormals = GCHandle.Alloc (normals, GCHandleType.Pinned);
-		GCHandle gcUV = GCHandle.Alloc (uvs, GCHandleType.Pinned);
-
-		SetMeshBuffersFromUnity (mesh.GetNativeVertexBufferPtr (0), mesh.vertexCount, gcVertices.AddrOfPinnedObject (), gcNormals.AddrOfPinnedObject (), gcUV.AddrOfPinnedObject ());
-
-		gcVertices.Free ();
-		gcNormals.Free ();
-		gcUV.Free ();
-	}
-
 
 	private IEnumerator CallPluginAtEndOfFrames()
 	{
 		while (true) {
 			// Wait until all frame rendering is done
 			yield return new WaitForEndOfFrame();
-
-			// Set time for the plugin
-			SetTimeFromUnity (Time.timeSinceLevelLoad);
 
 			// Issue a plugin event with arbitrary integer identifier.
 			// The plugin can distinguish between different
