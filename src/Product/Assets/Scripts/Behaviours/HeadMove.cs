@@ -17,7 +17,7 @@ public class HeadMove : MonoBehaviour {
     // Use this for initialization
     void Start () {
         headTranslator = new HeadTranslator();
-        motionProxy = new ALMotionProxy("127.0.0.1", 2024);
+        motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
 
         Debug.Log("Started");
     }

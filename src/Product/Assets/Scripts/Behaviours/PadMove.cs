@@ -22,7 +22,7 @@ public class PadMove : MonoBehaviour {
     }
 
     void Start () {
-        motionProxy = new ALMotionProxy("127.0.0.1", 1743);
+        motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
         motionProxy.MoveInit();
      }
 
