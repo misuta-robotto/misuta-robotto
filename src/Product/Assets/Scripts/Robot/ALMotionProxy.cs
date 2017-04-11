@@ -50,6 +50,9 @@ namespace AL {
         private static extern void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
 
         [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveToAsync(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
         private static extern float[] ALMotionProxyGetRobotPosition(IntPtr self, bool useSensors);
 
         [DllImport("bridge_d")]
@@ -161,8 +164,7 @@ namespace AL {
                 theta
             );
         }
-
-        /*
+        
         public void MoveTo(float x, float y, float theta)
         {
             ALMotionProxyMoveTo(
@@ -172,7 +174,16 @@ namespace AL {
                 theta
             );
         }
-        */
+
+        public void MoveToAsync(float x, float y, float theta)
+        {
+            ALMotionProxyMoveToAsync(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
 
         public float[] GetRobotPosition(bool useSensors)
         {
