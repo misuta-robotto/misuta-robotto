@@ -19,6 +19,7 @@ public class RobotCoordinator : MonoBehaviour {
     private float x = 0;
     private float y = 0;
     private float theta = 0;
+    private float lastTheta = 0;
 
     public float HeadPitch {
         set {
@@ -36,10 +37,10 @@ public class RobotCoordinator : MonoBehaviour {
 
     public float[] PadValues {
         set {
-            x = value[0];
-            y = value[1];
-            theta = value[2];
-            motionProxy.Move(x, y, theta);
+            //x = value[0];
+            //y = value[1];
+            //theta = value[2];
+            //motionProxy.Move(x, y, theta);
         }
     }
 
@@ -48,25 +49,27 @@ public class RobotCoordinator : MonoBehaviour {
     {
         set
         {
-            theta = value;
+            //lastTheta = theta;
+            theta = value - theta;
             UpdateTheta();
             UpdateJaw();
         }
     }
 
     void Start () {
-        motionProxy = new ALMotionProxy("127.0.0.1", 1234);
+        motionProxy = new ALMotionProxy("127.0.0.1", 1052);
         motionProxy.MoveInit();
     }
 
     private void UpdateJaw()
     {
         headYaw = rawHeadYaw - theta;
-        motionProxy.SetAngles(yawJoint, new float[] { headYaw }, SPEED_FRACTION);
+        motionProxy.SetAngles(yawJoint, new float[] { -headYaw }, SPEED_FRACTION);
     }
 
     private void UpdateTheta()
     {
+        Debug.Log("theta: " + theta + ", rawHeadYaw: " + rawHeadYaw + ", headYaw: " + headYaw + ", x/y: " + x + y);
         motionProxy.MoveToAsync(x, y, theta);
     }
 }

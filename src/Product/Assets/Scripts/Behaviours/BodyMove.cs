@@ -42,12 +42,13 @@ public class BodyMove : MonoBehaviour {
 
     float normalizedRadian(float degree)
     {
-        degree = mod(degree, 360);
+        
+        //degree = mod(degree, 360);
         if (degree > 180)
         {
             degree -= 360;
         }
-
+        
         return Mathf.Deg2Rad * degree;
     }
 
