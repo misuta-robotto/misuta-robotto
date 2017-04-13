@@ -20,6 +20,7 @@ public class RobotCoordinator : MonoBehaviour {
     private float y = 0;
     private float theta = 0;
     private float lastTheta = 0;
+    private float desiredTheta = 0;
 
     public float HeadPitch {
         set {
@@ -50,14 +51,14 @@ public class RobotCoordinator : MonoBehaviour {
         set
         {
             //lastTheta = theta;
-            theta = value - theta;
+            theta = value;// - theta;
             UpdateTheta();
             UpdateJaw();
         }
     }
 
     void Start () {
-        motionProxy = new ALMotionProxy("127.0.0.1", 1052);
+        motionProxy = new ALMotionProxy("127.0.0.1", 5890);
         motionProxy.MoveInit();
     }
 
@@ -69,7 +70,11 @@ public class RobotCoordinator : MonoBehaviour {
 
     private void UpdateTheta()
     {
-        Debug.Log("theta: " + theta + ", rawHeadYaw: " + rawHeadYaw + ", headYaw: " + headYaw + ", x/y: " + x + y);
-        motionProxy.MoveToAsync(x, y, theta);
+
+        Debug.Log("Body angle: " + theta + ", Unity head angle: " + rawHeadYaw + ", Head angle sent to Pepper: " + -headYaw + ", x/y: " + x + y);
+        if (Mathf.Abs(theta) > 0.3)
+        {
+            motionProxy.MoveTo(x, y, theta);
+        }
     }
 }
