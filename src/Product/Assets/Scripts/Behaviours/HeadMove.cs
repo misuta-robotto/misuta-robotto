@@ -12,6 +12,7 @@ public class HeadMove : MonoBehaviour
     private string[] jointNames = new string[] { "HeadYaw", "HeadPitch" };
     private const float SPEED_FRACTION = 1;
 
+    public Calibration calibration;
     private HeadTranslator headTranslator;
     private ALMotionProxy motionProxy;
 
@@ -20,6 +21,12 @@ public class HeadMove : MonoBehaviour
     {
         headTranslator = new HeadTranslator();
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
+        calibration.ToggleCalibrationMode += SetEnabled;
+    }
+
+    void SetEnabled(bool b)
+    {
+        enabled = b;
     }
 
     // Update is called once per frame

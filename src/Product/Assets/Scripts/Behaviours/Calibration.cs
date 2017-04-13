@@ -13,9 +13,16 @@ public class Calibration : MonoBehaviour {
 
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
+
+    public event ToggleCalibrationMode;
+    public bool calibrationMode;
+
     public Transform kyle;
     public float sizeRatio;
-    public HeadMove robotCoordinator;   //PLACEHOLDER: replace with a RobotCoordinator type.
+
+    void Start() {
+        calibrationMode = false;
+    }
 
     private void OnEnable() {
         leftController.TriggerClicked += HandleTriggerClicked;
@@ -44,6 +51,9 @@ public class Calibration : MonoBehaviour {
     }
 
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e) {
-        robotCoordinator.enabled = !robotCoordinator.enabled;
+        calibrationMode = !calibrationMode;
+        if(ToggleCalibrationMode != null) {
+            ToggleCalibrationMode(!calibrationMode);
+        }
     }
 }
