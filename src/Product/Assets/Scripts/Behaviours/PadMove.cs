@@ -30,7 +30,7 @@ public class PadMove : MonoBehaviour
     {
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
         motionProxy.MoveInit();
-        calibration.ToggleCalibrationMode += SetEnabled;
+        calibration.ToggleMode += SetEnabled;
     }
 
     void SetEnabled(bool b) {

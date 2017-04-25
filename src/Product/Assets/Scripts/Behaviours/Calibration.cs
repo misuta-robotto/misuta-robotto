@@ -14,7 +14,8 @@ public class Calibration : MonoBehaviour {
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
 
-    public event ToggleCalibrationMode;
+    public delegate void ToggleCalibrationMode(bool b);
+    public event ToggleCalibrationMode ToggleMode;
     public bool calibrationMode;
 
     public Transform kyle;
@@ -39,7 +40,7 @@ public class Calibration : MonoBehaviour {
     }
 
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
-        if( leftController.triggerPressed && rightController.triggerPressed && !robotCoordinator.enabled) {
+        if( leftController.triggerPressed && rightController.triggerPressed && !calibrationMode) {
             float userHeight = InputTracking.GetLocalPosition(VRNode.Head).y * VRNODE_TO_REAL_HEIGHT_RATIO;
             ResizeKyle(userHeight);
         }
@@ -52,8 +53,8 @@ public class Calibration : MonoBehaviour {
 
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e) {
         calibrationMode = !calibrationMode;
-        if(ToggleCalibrationMode != null) {
-            ToggleCalibrationMode(!calibrationMode);
+        if(ToggleMode != null) {
+            ToggleMode(!calibrationMode);
         }
     }
 }

@@ -21,7 +21,7 @@ public class HeadMove : MonoBehaviour
     {
         headTranslator = new HeadTranslator();
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
-        calibration.ToggleCalibrationMode += SetEnabled;
+        calibration.ToggleMode += SetEnabled;
     }
 
     void SetEnabled(bool b)
