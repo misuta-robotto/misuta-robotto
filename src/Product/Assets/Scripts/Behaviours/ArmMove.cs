@@ -22,9 +22,16 @@ public class ArmMove : MonoBehaviour {
     public Transform rightWrist;
 
     private ALMotionProxy motionProxy;
+    public Calibration calibration;
 
-    void Start () {
+    void Start() {
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
+        calibration.ToggleMode += SetEnabled;
+        enabled = false;
+    }
+
+    void SetEnabled(bool b) {
+        enabled = b;
     }
 	
 	void Update () {

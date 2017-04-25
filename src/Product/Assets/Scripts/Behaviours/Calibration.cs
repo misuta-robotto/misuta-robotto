@@ -8,11 +8,11 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class Calibration : MonoBehaviour {
-    private const float VRNODE_TO_REAL_HEIGHT_RATIO = 1.16f;
-    private const float KYLE_HEIGHT = 1.8f;
+
 
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
+    public VRHud hud;
 
     public delegate void ToggleCalibrationMode(bool b);
     public event ToggleCalibrationMode ToggleMode;
@@ -20,9 +20,12 @@ public class Calibration : MonoBehaviour {
 
     public Transform kyle;
     public float sizeRatio;
+    private float userHeight;
 
     void Start() {
-        calibrationMode = false;
+        calibrationMode = true;
+        userHeight = HeightTranslator.KYLE_HEIGHT;
+        sizeRatio = 1f;
     }
 
     private void OnEnable() {
@@ -40,14 +43,15 @@ public class Calibration : MonoBehaviour {
     }
 
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
-        if( leftController.triggerPressed && rightController.triggerPressed && !calibrationMode) {
-            float userHeight = InputTracking.GetLocalPosition(VRNode.Head).y * VRNODE_TO_REAL_HEIGHT_RATIO;
-            ResizeKyle(userHeight);
+        if( leftController.triggerPressed && rightController.triggerPressed && calibrationMode) {
+            userHeight = HeightTranslator.CalculateHeight(InputTracking.GetLocalPosition(VRNode.Head));
+            hud.UpdateHeight(userHeight);
+            ResizeKyle();
         }
     }
 
-    private void ResizeKyle(float userHeight) {
-        sizeRatio = userHeight / KYLE_HEIGHT;
+    private void ResizeKyle() {
+        sizeRatio = HeightTranslator.CalculateSizeRatio(userHeight);
         kyle.localScale = new Vector3(sizeRatio, sizeRatio, sizeRatio);
     }
 

@@ -9,7 +9,6 @@ using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour
 {
-
     public Calibration calibration;
     private ALMotionProxy motionProxy;
     public SteamVR_TrackedObject trackedObjLeft;
@@ -31,6 +30,7 @@ public class PadMove : MonoBehaviour
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
         motionProxy.MoveInit();
         calibration.ToggleMode += SetEnabled;
+        enabled = false;
     }
 
     void SetEnabled(bool b) {

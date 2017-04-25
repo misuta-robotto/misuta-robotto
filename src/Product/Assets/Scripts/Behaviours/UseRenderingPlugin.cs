@@ -1,11 +1,13 @@
 using UnityEngine;
 using System;
+using Assets;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
+    public Calibration calibration;
     private bool isRunning = true;
 
     private int number_of_devices;
@@ -42,6 +44,8 @@ public class UseRenderingPlugin : MonoBehaviour
 
     IEnumerator Start()
     {
+        GetComponent<Renderer>().enabled = false;
+        calibration.ToggleMode += SetEnabled;
         CreateTextureAndPassToPlugin();
         InitOpenCV();
         number_of_devices = GetDeviceCount();
@@ -49,6 +53,11 @@ public class UseRenderingPlugin : MonoBehaviour
 
         BeginUpdatingCameraData();
         yield return StartCoroutine("CallPluginAtEndOfFrames");
+    }
+
+    void SetEnabled(bool b)
+    {
+        GetComponent<Renderer>().enabled = b;
     }
 
     private void OnEnable()

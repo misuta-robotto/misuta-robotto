@@ -94,7 +94,7 @@ namespace Assets {
 
             float RightElbowYaw = TranslateRightElbowYaw(rightForearm).Clamp(ELBOW_YAW_MIN, ELBOW_YAW_MAX);
             float RightElbowRoll = TranslateRightElbowRoll(rightForearm).Clamp(R_ELBOW_ROLL_MIN, R_ELBOW_ROLL_MAX);
-            Debug.Log("RightElbowRoll: " + RightElbowRoll);
+            //Debug.Log("RightElbowRoll: " + RightElbowRoll);
             return new float[] { RightElbowYaw, RightElbowRoll };
         }
         public static float TranslateRightElbowYaw(Vector3 forearm) {
