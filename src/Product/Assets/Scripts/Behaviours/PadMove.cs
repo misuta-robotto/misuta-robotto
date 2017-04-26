@@ -7,43 +7,28 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.VR;
 
-public class PadMove : MonoBehaviour
-{
-    public Calibration calibration;
-    private ALMotionProxy motionProxy;
+public class PadMove : MonoBehaviour {
+    public RobotCoordinator robCord;
+
+    private float x = 0;
+    private float y = 0;
+    private float theta = 0;
+
+    //private ALMotionProxy motionProxy;
     public SteamVR_TrackedObject trackedObjLeft;
 
     // Add controllers
-    private SteamVR_Controller.Device ControllerLeft
-    {
-        get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
+    private SteamVR_Controller.Device ControllerLeft {
+	    get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
     }
 
     public SteamVR_TrackedObject trackedObjRight;
-    private SteamVR_Controller.Device ControllerRight
-    {
+    private SteamVR_Controller.Device ControllerRight {
         get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
     }
 
-    void Start()
-    {
-        motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
-        motionProxy.MoveInit();
-        calibration.ToggleMode += SetEnabled;
-        enabled = false;
-    }
-
-    void SetEnabled(bool b) {
-        enabled = b;
-    }
-
-    void Update()
-    {
-        float x = 0;
-        float y = 0;
-        float theta = 0;
-
-        // ControllerLeft - Movement back and forth
+    void Update () {
+    // ControllerLeft - Movement back and forth
         if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
         {
             x = ControllerLeft.GetAxis().y;
@@ -61,6 +46,6 @@ public class PadMove : MonoBehaviour
             theta = -ControllerRight.GetAxis().x;
         }
 
-        motionProxy.Move(x, y, theta);
+        robCord.PadValues = new float[] { x, y, theta };
     }
 }
