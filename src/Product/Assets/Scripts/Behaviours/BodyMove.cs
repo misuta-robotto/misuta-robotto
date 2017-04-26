@@ -6,6 +6,16 @@ using UnityEngine.VR;
 
 public class BodyMove : MonoBehaviour {
     public RobotCoordinator robCord;
+    public Calibration calibration;
+
+    void Start () {
+        calibration.ToggleMode += SetEnabled;
+        enabled = false;
+    }
+
+    void SetEnabled(bool b) {
+        enabled = b;
+    }
 
     void Update () {
         Vector3 headPos = InputTracking.GetLocalPosition(VRNode.Head);
@@ -42,13 +52,13 @@ public class BodyMove : MonoBehaviour {
 
     float normalizedRadian(float degree)
     {
-        
+
         //degree = mod(degree, 360);
         if (degree > 180)
         {
             degree -= 360;
         }
-        
+
         return Mathf.Deg2Rad * degree;
     }
 

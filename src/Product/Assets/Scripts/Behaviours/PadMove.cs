@@ -9,7 +9,8 @@ using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour {
     public RobotCoordinator robCord;
-
+    public Calibration calibration;
+    
     private float x = 0;
     private float y = 0;
     private float theta = 0;
@@ -25,6 +26,15 @@ public class PadMove : MonoBehaviour {
     public SteamVR_TrackedObject trackedObjRight;
     private SteamVR_Controller.Device ControllerRight {
         get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
+    }
+
+    void Start () {
+        calibration.ToggleMode += SetEnabled;
+        enabled = false;
+    }
+
+    void SetEnabled(bool b) {
+        enabled = b;
     }
 
     void Update () {

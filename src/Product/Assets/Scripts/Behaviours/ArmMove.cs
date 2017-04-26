@@ -21,11 +21,10 @@ public class ArmMove : MonoBehaviour {
     public Transform rightForearm;
     public Transform rightWrist;
 
-    private ALMotionProxy motionProxy;
+    public RobotCoordinator robCord;
     public Calibration calibration;
 
     void Start() {
-        motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
         calibration.ToggleMode += SetEnabled;
         enabled = false;
     }
@@ -33,16 +32,11 @@ public class ArmMove : MonoBehaviour {
     void SetEnabled(bool b) {
         enabled = b;
     }
-	
-	void Update () {
-        float[] leftShoulderPitchAndRoll = ArmTranslation.TranslateLeftShoulderPitchAndRoll(leftShoulder, leftUpperArm.position, leftForearm.position);
-        float[] leftElbowYawAndRoll = ArmTranslation.TranslateLeftElbowYawAndRoll(leftUpperArm, leftForearm.position, leftWrist.position);
-        float[] rightShoulderPitchAndRoll = ArmTranslation.TranslateRightShoulderPitchAndRoll(rightShoulder, rightUpperArm.position, rightForearm.position);
-        float[] rightElbowYawAndRoll = ArmTranslation.TranslateRightElbowYawAndRoll(rightUpperArm, rightForearm.position, rightWrist.position);
 
-        motionProxy.SetAngles(leftShoulderJoints, leftShoulderPitchAndRoll, SPEED_FRACTION);
-        motionProxy.SetAngles(leftElbowJoints, leftElbowYawAndRoll, SPEED_FRACTION);
-        motionProxy.SetAngles(rightShoulderJoints, rightShoulderPitchAndRoll, SPEED_FRACTION);
-        motionProxy.SetAngles(rightElbowJoints, rightElbowYawAndRoll, SPEED_FRACTION);
+	void Update () {
+        robCord.LeftShoulder = ArmTranslation.TranslateLeftShoulderPitchAndRoll(leftShoulder, leftUpperArm.position, leftForearm.position);
+        robCord.LeftElbow = ArmTranslation.TranslateLeftElbowYawAndRoll(leftUpperArm, leftForearm.position, leftWrist.position);
+        robCord.RightShoulder = ArmTranslation.TranslateRightShoulderPitchAndRoll(rightShoulder, rightUpperArm.position, rightForearm.position);
+        robCord.RightElbow = ArmTranslation.TranslateRightElbowYawAndRoll(rightUpperArm, rightForearm.position, rightWrist.position);
     }
 }

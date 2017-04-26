@@ -14,6 +14,12 @@ public class HeadMove : MonoBehaviour {
 
     void Start () {
         headTranslator = new HeadTranslator();
+        calibration.ToggleMode += SetEnabled;
+        enabled = false;
+    }
+
+    void SetEnabled (bool b) {
+        enabled = b;
     }
 
 	void Update () {
