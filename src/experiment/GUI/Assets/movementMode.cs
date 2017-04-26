@@ -10,6 +10,6 @@ public class movementMode : MonoBehaviour {
 
 	void OnGUI(){
 			selected = GUI.SelectionGrid(position, selected, options, options.Length, GUI.skin.toggle);
-			Debug.Log ("Selected:" + selected);
+			//Debug.Log ("Selected:" + selected);
 	}
 }
