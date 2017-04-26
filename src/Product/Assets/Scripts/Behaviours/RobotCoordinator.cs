@@ -17,10 +17,14 @@ public class RobotCoordinator : MonoBehaviour {
     private string[] leftElbowJoints = new string[] { "LElbowYaw", "LElbowRoll" };
     private string[] rightShoulderJoints = new string[] { "RShoulderPitch", "RShoulderRoll" };
     private string[] rightElbowJoints = new string[] { "RElbowYaw", "RElbowRoll" };
-    private float[] leftShoulderPitchAndRoll = new float[] { 0, 0 };
-    private float[] leftElbowYawAndRoll = new float[] { 0, 0 };
-    private float[] rightShoulderPitchAndRoll = new float[] { 0, 0 };
-    private float[] rightElbowYawAndRoll = new float[] { 0, 0 };
+    private float leftShoulderPitch = 0;
+    private float leftShoulderRoll = 0;
+    private float leftElbowYaw = 0;
+    private float leftElbowRoll = 0;
+    private float rightShoulderPitch = 0;
+    private float rightShoulderRoll = 0;
+    private float rightElbowYaw = 0;
+    private float rightElbowRoll = 0;
     private float headPitch = 0;
     private float headYaw = 0;
     private float rawHeadYaw = 0;
@@ -30,35 +34,39 @@ public class RobotCoordinator : MonoBehaviour {
     private float lastTheta = 0;
     private float desiredTheta = 0;
 
-
+    
     public float[] LeftShoulder {
         set {
-            leftShoulderPitchAndRoll = value;
-            motionProxy.SetAngles(leftShoulderJoints, new float[] { leftShoulderPitchAndRoll });
+            leftShoulderPitch = value[0];
+            leftShoulderRoll = value[1];
+            motionProxy.SetAngles(leftShoulderJoints, new float[] { leftShoulderPitch, leftShoulderRoll  }, SPEED_FRACTION);
         }
     }
-
+    
     public float[] LeftElbow {
         set {
-            leftElbowYawAndRoll = value;
-            motionProxy.SetAngles(leftElbowJoints, new float[] { leftElbowYawAndRoll });
+            leftElbowYaw = value[0];
+            leftElbowRoll = value[1];
+            motionProxy.SetAngles(leftElbowJoints, new float[] { leftElbowYaw, leftElbowRoll }, SPEED_FRACTION);
         }
     }
 
     public float[] RightShoulder {
         set {
-            rightShoulderPitchAndRoll = value;
-            motionProxy.SetAngles(rightShoulderJoints, new float[] { rightShoulderPitchAndRoll });
+            rightShoulderPitch = value[0];
+            rightShoulderRoll = value[1];
+            motionProxy.SetAngles(rightShoulderJoints, new float[] { rightShoulderPitch, rightShoulderRoll }, SPEED_FRACTION);
         }
     }
 
     public float[] RightElbow {
         set {
-            rightElbowYawAndRoll = value;
-            motionProxy.SetAngles(rightElbowJoints new float[] { rightElbowYawAndRoll });
+            rightElbowYaw = value[0];
+            rightElbowRoll = value[1];
+            motionProxy.SetAngles(rightElbowJoints, new float[] { rightElbowYaw, rightElbowRoll }, SPEED_FRACTION);
         }
     }
-
+    
     public float HeadPitch {
         set {
             headPitch = value;

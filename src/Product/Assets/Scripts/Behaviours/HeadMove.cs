@@ -9,6 +9,7 @@ using UnityEngine.VR;
 
 public class HeadMove : MonoBehaviour {
     public RobotCoordinator robCord;
+    public Calibration calibration;
 
     private HeadTranslator headTranslator;
 

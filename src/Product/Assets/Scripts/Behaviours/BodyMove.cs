@@ -36,10 +36,10 @@ public class BodyMove : MonoBehaviour {
         transform.position = headPos;
         transform.Rotate(Vector3.up * (bodyAngle - transform.eulerAngles.y));
 
-        robCord.Theta = normalizedRadian(bodyAngle);
+        //robCord.Theta = normalizedRadian(bodyAngle);
     }
 
-    float angleDiff(float a1, float a2) {
+    private float angleDiff(float a1, float a2) {
         float diff = a1 - a2;
         if (diff > 180) {
             return diff - 360;
@@ -50,7 +50,7 @@ public class BodyMove : MonoBehaviour {
         return diff;
     }
 
-    float normalizedRadian(float degree)
+    private float normalizedRadian(float degree)
     {
 
         //degree = mod(degree, 360);
