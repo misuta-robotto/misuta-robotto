@@ -43,17 +43,29 @@ public class PadMove : MonoBehaviour {
         {
             x = ControllerLeft.GetAxis().y;
         }
+        else
+        {
+            x = 0;
+        }
 
         // ControllerLeft - Movement left and right
         if (System.Math.Abs(ControllerLeft.GetAxis().x) > 0.2)
         {
             y = -ControllerLeft.GetAxis().x;
         }
+        else
+        {
+            y = 0;
+        }
 
         // ControllerRight - Rotation
         if (System.Math.Abs(ControllerRight.GetAxis().x) > 0.2)
         {
             theta = -ControllerRight.GetAxis().x;
+        }
+        else
+        {
+            theta = 0;
         }
 
         robCord.PadValues = new float[] { x, y, theta };

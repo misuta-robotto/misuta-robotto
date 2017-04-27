@@ -4,24 +4,41 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.VR;
 
 public class RobotCoordinator : MonoBehaviour {
-    private ALMotionProxy motionProxy;
+    public Calibration calibration;
 
     private const float SPEED_FRACTION = 1;
+    private const float RESET_SPEED_FRACTION = 0.3f;
     private string[] pitchJoint = new string[] { "HeadPitch" };
     private string[] yawJoint = new string[] { "HeadYaw" };
     private string[] leftShoulderJoints = new string[] { "LShoulderPitch", "LShoulderRoll" };
     private string[] leftElbowJoints = new string[] { "LElbowYaw", "LElbowRoll" };
     private string[] rightShoulderJoints = new string[] { "RShoulderPitch", "RShoulderRoll" };
     private string[] rightElbowJoints = new string[] { "RElbowYaw", "RElbowRoll" };
-    private float leftShoulderPitch = 0;
+    private string[] allJoints = new string[]
+    {
+        "HeadPitch",
+        "HeadYaw",
+        "LShoulderPitch",
+        "LShoulderRoll",
+        "LElbowYaw",
+        "LElbowRoll",
+        "RShoulderPitch",
+        "RShoulderRoll",
+        "RElbowYaw",
+        "RElbowRoll",
+        "RWristYaw",
+        "LWristYaw"
+    };
+    private float leftShoulderPitch = Mathf.PI / 2;
     private float leftShoulderRoll = 0;
     private float leftElbowYaw = 0;
     private float leftElbowRoll = 0;
-    private float rightShoulderPitch = 0;
+    private float rightShoulderPitch = Mathf.PI / 2;
     private float rightShoulderRoll = 0;
     private float rightElbowYaw = 0;
     private float rightElbowRoll = 0;
@@ -34,12 +51,15 @@ public class RobotCoordinator : MonoBehaviour {
     private float lastTheta = 0;
     private float desiredTheta = 0;
 
+    private bool isRunning = true;
+    private bool isUpdating = false;
+
     
     public float[] LeftShoulder {
         set {
             leftShoulderPitch = value[0];
             leftShoulderRoll = value[1];
-            motionProxy.SetAngles(leftShoulderJoints, new float[] { leftShoulderPitch, leftShoulderRoll  }, SPEED_FRACTION);
+            //motionProxy.SetAngles(leftShoulderJoints, new float[] { leftShoulderPitch, leftShoulderRoll  }, SPEED_FRACTION);
         }
     }
     
@@ -47,7 +67,7 @@ public class RobotCoordinator : MonoBehaviour {
         set {
             leftElbowYaw = value[0];
             leftElbowRoll = value[1];
-            motionProxy.SetAngles(leftElbowJoints, new float[] { leftElbowYaw, leftElbowRoll }, SPEED_FRACTION);
+            //motionProxy.SetAngles(leftElbowJoints, new float[] { leftElbowYaw, leftElbowRoll }, SPEED_FRACTION);
         }
     }
 
@@ -55,7 +75,7 @@ public class RobotCoordinator : MonoBehaviour {
         set {
             rightShoulderPitch = value[0];
             rightShoulderRoll = value[1];
-            motionProxy.SetAngles(rightShoulderJoints, new float[] { rightShoulderPitch, rightShoulderRoll }, SPEED_FRACTION);
+            //motionProxy.SetAngles(rightShoulderJoints, new float[] { rightShoulderPitch, rightShoulderRoll }, SPEED_FRACTION);
         }
     }
 
@@ -63,14 +83,14 @@ public class RobotCoordinator : MonoBehaviour {
         set {
             rightElbowYaw = value[0];
             rightElbowRoll = value[1];
-            motionProxy.SetAngles(rightElbowJoints, new float[] { rightElbowYaw, rightElbowRoll }, SPEED_FRACTION);
+            //motionProxy.SetAngles(rightElbowJoints, new float[] { rightElbowYaw, rightElbowRoll }, SPEED_FRACTION);
         }
     }
     
     public float HeadPitch {
         set {
             headPitch = value;
-            motionProxy.SetAngles(pitchJoint, new float[]{ headPitch }, SPEED_FRACTION);
+            //motionProxy.SetAngles(pitchJoint, new float[]{ headPitch }, SPEED_FRACTION);
         }
     }
 
@@ -86,7 +106,7 @@ public class RobotCoordinator : MonoBehaviour {
             x = value[0];
             y = value[1];
             theta = value[2];
-            motionProxy.Move(x, y, theta);
+            //motionProxy.Move(x, y, theta);
         }
     }
 
@@ -103,14 +123,24 @@ public class RobotCoordinator : MonoBehaviour {
     }
 
     void Start () {
-        motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
-        motionProxy.MoveInit();
+        calibration.ToggleMode += SetEnabled;
+        new Thread(new ThreadStart(ThreadedLoop)).Start();
+    }
+
+    void SetEnabled(bool enabled)
+    {
+        isUpdating = enabled;
+    }
+
+    private void OnDisable()
+    {
+        isRunning = false;
     }
 
     private void UpdateJaw()
     {
         //headYaw = rawHeadYaw - theta; removes for KVIT
-        motionProxy.SetAngles(yawJoint, new float[] { -rawHeadYaw }, SPEED_FRACTION);
+        //motionProxy.SetAngles(yawJoint, new float[] { -rawHeadYaw }, SPEED_FRACTION);
     }
 
     //This feature isn't good enough for KVIT demo
@@ -123,5 +153,24 @@ public class RobotCoordinator : MonoBehaviour {
             motionProxy.MoveTo(x, y, theta);
         }
         */
+    }
+
+    private void ThreadedLoop()
+    {
+        ALMotionProxy motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
+        motionProxy.MoveInit();
+
+        while (isRunning)
+        {
+            if (isUpdating)
+            {
+                motionProxy.SetAngles(allJoints, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, 0, 0 }, SPEED_FRACTION);
+                motionProxy.Move(x, y, theta);
+            } else
+            {
+                motionProxy.SetAngles(allJoints, new float[] { 0, 0, Mathf.PI / 2, 0, 0, 0, Mathf.PI / 2, 0, 0, 0, 0, 0}, RESET_SPEED_FRACTION);
+                motionProxy.Move(0, 0, 0);
+            }
+        }
     }
 }

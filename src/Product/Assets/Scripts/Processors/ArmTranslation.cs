@@ -48,7 +48,12 @@ namespace Assets {
             Vector3 localLeftWrist = upperArm.InverseTransformPoint(wristPos);
             Vector3 leftForearm = localLeftWrist - localLeftForearm;
 
-            float leftElbowYaw = TranslateLeftElbowYaw(leftForearm).Clamp(ELBOW_YAW_MIN, ELBOW_YAW_MAX);
+            float leftElbowYaw = 0;
+            Vector2 straightArm = new Vector2(leftForearm.y, leftForearm.z);
+            if (straightArm.magnitude > 0.05)
+            {
+                leftElbowYaw = TranslateLeftElbowYaw(leftForearm).Clamp(ELBOW_YAW_MIN, ELBOW_YAW_MAX);
+            }
             float leftElbowRoll = TranslateLeftElbowRoll(leftForearm).Clamp(L_ELBOW_ROLL_MIN, L_ELBOW_ROLL_MAX);
             return new float[] { leftElbowYaw, leftElbowRoll };
         }
@@ -92,10 +97,14 @@ namespace Assets {
             Vector3 localRightWrist = upperArm.InverseTransformPoint(wristPos);
             Vector3 rightForearm = localRightWrist - localRightForearm;
 
-            float RightElbowYaw = TranslateRightElbowYaw(rightForearm).Clamp(ELBOW_YAW_MIN, ELBOW_YAW_MAX);
-            float RightElbowRoll = TranslateRightElbowRoll(rightForearm).Clamp(R_ELBOW_ROLL_MIN, R_ELBOW_ROLL_MAX);
+            float rightElbowYaw = 0;
+            Vector2 straightArm = new Vector2(rightForearm.y, rightForearm.z);
+            if (straightArm.magnitude > 0.05) {
+                rightElbowYaw = TranslateRightElbowYaw(rightForearm).Clamp(ELBOW_YAW_MIN, ELBOW_YAW_MAX);
+            }
+            float rightElbowRoll = TranslateRightElbowRoll(rightForearm).Clamp(R_ELBOW_ROLL_MIN, R_ELBOW_ROLL_MAX);
             //Debug.Log("RightElbowRoll: " + RightElbowRoll);
-            return new float[] { RightElbowYaw, RightElbowRoll };
+            return new float[] { rightElbowYaw, rightElbowRoll };
         }
         public static float TranslateRightElbowYaw(Vector3 forearm) {
             return -Mathf.Atan2(-forearm.y, -forearm.z);
