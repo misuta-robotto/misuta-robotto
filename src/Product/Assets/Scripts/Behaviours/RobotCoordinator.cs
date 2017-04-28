@@ -12,7 +12,7 @@ public class RobotCoordinator : MonoBehaviour {
     public Calibration calibration;
 
     private const float SPEED_FRACTION = 1;
-    private const float RESET_SPEED_FRACTION = 0.3f;
+    private const float RESET_SPEED_FRACTION = 0.5f;
     private string[] pitchJoint = new string[] { "HeadPitch" };
     private string[] yawJoint = new string[] { "HeadYaw" };
     private string[] leftShoulderJoints = new string[] { "LShoulderPitch", "LShoulderRoll" };
