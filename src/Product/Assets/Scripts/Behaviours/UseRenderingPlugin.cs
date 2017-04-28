@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
+using UnityEngine.UI;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
+    public RawImage pussycat;
     private bool isRunning = true;
 
     private int number_of_devices;
@@ -82,6 +84,7 @@ public class UseRenderingPlugin : MonoBehaviour
 
         // Set texture onto our material
         GetComponent<Renderer>().material.mainTexture = tex;
+        pussycat.texture = tex;
 
         // Pass texture pointer to the plugin
         SetTextureFromUnity(tex.GetNativeTexturePtr(), tex.width, tex.height);

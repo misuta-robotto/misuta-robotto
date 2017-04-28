@@ -27,7 +27,7 @@ public class PadMove : MonoBehaviour
     void Start()
     {
         motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
-        motionProxy.MoveInit();
+        //motionProxy.MoveInit();
     }
 
     void Update()
@@ -54,6 +54,6 @@ public class PadMove : MonoBehaviour
             theta = -ControllerRight.GetAxis().x;
         }
 
-        motionProxy.Move(x, y, theta);
+        //motionProxy.Move(x, y, theta);
     }
 }
