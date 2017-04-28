@@ -8,8 +8,6 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class Calibration : MonoBehaviour {
-
-
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
     public VRHud hud;
@@ -43,7 +41,7 @@ public class Calibration : MonoBehaviour {
     }
 
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
-        if( leftController.triggerPressed && rightController.triggerPressed && calibrationMode) {
+        if (leftController.triggerPressed && rightController.triggerPressed && calibrationMode) {
             userHeight = HeightTranslator.CalculateHeight(InputTracking.GetLocalPosition(VRNode.Head));
             hud.UpdateHeight(userHeight);
             ResizeKyle();
@@ -57,7 +55,7 @@ public class Calibration : MonoBehaviour {
 
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e) {
         calibrationMode = !calibrationMode;
-        if(ToggleMode != null) {
+        if (ToggleMode != null) {
             ToggleMode(!calibrationMode);
         }
     }

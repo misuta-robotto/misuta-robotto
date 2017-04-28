@@ -54,7 +54,6 @@ public class RobotCoordinator : MonoBehaviour {
     private bool isRunning = true;
     private bool isUpdating = false;
 
-    
     public float[] LeftShoulder {
         set {
             leftShoulderPitch = value[0];
@@ -62,7 +61,7 @@ public class RobotCoordinator : MonoBehaviour {
             //motionProxy.SetAngles(leftShoulderJoints, new float[] { leftShoulderPitch, leftShoulderRoll  }, SPEED_FRACTION);
         }
     }
-    
+
     public float[] LeftElbow {
         set {
             leftElbowYaw = value[0];
@@ -86,7 +85,7 @@ public class RobotCoordinator : MonoBehaviour {
             //motionProxy.SetAngles(rightElbowJoints, new float[] { rightElbowYaw, rightElbowRoll }, SPEED_FRACTION);
         }
     }
-    
+
     public float HeadPitch {
         set {
             headPitch = value;
@@ -116,7 +115,7 @@ public class RobotCoordinator : MonoBehaviour {
         set
         {
             //lastTheta = theta;
-            theta = value;// - theta;
+            theta = value; // - theta;
             UpdateTheta();
             UpdateJaw();
         }
@@ -166,9 +165,8 @@ public class RobotCoordinator : MonoBehaviour {
             {
                 motionProxy.SetAngles(allJoints, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, 0, 0 }, SPEED_FRACTION);
                 motionProxy.Move(x, y, theta);
-            } else
-            {
-                motionProxy.SetAngles(allJoints, new float[] { 0, 0, Mathf.PI / 2, 0, 0, 0, Mathf.PI / 2, 0, 0, 0, 0, 0}, RESET_SPEED_FRACTION);
+            } else {
+                motionProxy.SetAngles(allJoints, new float[] { 0, 0, Mathf.PI / 2, 0, 0, 0, Mathf.PI / 2, 0, 0, 0, 0, 0 }, RESET_SPEED_FRACTION);
                 motionProxy.Move(0, 0, 0);
             }
         }

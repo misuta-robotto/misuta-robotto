@@ -47,7 +47,7 @@ namespace AL
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
-        
+
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
 
@@ -136,8 +136,8 @@ namespace AL
 
             float[] arr = new float[names.Length];
             Marshal.Copy(returned, arr, 0, names.Length);
-            // TODO: Release memory
 
+            // TODO: Release memory
             return arr;
         }
 
@@ -167,7 +167,7 @@ namespace AL
                 theta
             );
         }
-        
+
         public void MoveTo(float x, float y, float theta)
         {
             ALMotionProxyMoveTo(

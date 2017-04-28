@@ -52,7 +52,6 @@ public class BodyMove : MonoBehaviour {
 
     private float normalizedRadian(float degree)
     {
-
         //degree = mod(degree, 360);
         if (degree > 180)
         {

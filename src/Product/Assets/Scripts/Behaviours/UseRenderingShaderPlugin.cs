@@ -111,7 +111,6 @@ public class UseRenderingShaderPlugin : MonoBehaviour
         tex.Apply();
 
         // Set texture onto our material
-
         blurredTexture = RenderTexture.GetTemporary(tex.width, tex.height);
         targetMaterial = blurredPlane.GetComponent<Renderer>().material;
         targetMaterial.mainTexture = blurredTexture;

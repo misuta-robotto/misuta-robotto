@@ -23,7 +23,7 @@ public class VRHud : MonoBehaviour {
         crosshairTarget.enabled = !b;
 
         //Change camera render distance
-        if (b){
+        if (b) {
             cam.camera.farClipPlane = 500f;
         } else {
             cam.camera.farClipPlane = 5020f;
@@ -33,6 +33,6 @@ public class VRHud : MonoBehaviour {
     // Convert text to cm
     public void UpdateHeight(float height)
     {
-        heightText.text = Mathf.Round((height * 100f)).ToString();
+        heightText.text = Mathf.Round(height * 100f).ToString();
     }
 }

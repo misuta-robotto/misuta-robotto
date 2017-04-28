@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MishutaRoboto;
 
-namespace Assets { 
+namespace Assets {
     public class ArmTranslation {
         public const float SHOULDER_PITCH_MIN = -119.5f * Mathf.Deg2Rad;
         public const float SHOULDER_PITCH_MAX = 119.5f * Mathf.Deg2Rad;
@@ -67,19 +67,18 @@ namespace Assets {
         }
 
         // RIGHT SIDE
-
         public static float[] TranslateRightShoulderPitchAndRoll(Transform shoulder, Vector3 upperArmPos, Vector3 forearmPos) {
             Vector3 localRightUpperArm = shoulder.InverseTransformPoint(upperArmPos);
             Vector3 localRightForearm = shoulder.InverseTransformPoint(forearmPos);
             Vector3 rightUpperArm = localRightForearm - localRightUpperArm;
 
-            float RightShoulderRoll = R_SHOULDER_ROLL_MAX;
+            float rightShoulderRoll = R_SHOULDER_ROLL_MAX;
 
             if (localRightForearm.x > 0.06) {
-                RightShoulderRoll = TranslateRightShoulderRoll(rightUpperArm).Clamp(R_SHOULDER_ROLL_MIN, R_SHOULDER_ROLL_MAX);
+                rightShoulderRoll = TranslateRightShoulderRoll(rightUpperArm).Clamp(R_SHOULDER_ROLL_MIN, R_SHOULDER_ROLL_MAX);
             }
-            float RightShoulderPitch = TranslateRightShoulderPitch(rightUpperArm).Clamp(SHOULDER_PITCH_MIN, SHOULDER_PITCH_MAX);
-            return new float[] { RightShoulderPitch, RightShoulderRoll };
+            float rightShoulderPitch = TranslateRightShoulderPitch(rightUpperArm).Clamp(SHOULDER_PITCH_MIN, SHOULDER_PITCH_MAX);
+            return new float[] { rightShoulderPitch, rightShoulderRoll };
         }
 
         public static float TranslateRightShoulderPitch(Vector3 upperArm) {
