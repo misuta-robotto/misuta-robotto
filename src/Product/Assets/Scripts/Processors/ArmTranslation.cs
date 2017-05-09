@@ -78,7 +78,8 @@ namespace Assets {
         public static float TranslateShoulderPitch(Vector3 upperArm, Side side) {
             if (side == Side.Left) {
                 return -(float)Math.Atan2(upperArm.y, upperArm.z);
-            } else {
+            }
+            else {
                 return -Mathf.Atan2(-upperArm.y, -upperArm.z);
             }
         }
