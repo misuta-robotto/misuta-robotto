@@ -35,9 +35,9 @@ public class ArmMove : MonoBehaviour {
 
     // Translate arm data and send to RobotCoordinator
 	void Update () {
-        robCord.LeftShoulder = ArmTranslation.TranslateLeftShoulderPitchAndRoll(leftShoulder, leftUpperArm.position, leftForearm.position);
-        robCord.LeftElbow = ArmTranslation.TranslateLeftElbowYawAndRoll(leftUpperArm, leftForearm.position, leftWrist.position);
-        robCord.RightShoulder = ArmTranslation.TranslateRightShoulderPitchAndRoll(rightShoulder, rightUpperArm.position, rightForearm.position);
-        robCord.RightElbow = ArmTranslation.TranslateRightElbowYawAndRoll(rightUpperArm, rightForearm.position, rightWrist.position);
+        robCord.LeftShoulder = ArmTranslation.TranslateShoulderPitchAndRoll(leftShoulder, leftUpperArm.position, leftForearm.position, Side.Left);
+        robCord.LeftElbow = ArmTranslation.TranslateElbowYawAndRoll(leftUpperArm, leftForearm.position, leftWrist.position, Side.Left);
+        robCord.RightShoulder = ArmTranslation.TranslateShoulderPitchAndRoll(rightShoulder, rightUpperArm.position, rightForearm.position, Side.Right);
+        robCord.RightElbow = ArmTranslation.TranslateElbowYawAndRoll(rightUpperArm, rightForearm.position, rightWrist.position, Side.Right);
     }
 }
