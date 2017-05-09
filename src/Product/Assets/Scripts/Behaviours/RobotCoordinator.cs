@@ -99,6 +99,7 @@ public class RobotCoordinator : MonoBehaviour {
             x = value[0];
             y = value[1];
             theta = value[2];
+            //Debug.Log(x + y+ theta);
         }
     }
 

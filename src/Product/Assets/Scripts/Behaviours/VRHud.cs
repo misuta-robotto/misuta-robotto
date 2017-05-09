@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Manages VR HUD and settings
+ */
 public class VRHud : MonoBehaviour {
     public Text heightText;
     public Calibration calibration;

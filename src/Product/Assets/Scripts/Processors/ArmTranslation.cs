@@ -32,7 +32,7 @@ namespace Assets {
         /// <summary>
         ///   Utility function too clamp values for those joints that are different between sides
         /// </summary>
-        private float ClampJoint(float value, Joint joint, Side side) {
+        private static float ClampJoint(float value, Joint joint, Side side) {
             switch (joint) {
             case Joint.ShoulderRoll:
                 if (side == Side.Left) {
@@ -41,7 +41,6 @@ namespace Assets {
                 else {
                     return value.Clamp(R_SHOULDER_ROLL_MIN, R_SHOULDER_ROLL_MAX);
                 }
-                break;
             case Joint.ElbowRoll:
                 if (side == Side.Left) {
                     return value.Clamp(L_ELBOW_ROLL_MIN, L_ELBOW_ROLL_MAX);
@@ -49,7 +48,9 @@ namespace Assets {
                 else {
                     return value.Clamp(R_ELBOW_ROLL_MIN, R_ELBOW_ROLL_MAX);
                 }
-                break;
+            default:
+                // We should never end up here
+                return 0;
             }
         }
 
@@ -84,7 +85,7 @@ namespace Assets {
             }
         }
 
-        public static float TranslateLeftShoulderRoll(Vector3 upperArm, Side side) {
+        public static float TranslateShoulderRoll(Vector3 upperArm, Side side) {
             float y = upperArm.y;
             float z = upperArm.z;
             if (side == Side.Left) {
