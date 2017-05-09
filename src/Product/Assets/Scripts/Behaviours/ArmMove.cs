@@ -1,16 +1,7 @@
-﻿using AL;
-using Assets;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets;
 using UnityEngine;
 
 public class ArmMove : MonoBehaviour {
-    private string[] leftShoulderJoints = new string[] { "LShoulderPitch", "LShoulderRoll" };
-    private string[] leftElbowJoints = new string[] { "LElbowYaw", "LElbowRoll" };
-    private string[] rightShoulderJoints = new string[] { "RShoulderPitch", "RShoulderRoll" };
-    private string[] rightElbowJoints = new string[] { "RElbowYaw", "RElbowRoll" };
-    private const float SPEED_FRACTION = 1;
-
     public Transform leftShoulder;
     public Transform leftUpperArm;
     public Transform leftForearm;

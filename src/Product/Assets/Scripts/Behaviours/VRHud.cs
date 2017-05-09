@@ -1,25 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class VRHud : MonoBehaviour {
     public Text heightText;
     public Calibration calibration;
-    public Canvas vrHud;
+    public Canvas hud;
     public Canvas crosshairTarget;
     public SteamVR_Camera cam;
 
     void Start() {
         calibration.ToggleMode += SetEnabled;
-        vrHud.enabled = true;
+        hud.enabled = true;
         crosshairTarget.enabled = true;
         cam.camera.farClipPlane = 5020f;
     }
 
     private void SetEnabled(bool b) {
         // Enable/disable HUD Canvases
-        vrHud.enabled = !b;
+        hud.enabled = !b;
         crosshairTarget.enabled = !b;
 
         // Change camera render distance

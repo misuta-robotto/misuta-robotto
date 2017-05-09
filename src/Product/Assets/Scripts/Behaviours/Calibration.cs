@@ -1,9 +1,4 @@
-using AL;
 using Assets;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.VR;
 
@@ -26,6 +21,10 @@ public class Calibration : MonoBehaviour {
         sizeRatio = 1f;
     }
 
+    /*
+    When the script is enabled it subscribes itself to events for the controller
+     actions TriggerClicked and MenuButtonClicked.
+    */
     private void OnEnable() {
         leftController.TriggerClicked += HandleTriggerClicked;
         rightController.TriggerClicked += HandleTriggerClicked;
@@ -33,6 +32,9 @@ public class Calibration : MonoBehaviour {
         rightController.MenuButtonClicked += HandleMenuButtonClicked;
     }
 
+    /*
+    When the script is disabled it unsubscribes itself from the events.
+    */
     private void OnDisable() {
         leftController.TriggerClicked -= HandleTriggerClicked;
         rightController.TriggerClicked -= HandleTriggerClicked;
@@ -40,6 +42,10 @@ public class Calibration : MonoBehaviour {
         rightController.MenuButtonClicked -= HandleMenuButtonClicked;
     }
 
+    /*
+    Resizes the 3D representation of the user in Unity when both triggers are
+    pressed and in system is in calibration mode.
+    */
     private void HandleTriggerClicked(object sender, ClickedEventArgs e) {
         if (leftController.triggerPressed && rightController.triggerPressed && calibrationMode) {
             userHeight = HeightTranslator.CalculateHeight(InputTracking.GetLocalPosition(VRNode.Head));
@@ -53,6 +59,12 @@ public class Calibration : MonoBehaviour {
         kyle.localScale = new Vector3(sizeRatio, sizeRatio, sizeRatio);
     }
 
+    /*
+    Toggels calibration mode and signals the toggle to all subscribers of the
+    ToggleMode event when the menubutton is pressed. The subscribers use this
+    for example to keep the robot still or render different objects of the scene 
+    during calibration.
+    */
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e) {
         calibrationMode = !calibrationMode;
         if (ToggleMode != null) {
