@@ -3,8 +3,17 @@ using UnityEngine;
 using MishutaRoboto;
 
 namespace Assets {
-    public enum Side { Left, Right };
-    public enum Joint { ShoulderRoll, ElbowRoll }
+    public enum Side
+    {
+        Left,
+        Right
+    }
+
+    public enum Joint
+    {
+        ShoulderRoll,
+        ElbowRoll
+    }
 
     public class ArmTranslation {
         public const float SHOULDER_PITCH_MIN = -119.5f * Mathf.Deg2Rad;
@@ -28,14 +37,16 @@ namespace Assets {
             case Joint.ShoulderRoll:
                 if (side == Side.Left) {
                     return value.Clamp(L_SHOULDER_ROLL_MIN, L_SHOULDER_ROLL_MAX);
-                } else {
+                }
+                else {
                     return value.Clamp(R_SHOULDER_ROLL_MIN, R_SHOULDER_ROLL_MAX);
                 }
                 break;
             case Joint.ElbowRoll:
                 if (side == Side.Left) {
                     return value.Clamp(L_ELBOW_ROLL_MIN, L_ELBOW_ROLL_MAX);
-                } else {
+                }
+                else {
                     return value.Clamp(R_ELBOW_ROLL_MIN, R_ELBOW_ROLL_MAX);
                 }
                 break;
@@ -77,7 +88,8 @@ namespace Assets {
             float z = upperArm.z;
             if (side == Side.Left) {
                 return (float)Math.Acos(Math.Sqrt((y * y) + (z * z)) / upperArm.magnitude);
-            } else {
+            }
+            else {
                 return -Mathf.Acos(Mathf.Sqrt((y * y) + (z * z)) / upperArm.magnitude);
             }
         }
@@ -97,8 +109,7 @@ namespace Assets {
             // Otherwise it's impossible to determine from positions because they are all on a straight line
             float elbowYaw = 0;
             Vector2 armBend = new Vector2(forearm.y, forearm.z);
-            if (armBend.magnitude > 0.05)
-            {
+            if (armBend.magnitude > 0.05) {
                 elbowYaw = TranslateElbowYaw(forearm, side).Clamp(ELBOW_YAW_MIN, ELBOW_YAW_MAX);
             }
             float elbowRoll = ClampJoint(TranslateElbowRoll(forearm, side), Joint.ElbowRoll, side);
@@ -108,7 +119,8 @@ namespace Assets {
         public static float TranslateElbowYaw(Vector3 forearm, Side side) {
             if (side == Side.Left) {
                 return -Mathf.Atan2(forearm.y, forearm.z);
-            } else {
+            }
+            else {
                 return -Mathf.Atan2(-forearm.y, -forearm.z);
             }
         }
@@ -116,7 +128,8 @@ namespace Assets {
         public static float TranslateElbowRoll(Vector3 forearm, Side side) {
             if (side == Side.Left) {
                 return -Mathf.Atan2(forearm.z, -forearm.x);
-            } else {
+            }
+            else {
                 return Mathf.Atan2(-forearm.z, forearm.x);
             }
         }
