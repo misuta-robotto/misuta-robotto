@@ -1,13 +1,11 @@
 using AL;
-using Assets;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.VR;
 
+/*
+ * The intention of this class is to keep all the previus values sent to the robot for easier axess as well
+ * as only having one connection with the robot. Many ALMotionProxys -> bad performance.
+ */
 public class RobotCoordinator : MonoBehaviour {
     public Calibration calibration;
 
