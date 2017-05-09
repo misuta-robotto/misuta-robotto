@@ -54,11 +54,11 @@ public class RobotCoordinator : MonoBehaviour {
     private bool isRunning = true;
     private bool isUpdating = false;
 
+    // Setters for different Robot variables
     public float[] LeftShoulder {
         set {
             leftShoulderPitch = value[0];
             leftShoulderRoll = value[1];
-            //motionProxy.SetAngles(leftShoulderJoints, new float[] { leftShoulderPitch, leftShoulderRoll  }, SPEED_FRACTION);
         }
     }
 
@@ -66,7 +66,6 @@ public class RobotCoordinator : MonoBehaviour {
         set {
             leftElbowYaw = value[0];
             leftElbowRoll = value[1];
-            //motionProxy.SetAngles(leftElbowJoints, new float[] { leftElbowYaw, leftElbowRoll }, SPEED_FRACTION);
         }
     }
 
@@ -74,7 +73,6 @@ public class RobotCoordinator : MonoBehaviour {
         set {
             rightShoulderPitch = value[0];
             rightShoulderRoll = value[1];
-            //motionProxy.SetAngles(rightShoulderJoints, new float[] { rightShoulderPitch, rightShoulderRoll }, SPEED_FRACTION);
         }
     }
 
@@ -82,14 +80,12 @@ public class RobotCoordinator : MonoBehaviour {
         set {
             rightElbowYaw = value[0];
             rightElbowRoll = value[1];
-            //motionProxy.SetAngles(rightElbowJoints, new float[] { rightElbowYaw, rightElbowRoll }, SPEED_FRACTION);
         }
     }
 
     public float HeadPitch {
         set {
             headPitch = value;
-            //motionProxy.SetAngles(pitchJoint, new float[]{ headPitch }, SPEED_FRACTION);
         }
     }
 
@@ -105,17 +101,14 @@ public class RobotCoordinator : MonoBehaviour {
             x = value[0];
             y = value[1];
             theta = value[2];
-            //motionProxy.Move(x, y, theta);
         }
     }
 
-    // TODO: Maybe rename to Rotation or something
     public float Theta
     {
         set
         {
-            //lastTheta = theta;
-            theta = value; // - theta;
+            theta = value;
             UpdateTheta();
             UpdateJaw();
         }
@@ -142,7 +135,7 @@ public class RobotCoordinator : MonoBehaviour {
         //motionProxy.SetAngles(yawJoint, new float[] { -rawHeadYaw }, SPEED_FRACTION);
     }
 
-    //This feature isn't good enough for KVIT demo
+    //This feature isn't good enough for KVIT demo yet
     private void UpdateTheta()
     {
         /*

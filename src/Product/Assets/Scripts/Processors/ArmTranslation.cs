@@ -19,6 +19,7 @@ namespace Assets {
         public const float R_ELBOW_ROLL_MIN = 0.5f * Mathf.Deg2Rad;
         public const float R_ELBOW_ROLL_MAX = 89.5f * Mathf.Deg2Rad;
 
+        // Left side
         public static float[] TranslateLeftShoulderPitchAndRoll(Transform shoulder, Vector3 upperArmPos, Vector3 forearmPos) {
             Vector3 localLeftUpperArm = shoulder.InverseTransformPoint(upperArmPos);
             Vector3 localLeftForearm = shoulder.InverseTransformPoint(forearmPos);
@@ -66,7 +67,7 @@ namespace Assets {
             return -Mathf.Atan2(forearm.z, -forearm.x);
         }
 
-        // RIGHT SIDE
+        // Right side
         public static float[] TranslateRightShoulderPitchAndRoll(Transform shoulder, Vector3 upperArmPos, Vector3 forearmPos) {
             Vector3 localRightUpperArm = shoulder.InverseTransformPoint(upperArmPos);
             Vector3 localRightForearm = shoulder.InverseTransformPoint(forearmPos);
@@ -105,6 +106,7 @@ namespace Assets {
             //Debug.Log("RightElbowRoll: " + RightElbowRoll);
             return new float[] { rightElbowYaw, rightElbowRoll };
         }
+
         public static float TranslateRightElbowYaw(Vector3 forearm) {
             return -Mathf.Atan2(-forearm.y, -forearm.z);
         }

@@ -19,17 +19,17 @@ public class UseRenderingShaderPlugin : MonoBehaviour
     private int number_of_devices;
     private int current_device;
 
-    static Material m_Material = null;
+    static Material modelMaterial = null;
     protected Material material
     {
         get
         {
-            if (m_Material == null)
+            if (modelMaterial == null)
             {
-                m_Material = new Material(blurShader);
-                m_Material.hideFlags = HideFlags.DontSave;
+                modelMaterial = new Material(blurShader);
+                modelMaterial.hideFlags = HideFlags.DontSave;
             }
-            return m_Material;
+            return modelMaterial;
         }
     }
 
@@ -133,7 +133,6 @@ public class UseRenderingShaderPlugin : MonoBehaviour
             // For our simple plugin, it does not matter which ID we pass here.
             GL.IssuePluginEvent(GetRenderEventFunc(), 1);
             BlurTexture(tex, blurredTexture);
-            //targetMaterial.mainTexture = blurredTexture;
         }
     }
 
@@ -158,7 +157,7 @@ public class UseRenderingShaderPlugin : MonoBehaviour
     public void FourTapCone(Texture source, RenderTexture dest, int iteration)
     {
         float blurSpread = 2f;
-        float off = 0.5f + iteration * blurSpread;
+        float off = 0.5f + (iteration * blurSpread);
         Graphics.BlitMultiTap(source, dest, material,
                                new Vector2(-off, -off),
                                new Vector2(-off, off),

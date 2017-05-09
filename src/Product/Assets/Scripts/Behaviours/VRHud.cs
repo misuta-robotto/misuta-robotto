@@ -6,23 +6,23 @@ using UnityEngine.UI;
 public class VRHud : MonoBehaviour {
     public Text heightText;
     public Calibration calibration;
-    public Canvas vrHUD;
+    public Canvas vrHud;
     public Canvas crosshairTarget;
     public SteamVR_Camera cam;
 
     void Start() {
         calibration.ToggleMode += SetEnabled;
-        vrHUD.enabled = true;
+        vrHud.enabled = true;
         crosshairTarget.enabled = true;
         cam.camera.farClipPlane = 5020f;
     }
 
     private void SetEnabled(bool b) {
-        //Enable/disable HUD Canvases
-        vrHUD.enabled = !b;
+        // Enable/disable HUD Canvases
+        vrHud.enabled = !b;
         crosshairTarget.enabled = !b;
 
-        //Change camera render distance
+        // Change camera render distance
         if (b) {
             cam.camera.farClipPlane = 500f;
         }
@@ -31,7 +31,7 @@ public class VRHud : MonoBehaviour {
         }
     }
 
-    // Convert text to cm
+    // Update local text and convert m to cm
     public void UpdateHeight(float height)
     {
         heightText.text = Mathf.Round(height * 100f).ToString();

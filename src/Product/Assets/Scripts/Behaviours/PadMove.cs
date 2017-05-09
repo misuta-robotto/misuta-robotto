@@ -8,8 +8,12 @@ using UnityEngine;
 using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour {
+    public SteamVR_TrackedController leftController;
+    public SteamVR_TrackedController rightController;
     public RobotCoordinator robCord;
     public Calibration calibration;
+
+    private const float CONTROLLER_SENSITIVITY_LIMIT = 0.2f;
     
     private float x = 0;
     private float y = 0;
@@ -37,37 +41,46 @@ public class PadMove : MonoBehaviour {
         enabled = b;
     }
 
-    void Update () {
-    // ControllerLeft - Movement back and forth
-        if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
+    void Update()
+    {
+        // ControllerLeft - Movement back and forth
+        if (ControllerLeft.GetAxis() != null && ControllerRight.GetAxis() != null)
         {
-            x = ControllerLeft.GetAxis().y;
+            if (Math.Abs(ControllerLeft.GetAxis().y) > CONTROLLER_SENSITIVITY_LIMIT)
+            {
+                x = ControllerLeft.GetAxis().y;
+            }
+            else
+            {
+                x = 0;
+            }
+
+            // ControllerLeft - Movement left and right
+            if (Math.Abs(ControllerLeft.GetAxis().x) > CONTROLLER_SENSITIVITY_LIMIT)
+            {
+                y = -ControllerLeft.GetAxis().x;
+            }
+            else
+            {
+                y = 0;
+            }
+
+            // ControllerRight - Rotation
+            if (Math.Abs(ControllerRight.GetAxis().x) > CONTROLLER_SENSITIVITY_LIMIT)
+            {
+                theta = -ControllerRight.GetAxis().x;
+            }
+            else
+            {
+                theta = 0;
+            }
+            
+            robCord.PadValues = new float[] { x, y, theta };
         }
         else
         {
-            x = 0;
+            Debug.Log("Controller error.");
         }
+    } 
 
-        // ControllerLeft - Movement left and right
-        if (System.Math.Abs(ControllerLeft.GetAxis().x) > 0.2)
-        {
-            y = -ControllerLeft.GetAxis().x;
-        }
-        else
-        {
-            y = 0;
-        }
-
-        // ControllerRight - Rotation
-        if (System.Math.Abs(ControllerRight.GetAxis().x) > 0.2)
-        {
-            theta = -ControllerRight.GetAxis().x;
-        }
-        else
-        {
-            theta = 0;
-        }
-
-        robCord.PadValues = new float[] { x, y, theta };
-    }
 }

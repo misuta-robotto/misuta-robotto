@@ -28,14 +28,16 @@ public class BodyMove : MonoBehaviour {
         if (headAngle > 180) {
             headAngle -= 360;
         }
+
+        // Calculate body angle
         float offLeft = angleDiff(leftHandAngle, headAngle);
         float offRight = angleDiff(rightHandAngle, headAngle);
-
-        float bodyAngle = headAngle + (offLeft + offRight) / 2;
+        float bodyAngle = headAngle + ((offLeft + offRight) / 2);
 
         transform.position = headPos;
         transform.Rotate(Vector3.up * (bodyAngle - transform.eulerAngles.y));
 
+        // Send data to RobotCoordinator
         //robCord.Theta = normalizedRadian(bodyAngle);
     }
 
@@ -52,7 +54,6 @@ public class BodyMove : MonoBehaviour {
 
     private float normalizedRadian(float degree)
     {
-        //degree = mod(degree, 360);
         if (degree > 180)
         {
             degree -= 360;
@@ -63,6 +64,6 @@ public class BodyMove : MonoBehaviour {
 
     float mod(float x, int m)
     {
-        return (x % m + m) % m;
+        return ((x % m) + m) % m;
     }
 }

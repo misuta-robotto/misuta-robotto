@@ -33,6 +33,7 @@ public class ArmMove : MonoBehaviour {
         enabled = b;
     }
 
+    // Translate arm data and send to RobotCoordinator
 	void Update () {
         robCord.LeftShoulder = ArmTranslation.TranslateLeftShoulderPitchAndRoll(leftShoulder, leftUpperArm.position, leftForearm.position);
         robCord.LeftElbow = ArmTranslation.TranslateLeftElbowYawAndRoll(leftUpperArm, leftForearm.position, leftWrist.position);
