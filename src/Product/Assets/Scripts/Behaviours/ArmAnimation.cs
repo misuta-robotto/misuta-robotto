@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VR;
-
+/*
+ * This class sets the 3D representation of the user in Unity so that its hands
+ * try to reach the VRNodes of the Vive wands through Unitys built in IK system.
+ */
 public class ArmAnimation : MonoBehaviour {
     public Transform leftElbowHint;
     public Transform rightElbowHint;
