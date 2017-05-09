@@ -25,7 +25,8 @@ public class VRHud : MonoBehaviour {
         //Change camera render distance
         if (b) {
             cam.camera.farClipPlane = 500f;
-        } else {
+        }
+        else {
             cam.camera.farClipPlane = 5020f;
         }
     }

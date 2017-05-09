@@ -165,7 +165,9 @@ public class RobotCoordinator : MonoBehaviour {
             {
                 motionProxy.SetAngles(allJoints, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, 0, 0 }, SPEED_FRACTION);
                 motionProxy.Move(x, y, theta);
-            } else {
+            }
+            else
+            {
                 motionProxy.SetAngles(allJoints, new float[] { 0, 0, Mathf.PI / 2, 0, 0, 0, Mathf.PI / 2, 0, 0, 0, 0, 0 }, RESET_SPEED_FRACTION);
                 motionProxy.Move(0, 0, 0);
             }

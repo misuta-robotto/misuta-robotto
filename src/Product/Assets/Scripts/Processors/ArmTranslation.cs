@@ -40,7 +40,7 @@ namespace Assets {
         public static float TranslateLeftShoulderRoll(Vector3 upperArm) {
             float y = upperArm.y;
             float z = upperArm.z;
-            return (float)Math.Acos(Math.Sqrt(y * y + z * z) / upperArm.magnitude);
+            return (float)Math.Acos(Math.Sqrt((y * y) + (z * z)) / upperArm.magnitude);
         }
 
         public static float[] TranslateLeftElbowYawAndRoll(Transform upperArm, Vector3 forearmPos, Vector3 wristPos) {
@@ -88,7 +88,7 @@ namespace Assets {
         public static float TranslateRightShoulderRoll(Vector3 upperArm) {
             float y = upperArm.y;
             float z = upperArm.z;
-            return -Mathf.Acos(Mathf.Sqrt(y * y + z * z) / upperArm.magnitude);
+            return -Mathf.Acos(Mathf.Sqrt((y * y) + (z * z)) / upperArm.magnitude);
         }
 
         public static float[] TranslateRightElbowYawAndRoll(Transform upperArm, Vector3 forearmPos, Vector3 wristPos) {
