@@ -18,7 +18,6 @@ public class ArmAnimation : MonoBehaviour {
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
 
-        //var headPos = InputTracking.GetLocalPosition(VRNode.Head);
         var rightHandPos = InputTracking.GetLocalPosition(VRNode.RightHand);
         animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPos);
         var leftHandPos = InputTracking.GetLocalPosition(VRNode.LeftHand);
