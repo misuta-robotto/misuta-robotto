@@ -19,15 +19,14 @@ public class PadMove : MonoBehaviour {
     private float y = 0;
     private float theta = 0;
 
-    //private ALMotionProxy motionProxy;
     public SteamVR_TrackedObject trackedObjLeft;
+    public SteamVR_TrackedObject trackedObjRight;
 
     // Add controllers
     private SteamVR_Controller.Device ControllerLeft {
 	    get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
     }
 
-    public SteamVR_TrackedObject trackedObjRight;
     private SteamVR_Controller.Device ControllerRight {
         get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
     }
@@ -43,9 +42,9 @@ public class PadMove : MonoBehaviour {
 
     void Update()
     {
-        // ControllerLeft - Movement back and forth
         if (ControllerLeft.GetAxis() != null && ControllerRight.GetAxis() != null)
         {
+            // ControllerLeft - Movement back and forth
             if (Math.Abs(ControllerLeft.GetAxis().y) > CONTROLLER_SENSITIVITY_LIMIT)
             {
                 x = ControllerLeft.GetAxis().y;
