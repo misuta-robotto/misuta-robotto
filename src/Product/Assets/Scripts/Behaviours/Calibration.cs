@@ -1,7 +1,11 @@
 using Assets;
 using UnityEngine;
 using UnityEngine.VR;
-
+/*
+ * Calibration handles the calibration of the users 3D representation in Unity
+ * so that its size is a good estimate of the users size. This helps to more
+ * accuratly represent the users arm movements.  
+ */
 public class Calibration : MonoBehaviour {
     public SteamVR_TrackedController leftController;
     public SteamVR_TrackedController rightController;
@@ -62,7 +66,7 @@ public class Calibration : MonoBehaviour {
     /*
     Toggels calibration mode and signals the toggle to all subscribers of the
     ToggleMode event when the menubutton is pressed. The subscribers use this
-    for example to keep the robot still or render different objects of the scene 
+    for example to keep the robot still or render different objects of the scene
     during calibration.
     */
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e) {
