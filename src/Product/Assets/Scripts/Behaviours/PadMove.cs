@@ -1,11 +1,5 @@
-using AL;
-using Assets;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.VR;
 
 public class PadMove : MonoBehaviour {
     public SteamVR_TrackedController leftController;

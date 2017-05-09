@@ -1,9 +1,4 @@
-﻿using AL;
-using Assets;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using Assets;
 using UnityEngine;
 using UnityEngine.VR;
 

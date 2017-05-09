@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Assets;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
