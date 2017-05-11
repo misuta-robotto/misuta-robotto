@@ -2,12 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+
+
+
 
 namespace AL
 {
-    class RobotConfiguration
+    public class RobotConfiguration
     {
-        public const string ADRESS = "127.0.0.1";
-        public const int PORT = 18311;
+        public static string ADRESS = "127.0.0.1";
+        public static int PORT = 18311;
+
+      
+        public static void setAdress(String adress)
+        {
+            ADRESS = adress;
+        }
+
+        public static void setPort(int port)
+        {
+            PORT = port;
+        }
+
     }
 }
