@@ -6,10 +6,34 @@ using System.Threading;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
+    public Calibration calibration;
+    public Shader blurShader;
+    public GameObject blurredPlane;
+
+    Texture2D tex;
+    RenderTexture blurredTexture;
+    private Material targetMaterial;
+    
     private bool isRunning = true;
 
     private int number_of_devices;
+    
     private int current_device;
+
+    static Material modelMaterial = null;
+    
+    protected Material material
+    {
+        get
+        {
+            if (modelMaterial == null)
+            {
+                modelMaterial = new Material(blurShader);
+                modelMaterial.hideFlags = HideFlags.DontSave;
+            }
+            return modelMaterial;
+        }
+    }
 
     // We'll also pass native pointer to a texture in Unity.
     // The plugin will fill texture data from native code.
@@ -29,11 +53,11 @@ public class UseRenderingPlugin : MonoBehaviour
     private static extern void InitOpenCV();
 
     [DllImport("RenderingPlugin")]
-    private static extern void FreeResources();
+    private static extern void GetDeviceCount();
 
     [DllImport("RenderingPlugin")]
-    private static extern int GetDeviceCount();
-
+    private static extern int FreeResources();	
+	
     [DllImport("RenderingPlugin")]
     private static extern void SetDevice(int dev);
 
@@ -42,13 +66,23 @@ public class UseRenderingPlugin : MonoBehaviour
 
     IEnumerator Start()
     {
+        SetEnabled(false);
+        calibration.ToggleMode += SetEnabled;
         CreateTextureAndPassToPlugin();
         InitOpenCV();
-        number_of_devices = GetDeviceCount();
+    
+    	number_of_devices = GetDeviceCount();
         current_device = 0;
 
         BeginUpdatingCameraData();
         yield return StartCoroutine("CallPluginAtEndOfFrames");
+    }
+
+    void SetEnabled(bool b)
+    {
+        GetComponent<Renderer>().enabled = b;
+
+	blurredPlane.GetComponent<Renderer>().enabled = b;
     }
 
     private void OnEnable()
@@ -74,13 +108,16 @@ public class UseRenderingPlugin : MonoBehaviour
     private void CreateTextureAndPassToPlugin()
     {
         // Create a texture
-        Texture2D tex = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
+        tex = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
         // Set point filtering just so we can see the pixels clearly
-        tex.filterMode = FilterMode.Point;
+        tex.filterMode = FilterMode.Trilinear;
         // Call Apply() so it's actually uploaded to the GPU
         tex.Apply();
 
         // Set texture onto our material
+        blurredTexture = RenderTexture.GetTemporary(tex.width, tex.height);
+        targetMaterial = blurredPlane.GetComponent<Renderer>().material;
+        targetMaterial.mainTexture = blurredTexture;
         GetComponent<Renderer>().material.mainTexture = tex;
 
         // Pass texture pointer to the plugin
@@ -99,6 +136,7 @@ public class UseRenderingPlugin : MonoBehaviour
             // things it needs to do based on this ID.
             // For our simple plugin, it does not matter which ID we pass here.
             GL.IssuePluginEvent(GetRenderEventFunc(), 1);
+            BlurTexture(tex, blurredTexture);
         }
     }
 
@@ -118,5 +156,39 @@ public class UseRenderingPlugin : MonoBehaviour
     private void BeginUpdatingCameraData()
     {
         new Thread(new ThreadStart(UpdateCameraData)).Start();
+    }
+
+    public void FourTapCone(Texture source, RenderTexture dest, int iteration)
+    {
+        float blurSpread = 2f;
+        float off = 0.5f + (iteration * blurSpread);
+        Graphics.BlitMultiTap(source, dest, material,
+                               new Vector2(-off, -off),
+                               new Vector2(-off, off),
+                               new Vector2(off, off),
+                               new Vector2(off, -off)
+            );
+    }
+
+    // Called by the camera to apply the image effect
+    void BlurTexture(Texture source, RenderTexture destination)
+    {
+        int rtW = source.width;
+        int rtH = source.height;
+        int iterations = 3;
+        RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
+        Graphics.CopyTexture(source, buffer);
+
+        // Blur the small texture
+        for (int i = 0; i < iterations; i++)
+        {
+            RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
+            FourTapCone(buffer, buffer2, i);
+            RenderTexture.ReleaseTemporary(buffer);
+            buffer = buffer2;
+        }
+        Graphics.Blit(buffer, destination);
+
+        RenderTexture.ReleaseTemporary(buffer);
     }
 }
