@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class VRHud : MonoBehaviour {
     public Text heightText;
     public Calibration calibration;
+
     public Canvas hud;
     public Canvas crosshairTarget;
     public SteamVR_Camera cam;
