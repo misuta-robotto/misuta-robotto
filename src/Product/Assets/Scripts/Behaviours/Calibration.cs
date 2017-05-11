@@ -17,7 +17,7 @@ public class Calibration : MonoBehaviour {
 
     public Transform kyle;
     public float sizeRatio;
-    private float userHeight;
+    public float userHeight; //m
 
     void Start() {
         calibrationMode = true;
@@ -58,7 +58,8 @@ public class Calibration : MonoBehaviour {
         }
     }
 
-    private void ResizeKyle() {
+
+    public void ResizeKyle() {
         sizeRatio = HeightTranslator.CalculateSizeRatio(userHeight);
         kyle.localScale = new Vector3(sizeRatio, sizeRatio, sizeRatio);
     }

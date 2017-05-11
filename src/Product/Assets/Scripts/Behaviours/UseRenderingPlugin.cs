@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
+using UnityEngine.UI;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
+    public RawImage pussycat;
     public Calibration calibration;
     public Shader blurShader;
     public GameObject blurredPlane;
@@ -71,7 +73,7 @@ public class UseRenderingPlugin : MonoBehaviour
         CreateTextureAndPassToPlugin();
         InitOpenCV();
     
-    	number_of_devices = GetDeviceCount();
+    	//number_of_devices = GetDeviceCount();
         current_device = 0;
 
         BeginUpdatingCameraData();
@@ -119,6 +121,7 @@ public class UseRenderingPlugin : MonoBehaviour
         targetMaterial = blurredPlane.GetComponent<Renderer>().material;
         targetMaterial.mainTexture = blurredTexture;
         GetComponent<Renderer>().material.mainTexture = tex;
+        pussycat.texture = tex;
 
         // Pass texture pointer to the plugin
         SetTextureFromUnity(tex.GetNativeTexturePtr(), tex.width, tex.height);
