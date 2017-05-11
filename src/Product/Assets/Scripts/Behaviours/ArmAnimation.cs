@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VR;
-
+/*
+ * This class sets the 3D representation of the user in Unity so that its hands
+ * try to reach the VRNodes of the Vive wands through Unitys built in IK system.
+ */
 public class ArmAnimation : MonoBehaviour {
     public Transform leftElbowHint;
     public Transform rightElbowHint;
@@ -18,7 +21,6 @@ public class ArmAnimation : MonoBehaviour {
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
 
-        //var headPos = InputTracking.GetLocalPosition(VRNode.Head);
         var rightHandPos = InputTracking.GetLocalPosition(VRNode.RightHand);
         animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPos);
         var leftHandPos = InputTracking.GetLocalPosition(VRNode.LeftHand);
@@ -31,13 +33,13 @@ public class ArmAnimation : MonoBehaviour {
 
         if (rightElbowHint != null)
         {
-            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
+            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 0.5f);
             animator.SetIKHintPosition(AvatarIKHint.RightElbow, rightElbowHint.position);
         }
 
         if (leftElbowHint != null)
         {
-            animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 1);
+            animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 0.5f);
             animator.SetIKHintPosition(AvatarIKHint.LeftElbow, leftElbowHint.position);
         }
     }
