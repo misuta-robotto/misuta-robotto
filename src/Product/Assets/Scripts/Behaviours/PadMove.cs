@@ -1,59 +1,60 @@
-using AL;
-using Assets;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.VR;
 
-public class PadMove : MonoBehaviour
-{
-    private ALMotionProxy motionProxy;
-    public SteamVR_TrackedObject trackedObjLeft;
+public class PadMove : MonoBehaviour {
+    public SteamVR_TrackedController leftController;
+    public SteamVR_TrackedController rightController;
+    public RobotCoordinator robCord;
+    public Calibration calibration;
 
-    // Add controllers
-    private SteamVR_Controller.Device ControllerLeft
-    {
-        get { return SteamVR_Controller.Input((int)trackedObjLeft.index); }
+    private const float CONTROLLER_SENSITIVITY_LIMIT = 0.2f;
+    
+    private float x = 0;
+    private float y = 0;
+    private float theta = 0;
+
+    void Start () {
+        calibration.ToggleMode += SetEnabled;
+        enabled = false;
     }
 
-    public SteamVR_TrackedObject trackedObjRight;
-    private SteamVR_Controller.Device ControllerRight
-    {
-        get { return SteamVR_Controller.Input((int)trackedObjRight.index); }
-    }
-
-    void Start()
-    {
-        motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
-        //motionProxy.MoveInit();
+    void SetEnabled(bool b) {
+        enabled = b;
     }
 
     void Update()
     {
-        float x = 0;
-        float y = 0;
-        float theta = 0;
-
         // ControllerLeft - Movement back and forth
-        if (System.Math.Abs(ControllerLeft.GetAxis().y) > 0.2)
+        if (Math.Abs(leftController.controllerState.rAxis0.y) > CONTROLLER_SENSITIVITY_LIMIT)
         {
-            x = ControllerLeft.GetAxis().y;
+            x = leftController.controllerState.rAxis0.y;
+        }
+        else
+        {
+            x = 0;
         }
 
         // ControllerLeft - Movement left and right
-        if (System.Math.Abs(ControllerLeft.GetAxis().x) > 0.2)
+        if (Math.Abs(leftController.controllerState.rAxis0.x) > CONTROLLER_SENSITIVITY_LIMIT)
         {
-            y = -ControllerLeft.GetAxis().x;
+            y = -leftController.controllerState.rAxis0.x;
+        }
+        else
+        {
+            y = 0;
         }
 
         // ControllerRight - Rotation
-        if (System.Math.Abs(ControllerRight.GetAxis().x) > 0.2)
+        if (Math.Abs(rightController.controllerState.rAxis0.x) > CONTROLLER_SENSITIVITY_LIMIT)
         {
-            theta = -ControllerRight.GetAxis().x;
+            theta = -rightController.controllerState.rAxis0.x;
         }
+        else
+        {
+            theta = 0;
+        }
+            
+        robCord.PadValues = new float[] { x, y, theta };
+    } 
 
-        //motionProxy.Move(x, y, theta);
-    }
 }

@@ -1,10 +1,15 @@
 using System;
-using System.IO;
 using System.Runtime.InteropServices;
-using UnityEngine;
 
-namespace AL {
-    public class ALMotionProxy {
+namespace AL
+{
+    // ALMotionProxy is used to communicate with a robot and perform
+    // various motion actions.
+    //
+    // For more information see
+    // http://doc.aldebaran.com/2-1/naoqi/motion/control-cartesian-api.html
+    public class ALMotionProxy
+    {
         [DllImport("bridge_d")]
         private static extern IntPtr ALMotionProxyNew(string server, int port);
 
@@ -33,17 +38,39 @@ namespace AL {
         private static extern IntPtr ALMotionProxyOpenHand(IntPtr self, string handName);
 
         [DllImport("bridge_d")]
-        private static extern IntPtr AlMotionProxyFree(IntPtr self);
+        private static extern IntPtr ALMotionProxyFree(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveInit(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMove(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveTo(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyMoveToAsync(IntPtr self, float x, float y, float theta);
+
+        [DllImport("bridge_d")]
+        private static extern float[] ALMotionProxyGetRobotPosition(IntPtr self, bool useSensors);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyStopMove(IntPtr self);
+
+        [DllImport("bridge_d")]
+        private static extern void ALMotionProxyKillMove(IntPtr self);
 
         private IntPtr unmanagedMem;
 
-        public ALMotionProxy(string server, int port) {
+        public ALMotionProxy(string server, int port)
+        {
             this.unmanagedMem = ALMotionProxyNew(server, port);
         }
 
         ~ALMotionProxy()
         {
-            AlMotionProxyFree(unmanagedMem);
+            ALMotionProxyFree(unmanagedMem);
         }
 
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)
@@ -97,9 +124,19 @@ namespace AL {
             );
         }
 
-        public ALValue GetAngles(string[] names, bool useSensors)
+        public float[] GetAngles(string[] names, bool useSensors)
         {
-            throw new Exception("Not implemented");
+            IntPtr returned = ALMotionProxyGetAngles(
+                unmanagedMem,
+                new ALValue(names).Pointer,
+                useSensors
+            );
+
+            float[] arr = new float[names.Length];
+            Marshal.Copy(returned, arr, 0, names.Length);
+
+            // TODO: Release memory
+            return arr;
         }
 
         public void CloseHand(string handName)
@@ -110,6 +147,65 @@ namespace AL {
         public void OpenHand(string handName)
         {
             ALMotionProxyOpenHand(unmanagedMem, handName);
+        }
+
+        public void MoveInit()
+        {
+            ALMotionProxyMoveInit(
+                unmanagedMem
+            );
+        }
+
+        public void Move(float x, float y, float theta)
+        {
+            ALMotionProxyMove(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public void MoveTo(float x, float y, float theta)
+        {
+            ALMotionProxyMoveTo(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public void MoveToAsync(float x, float y, float theta)
+        {
+            ALMotionProxyMoveToAsync(
+                unmanagedMem,
+                x,
+                y,
+                theta
+            );
+        }
+
+        public float[] GetRobotPosition(bool useSensors)
+        {
+            return ALMotionProxyGetRobotPosition(
+                unmanagedMem,
+                useSensors
+            );
+        }
+
+        public void StopMove()
+        {
+            ALMotionProxyStopMove(
+                unmanagedMem
+            );
+        }
+
+        public void KillMove()
+        {
+            ALMotionProxyKillMove(
+                unmanagedMem
+            );
         }
     }
 }
