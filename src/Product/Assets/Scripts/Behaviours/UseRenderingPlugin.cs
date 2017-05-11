@@ -13,12 +13,15 @@ public class UseRenderingPlugin : MonoBehaviour
     Texture2D tex;
     RenderTexture blurredTexture;
     private Material targetMaterial;
+    
     private bool isRunning = true;
 
     private int number_of_devices;
+    
     private int current_device;
 
     static Material modelMaterial = null;
+    
     protected Material material
     {
         get
@@ -50,11 +53,12 @@ public class UseRenderingPlugin : MonoBehaviour
     private static extern void InitOpenCV();
 
     [DllImport("RenderingPlugin")]
-    private static extern void FreeResources();
+    private static extern void GetDeviceCount();
 
     [DllImport("RenderingPlugin")]
-    private static extern int GetDeviceCount();
-
+    private static extern int FreeResources();
+    	
+	
     [DllImport("RenderingPlugin")]
     private static extern void SetDevice(int dev);
 
@@ -67,7 +71,8 @@ public class UseRenderingPlugin : MonoBehaviour
         calibration.ToggleMode += SetEnabled;
         CreateTextureAndPassToPlugin();
         InitOpenCV();
-        number_of_devices = GetDeviceCount();
+    
+    	number_of_devices = GetDeviceCount();
         current_device = 0;
 
         BeginUpdatingCameraData();
@@ -77,7 +82,8 @@ public class UseRenderingPlugin : MonoBehaviour
     void SetEnabled(bool b)
     {
         GetComponent<Renderer>().enabled = b;
-        blurredPlane.GetComponent<Renderer>().enabled = b;
+
+	blurredPlane.GetComponent<Renderer>().enabled = b;
     }
 
     private void OnEnable()
