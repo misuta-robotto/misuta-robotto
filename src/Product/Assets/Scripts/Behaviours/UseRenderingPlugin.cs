@@ -56,8 +56,7 @@ public class UseRenderingPlugin : MonoBehaviour
     private static extern void GetDeviceCount();
 
     [DllImport("RenderingPlugin")]
-    private static extern int FreeResources();
-    	
+    private static extern int FreeResources();	
 	
     [DllImport("RenderingPlugin")]
     private static extern void SetDevice(int dev);
