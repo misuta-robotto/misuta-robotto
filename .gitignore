@@ -452,3 +452,8 @@ __pycache__/
 .hgtags
 
 # End of https://www.gitignore.io/api/mercurial
+
+### Build system ###
+/build/
+
+# End of "Build system"
