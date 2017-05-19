@@ -1,3 +1,4 @@
+:: NOTE: Requires Visual Studio 2013
 call "bin/mkdir.bat" "build/extra/opencv/build_world"
 cd "build/extra/opencv/build_world"
 "../../cmake/bin/cmake.exe" -G "Visual Studio 12" -DBUILD_opencv_world=1 -DBUILD_opencv_ts=0 -DWITH_IPP=0 ../sources
