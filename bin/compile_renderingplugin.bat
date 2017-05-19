@@ -1,3 +1,5 @@
+@ECHO OFF
+
 :: NOTE: Requires Visual Studio 2015
 cd "src/experiment/graphicsdemos/NativeRenderingPlugin/PluginSource/projects/VisualStudio2015/"
 

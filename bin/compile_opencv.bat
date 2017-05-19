@@ -1,3 +1,5 @@
+@ECHO OFF
+
 :: NOTE: Requires Visual Studio 2013
 call "bin/mkdir.bat" "build/extra/opencv/build_world"
 cd "build/extra/opencv/build_world"
