@@ -1,6 +1,7 @@
 @ECHO OFF
 
 :: NOTE: Requires Visual Studio 2015
+call "bin/mkdir.bat" "src\experiment\graphicsdemos\NativeRenderingPlugin\PluginSource\projects\VisualStudio2015\lib\x86\"
 copy /Y "build\extra\opencv\build_world\lib\Release\opencv_world320.lib" "src\experiment\graphicsdemos\NativeRenderingPlugin\PluginSource\projects\VisualStudio2015\lib\x86\opencv_world320.lib"
 cd "src/experiment/graphicsdemos/NativeRenderingPlugin/PluginSource/projects/VisualStudio2015/"
 
