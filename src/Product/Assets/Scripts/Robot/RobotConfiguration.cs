@@ -9,7 +9,7 @@ namespace AL
     public class RobotConfiguration
     {
         public static string ADRESS = "127.0.0.1";
-        public static int PORT = 1931;
+        public static int PORT = 1592;
       
         public static void setAdress(String adress)
         {

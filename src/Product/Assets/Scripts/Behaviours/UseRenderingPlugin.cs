@@ -55,10 +55,10 @@ public class UseRenderingPlugin : MonoBehaviour
     private static extern void InitOpenCV();
 
     [DllImport("RenderingPlugin")]
-    private static extern void GetDeviceCount();
+    private static extern int GetDeviceCount();
 
     [DllImport("RenderingPlugin")]
-    private static extern int FreeResources();	
+    private static extern void FreeResources();	
 	
     [DllImport("RenderingPlugin")]
     private static extern void SetDevice(int dev);

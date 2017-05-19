@@ -12,12 +12,11 @@ public class toCamera : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Debug.Log("Disabling camera");
-
         gameObject.SetActive(false);
     }
 
 	public void press_Button (){
-		Debug.Log("try to switch display");
+		Debug.Log("Abling camera");
         gameObject.SetActive(true);
     }
 

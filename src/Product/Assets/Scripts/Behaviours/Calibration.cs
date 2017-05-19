@@ -2,6 +2,7 @@ using Assets;
 using UnityEngine;
 using UnityEngine.VR;
 using UnityEngine.UI;
+using MishutaRoboto;
 /*
  * Calibration handles the calibration of the users 3D representation in Unity
  * so that its size is a good estimate of the users size. This helps to more
@@ -23,6 +24,11 @@ public class Calibration : MonoBehaviour
     public float userHeight; //m
 
     public Toggle toggle;
+    public InputField manual_calibration_input;
+    public Button manual_calibration_button;
+
+    public float MIN_HEIGHT = 0.5f;
+    public float MAX_HEIGHT = 2.5f;
 
     void Start()
     {
@@ -84,23 +90,40 @@ public class Calibration : MonoBehaviour
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e)
     {
         calibrationMode = !calibrationMode;
-        if (ToggleMode != null)
+        toggle.isOn = calibrationMode;
+    }
+
+    public void ManualCalibration()
+    {
+        string height = manual_calibration_input.text.ToString();
+        float heightFloat;
+        if (float.TryParse(height, out heightFloat))
         {
-            ToggleMode(!calibrationMode);
+            
+            userHeight = heightFloat.Clamp(MIN_HEIGHT, MAX_HEIGHT);
+            if (calibrationMode)
+            {
+                hud.UpdateHeight(userHeight);
+                ResizeKyle();
+                Debug.Log("(SUCCESS manual) height: " + userHeight);
+            }
         }
+
     }
 
     void Update()
     {
+        if ((toggle.isOn && !calibrationMode) || (!toggle.isOn && calibrationMode))
+        {
+            ToggleMode(calibrationMode);
+        }
         if (toggle.isOn)
         {
             calibrationMode = true;
-            Debug.Log("toggle true: " + calibrationMode);
         }
         else
         {
             calibrationMode = false;
-            Debug.Log("toggle false: " + calibrationMode);
         }
     }
 }
