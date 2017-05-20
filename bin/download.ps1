@@ -11,27 +11,34 @@ Function Get-Webfile ($url, $out)
     $length=$response.get_ContentLength()
     $responseStream=$response.GetResponseStream()
     $destStream=New-Object -TypeName System.IO.FileStream -ArgumentList $dest, Create
-    $buffer=New-Object byte[] 10KB
-    $count=$responseStream.Read($buffer,0,$buffer.length)
-    $downloadedBytes=$count
-    $nextShow=$downloadedBytes
-    while ($count -gt 0)
-        {
-        if ($downloadedBytes -gt $nextShow)
-        {
-        	[System.Console]::Write("Downloaded {0}K of {1}K ({2}%)`n", [System.Math]::Floor($downloadedBytes/1024), $totalLength, [System.Math]::Round(($downloadedBytes / $length) * 100,0))
-        	$nextShow=$downloadedBytes + 1000000
-        }
-        $destStream.Write($buffer, 0, $count)
+
+    Try
+    {
+        $buffer=New-Object byte[] 10KB
         $count=$responseStream.Read($buffer,0,$buffer.length)
-        $downloadedBytes+=$count
-        }
-    Write-Host ""
-    Write-Host "`nDownload of `"$dest`" finished." -ForegroundColor DarkGreen;
-    $destStream.Flush()
-    $destStream.Close()
-    $destStream.Dispose()
-    $responseStream.Dispose()
+        $downloadedBytes=$count
+        $nextShow=$downloadedBytes
+        while ($count -gt 0)
+            {
+            if ($downloadedBytes -gt $nextShow)
+            {
+            	[System.Console]::Write("Downloaded {0}K of {1}K ({2}%)`n", [System.Math]::Floor($downloadedBytes/1024), $totalLength, [System.Math]::Round(($downloadedBytes / $length) * 100,0))
+            	$nextShow=$downloadedBytes + 1000000
+            }
+            $destStream.Write($buffer, 0, $count)
+            $count=$responseStream.Read($buffer,0,$buffer.length)
+            $downloadedBytes+=$count
+            }
+        Write-Host ""
+        Write-Host "`nDownload of `"$dest`" finished." -ForegroundColor DarkGreen;
+        $destStream.Flush()
+    }
+    Finally
+    {
+        $destStream.Close()
+        $destStream.Dispose()
+        $responseStream.Dispose()
+    }
 }
 
 $completed = $false
