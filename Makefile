@@ -16,11 +16,11 @@ build/Product.exe: build/extra src/Product/Assets/Plugins/bridge_d.dll src/Produ
 	@echo "Executable built (found in build/Product.exe)"
 
 src/Product/Assets/Plugins/bridge_d.dll: build/extra/cmake build/extra/qibuild/sdk
-	bin\build_qiconfig.bat
-	bin/mkdir.bat "%userprofile%\.config\qi"
-	bin/copy.bat "%userprofile%\.config\qi\qibuild.xml" "build\extra\config.bak"
-	bin/copy.bat "build\extra\config.tmp" "%userprofile%\.config\qi\qibuild.xml"
-	cd build/extra/qibuild && \
+	@bin\build_qiconfig.bat
+	@bin/mkdir.bat "%userprofile%\.config\qi"
+	@bin/copy.bat "%userprofile%\.config\qi\qibuild.xml" "build\extra\config.bak"
+	@bin/copy.bat "build\extra\config.tmp" "%userprofile%\.config\qi\qibuild.xml"
+	@cd build/extra/qibuild && \
 	qitoolchain create default sdk/toolchain.xml && \
 	qibuild add-config default -t default --default && \
 	cd ../../../src/bridge/cpp && \
@@ -42,10 +42,10 @@ build/extra/aldebaran.zip: build/extra/qibuild/.qi
 	@bin/download.bat $(ALDEBARAN_URL) build/extra/aldebaran.zip
 
 build/extra/qibuild/.qi:
-	pip install qibuild
-	bin/mkdir.bat "build\extra\qibuild"
-	bin/rmdir.bat "build\extra\qibuild\.qi"
-	cd "build\extra\qibuild" && \
+	@pip install qibuild
+	@bin/mkdir.bat "build\extra\qibuild"
+	@bin/rmdir.bat "build\extra\qibuild\.qi"
+	@cd "build\extra\qibuild" && \
 	qibuild init
 
 src/Product/Assets/Plugins/RenderingPlugin.dll: build/extra/opencv/build_world/lib/Release/opencv_world320.lib
@@ -67,7 +67,7 @@ build/extra/cmake: build/extra/cmake.zip build/extra/unzip.exe
 	@echo Extracting CMake...
 	@bin\rmdir.bat build\extra\cmake.tmp
 	@build/extra/unzip.exe build/extra/cmake.zip -d build/extra/cmake.tmp/
-	cmd.exe "/C move build\extra\cmake.tmp\cmake-3.8.1-win64-x64 build\extra\cmake"
+	@cmd.exe "/C move build\extra\cmake.tmp\cmake-3.8.1-win64-x64 build\extra\cmake"
 	@bin\rmdir.bat build\extra\cmake.tmp
 
 build/extra/opencv.exe:
