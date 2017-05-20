@@ -40,12 +40,6 @@ public class UseRenderingPlugin : MonoBehaviour
     [DllImport("RenderingPlugin")]
     private static extern void SetTextureFromUnity(System.IntPtr texture, int w, int h);
 
-    // We'll pass native pointer to the mesh vertex buffer.
-    // Also passing source unmodified mesh data.
-    // The plugin will fill vertex data from native code.
-    [DllImport("RenderingPlugin")]
-    private static extern void SetMeshBuffersFromUnity(IntPtr vertexBuffer, int vertexCount, IntPtr sourceVertices, IntPtr sourceNormals, IntPtr sourceUVs);
-
     [DllImport("RenderingPlugin")]
     private static extern IntPtr GetRenderEventFunc();
 
@@ -107,11 +101,9 @@ public class UseRenderingPlugin : MonoBehaviour
 
     private void CreateTextureAndPassToPlugin()
     {
-        // Create a texture
         tex = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
-        // Set point filtering just so we can see the pixels clearly
         tex.filterMode = FilterMode.Trilinear;
-        // Call Apply() so it's actually uploaded to the GPU
+        // uploaded to the GPU
         tex.Apply();
 
         // Set texture onto our material
@@ -128,13 +120,9 @@ public class UseRenderingPlugin : MonoBehaviour
     {
         while (isRunning)
         {
-            // Wait until all frame rendering is done
             yield return new WaitForEndOfFrame();
 
-            // Issue a plugin event with arbitrary integer identifier.
-            // The plugin can distinguish between different
-            // things it needs to do based on this ID.
-            // For our simple plugin, it does not matter which ID we pass here.
+            // Tell plugin to copy camera data to texture
             GL.IssuePluginEvent(GetRenderEventFunc(), 1);
             BlurTexture(tex, blurredTexture);
         }
@@ -177,17 +165,19 @@ public class UseRenderingPlugin : MonoBehaviour
         int rtH = source.height;
         int iterations = 3;
         RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
-        Graphics.CopyTexture(source, buffer);
 
-        // Blur the small texture
-        for (int i = 0; i < iterations; i++)
-        {
-            RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
-            FourTapCone(buffer, buffer2, i);
-            RenderTexture.ReleaseTemporary(buffer);
-            buffer = buffer2;
+        if (buffer.IsCreated()) {
+            Graphics.CopyTexture(source, buffer);
+
+            // Blur the small texture
+            for (int i = 0; i < iterations; i++) {
+                RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
+                FourTapCone(buffer, buffer2, i);
+                RenderTexture.ReleaseTemporary(buffer);
+                buffer = buffer2;
+            }
+            Graphics.Blit(buffer, destination);
         }
-        Graphics.Blit(buffer, destination);
 
         RenderTexture.ReleaseTemporary(buffer);
     }
