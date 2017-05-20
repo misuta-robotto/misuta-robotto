@@ -1,6 +1,6 @@
-@ECHO OFF
 
-cd "build/extra/cmake/bin"
+
+cd "build\extra\cmake\bin"
 set Level1=%cd%
 cd ..
 set Level2=%cd%

@@ -1,0 +1,2 @@
+@ECHO OFF
+COPY /B %1+,, %1

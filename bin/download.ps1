@@ -2,6 +2,7 @@ Function Get-Webfile ($url, $out)
 {
     $dest=(Join-Path $pwd.Path $out)
     Write-Host "Downloading $out`n" -ForegroundColor DarkGreen;
+    Write-Host "Downloading from $url`n" -ForegroundColor DarkGreen;
     $uri=New-Object "System.Uri" "$url"
     $request=[System.Net.HttpWebRequest]::Create($uri)
     $request.set_Timeout(5000)

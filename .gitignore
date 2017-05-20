@@ -455,5 +455,6 @@ __pycache__/
 
 ### Build system ###
 /build/
+!/bin/
 
 # End of "Build system"
