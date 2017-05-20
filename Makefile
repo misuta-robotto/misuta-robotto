@@ -3,14 +3,13 @@ OPENCV_URL = "https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.
 UNZIP_URL = "http://stahlworks.com/dev/unzip.exe"
 ALDEBARAN_URL = "https://developer.softbankrobotics.com/Software/C%2B%2B/2.5.5/Windows/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
 
-product: folders src/experiment/graphicsdemos/NativeRenderingPlugin/PluginSource/build/Win32/Debug/RenderingPlugin.dll build/extra/qibuild/sdk bridge executable;
-
-executable:
+build/Product.exe: build/extra src/Product/Assets/Plugins/bridge_d.dll src/Product/Assets/Plugins/RenderingPlugin.dll
 	@echo Building exectuable...
 	@cmd.exe //C "C:\Program Files (x86)\Unity\Editor\Unity.exe" -batchmode -quit -projectPath "%cd%\src\Product" -executeMethod BuildScript.PerformBuild
+	@bin/touch.bat "build\Product.exe"
 	@echo "Executable built (found in build/Product.exe)"
 
-bridge: build/extra/qibuild/sdk
+src/Product/Assets/Plugins/bridge_d.dll: build/extra/qibuild/sdk
 	@bin\build_qiconfig.bat
 	@bin/mkdir.bat "%userprofile%\.config\qi"
 	@bin/copy.bat "%userprofile%\.config\qi\qibuild.xml" "build\extra\config.bak"
@@ -24,6 +23,7 @@ bridge: build/extra/qibuild/sdk
 	@bin/copy.bat "build\extra\config.bak" "%userprofile%\.config\qi\qibuild.xml"
 	@bin/mkdir.bat "src\Product\Assets\Plugins"
 	@bin/copy.bat "src\bridge\cpp\build-default\sdk\bin\*" "src\Product\Assets\Plugins"
+	@bin/touch.bat "src\Product\Assets\Plugins\bridge_d.dll"
 
 build/extra/qibuild/sdk: build/extra/aldebaran.zip
 	@echo Extracting Aldebaran C++ SDK...
@@ -32,10 +32,10 @@ build/extra/qibuild/sdk: build/extra/aldebaran.zip
 	@mv build/extra/qibuild/sdk.tmp/* build/extra/qibuild/sdk
 	@bin\rmdir.bat build\extra\qibuild\sdk.tmp
 
-build/extra/aldebaran.zip: build\extra\qibuild\.qi
+build/extra/aldebaran.zip: build/extra/qibuild/.qi
 	@bin/download.bat $(ALDEBARAN_URL) build/extra/aldebaran.zip
 
-build\extra\qibuild\.qi:
+build/extra/qibuild/.qi:
 	@pip install qibuild
 	@bin/mkdir.bat "build\extra\qibuild"
 	@bin/rmdir.bat "build\extra\qibuild\.qi"
@@ -73,8 +73,7 @@ build/extra/cmake.zip:
 build/extra/unzip.exe:
 	@bin/download.bat $(UNZIP_URL) build/extra/unzip.exe
 
-.PHONY: folders
-folders:
+build/extra:
 	@bin/mkdir.bat "build\extra"
 
 .PHONY: clean
