@@ -1,8 +1,8 @@
 Function Get-Webfile ($url, $out)
 {
     $dest=(Join-Path $pwd.Path $out)
-    Write-Host "Downloading $out`n" -ForegroundColor DarkGreen;
-    Write-Host "Downloading from $url`n" -ForegroundColor DarkGreen;
+    Write-Host "Downloading $out" -ForegroundColor DarkGreen;
+    Write-Host "from $url`n" -ForegroundColor DarkGreen;
     $uri=New-Object "System.Uri" "$url"
     $request=[System.Net.HttpWebRequest]::Create($uri)
     $request.set_Timeout(5000)
@@ -34,5 +34,21 @@ Function Get-Webfile ($url, $out)
     $responseStream.Dispose()
 }
 
-
-Get-Webfile $args[0] $args[1]
+$completed = $false
+Try 
+{
+    Get-Webfile $args[0] $args[1]
+    $completed = $true
+}
+Finally
+{
+    if (-Not $completed)
+    {
+        Write-Host "Download failed!`n" -ForegroundColor Red;
+        If (Test-Path $args[1])
+        {
+            Remove-Item $args[1]
+        }
+        exit 1
+    }
+}
