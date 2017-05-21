@@ -23,6 +23,8 @@ make
 
 There is an error in one of the final build steps and it will look like the build failed. This is completely normal and the build should still complete successfully with the message "Executable built (found in build/Product.exe)".
 
+**NOTE:** The build system does not keep track of changes to source files and will only rebuild missing binaries.
+
 ### Cleaning the application
 If you need to reset the build environment you should use the command below, which will ensure that all built Unity plugins are removed. **This will require a re-download of all dependencies.**
 ```bash
