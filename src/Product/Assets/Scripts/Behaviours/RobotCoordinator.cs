@@ -11,13 +11,13 @@ public class RobotCoordinator : MonoBehaviour {
 
     private const float SPEED_FRACTION = 1;
     private const float RESET_SPEED_FRACTION = 0.5f;
-    private string[] pitchJoint = new string[] { "HeadPitch" };
-    private string[] yawJoint = new string[] { "HeadYaw" };
-    private string[] leftShoulderJoints = new string[] { "LShoulderPitch", "LShoulderRoll" };
-    private string[] leftElbowJoints = new string[] { "LElbowYaw", "LElbowRoll" };
-    private string[] rightShoulderJoints = new string[] { "RShoulderPitch", "RShoulderRoll" };
-    private string[] rightElbowJoints = new string[] { "RElbowYaw", "RElbowRoll" };
-    private string[] allJoints = new string[]
+    private string[] pitchJoint = { "HeadPitch" };
+    private string[] yawJoint = { "HeadYaw" };
+    private string[] leftShoulderJoints = { "LShoulderPitch", "LShoulderRoll" };
+    private string[] leftElbowJoints = { "LElbowYaw", "LElbowRoll" };
+    private string[] rightShoulderJoints = { "RShoulderPitch", "RShoulderRoll" };
+    private string[] rightElbowJoints = { "RElbowYaw", "RElbowRoll" };
+    private static readonly string[] ALL_JOINTS =
     {
         "HeadPitch",
         "HeadYaw",
@@ -30,8 +30,12 @@ public class RobotCoordinator : MonoBehaviour {
         "RElbowYaw",
         "RElbowRoll",
         "RWristYaw",
-        "LWristYaw"
+        "LWristYaw",
+        "RHand",
+        "LHand"
     };
+    private static readonly float[] DEFAULT_JOINT_VALUES =
+        { 0, 0, Mathf.PI / 2, 0, 0, 0, Mathf.PI / 2, 0, 0, 0, 0, 0, 1, 1 };
     private float leftShoulderPitch = Mathf.PI / 2;
     private float leftShoulderRoll = 0;
     private float leftElbowYaw = 0;
@@ -48,6 +52,8 @@ public class RobotCoordinator : MonoBehaviour {
     private float theta = 0;
     private float lastTheta = 0;
     private float desiredTheta = 0;
+    public bool LeftHandOpen { get; set; }
+    public bool RightHandOpen { get; set; }
 
     private bool isRunning = true;
     private bool isUpdating = false;
@@ -153,14 +159,15 @@ public class RobotCoordinator : MonoBehaviour {
 
         while (isRunning)
         {
-            if (isUpdating)
-            {
-                motionProxy.SetAngles(allJoints, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, 0, 0 }, SPEED_FRACTION);
+            if (isUpdating) {
+                float rhand = RightHandOpen ? 1 : 0;
+                float lhand = LeftHandOpen ? 1 : 0;
+                motionProxy.SetAngles(ALL_JOINTS, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, 0, 0, rhand, lhand }, SPEED_FRACTION);
                 motionProxy.Move(x, y, theta);
             }
             else
             {
-                motionProxy.SetAngles(allJoints, new float[] { 0, 0, Mathf.PI / 2, 0, 0, 0, Mathf.PI / 2, 0, 0, 0, 0, 0 }, RESET_SPEED_FRACTION);
+                motionProxy.SetAngles(ALL_JOINTS, DEFAULT_JOINT_VALUES, RESET_SPEED_FRACTION);
                 motionProxy.Move(0, 0, 0);
             }
         }
