@@ -53,7 +53,7 @@ namespace AL
         private static extern void ALMotionProxyMoveToAsync(IntPtr self, float x, float y, float theta);
 
         [DllImport("bridge_d")]
-        private static extern float[] ALMotionProxyGetRobotPosition(IntPtr self, bool useSensors);
+        private static extern IntPtr ALMotionProxyGetRobotPosition(IntPtr self, bool useSensors);
 
         [DllImport("bridge_d")]
         private static extern void ALMotionProxyStopMove(IntPtr self);
@@ -188,10 +188,16 @@ namespace AL
 
         public float[] GetRobotPosition(bool useSensors)
         {
-            return ALMotionProxyGetRobotPosition(
+            IntPtr returned = ALMotionProxyGetRobotPosition(
                 unmanagedMem,
                 useSensors
             );
+
+            float[] arr = new float[3];
+            Marshal.Copy(returned, arr, 0, 3);
+
+            // TODO: Release memory
+            return arr;
         }
 
         public void StopMove()

@@ -23,6 +23,13 @@ public class Calibration : MonoBehaviour {
         calibrationMode = true;
         userHeight = HeightTranslator.KYLE_HEIGHT;
         sizeRatio = 1f;
+
+        Invoke("AutomaticToggle", 3);
+    }
+
+    void AutomaticToggle()
+    {
+        HandleMenuButtonClicked(null, new ClickedEventArgs());
     }
 
     /*
