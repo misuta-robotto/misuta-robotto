@@ -21,6 +21,7 @@ public class toMenu : MonoBehaviour
     {
         Debug.Log("try to switch display");
         gameObject.SetActive(false);
+        MainMenuView.SetActive(true);
     }
 
 }

@@ -32,7 +32,7 @@ public class Calibration : MonoBehaviour
 
     void Start()
     {
-        calibrationMode = true;
+        toggle.isOn = true;
         userHeight = HeightTranslator.KYLE_HEIGHT;
         sizeRatio = 1f;
     }
@@ -47,6 +47,7 @@ public class Calibration : MonoBehaviour
         rightController.TriggerClicked += HandleTriggerClicked;
         leftController.MenuButtonClicked += HandleMenuButtonClicked;
         rightController.MenuButtonClicked += HandleMenuButtonClicked;
+        toggle.onValueChanged.AddListener(delegate { UpdateCalibrationMode(); });
     }
 
     /*
@@ -66,7 +67,7 @@ public class Calibration : MonoBehaviour
     */
     private void HandleTriggerClicked(object sender, ClickedEventArgs e)
     {
-        if (leftController.triggerPressed && rightController.triggerPressed && calibrationMode)
+        if (leftController.triggerPressed && rightController.triggerPressed && toggle.isOn)
         {
             userHeight = HeightTranslator.CalculateHeight(InputTracking.GetLocalPosition(VRNode.Head));
             hud.UpdateHeight(userHeight);
@@ -89,8 +90,12 @@ public class Calibration : MonoBehaviour
     */
     private void HandleMenuButtonClicked(object sender, ClickedEventArgs e)
     {
-        calibrationMode = !calibrationMode;
-        toggle.isOn = calibrationMode;
+        toggle.isOn = !toggle.isOn;
+    }
+
+    private void UpdateCalibrationMode()
+    {
+        ToggleMode(!toggle.isOn);
     }
 
     public void ManualCalibration()
@@ -101,7 +106,7 @@ public class Calibration : MonoBehaviour
         {
             
             userHeight = heightFloat.Clamp(MIN_HEIGHT, MAX_HEIGHT);
-            if (calibrationMode)
+            if (toggle.isOn)
             {
                 hud.UpdateHeight(userHeight);
                 ResizeKyle();
@@ -109,22 +114,6 @@ public class Calibration : MonoBehaviour
             }
         }
 
-    }
-
-    void Update()
-    {
-        if ((toggle.isOn && !calibrationMode) || (!toggle.isOn && calibrationMode))
-        {
-            ToggleMode(calibrationMode);
-        }
-        if (toggle.isOn)
-        {
-            calibrationMode = true;
-        }
-        else
-        {
-            calibrationMode = false;
-        }
     }
 }
 

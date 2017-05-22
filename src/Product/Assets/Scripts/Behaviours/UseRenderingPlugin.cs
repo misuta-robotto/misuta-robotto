@@ -17,6 +17,7 @@ public class UseRenderingPlugin : MonoBehaviour
     private Material targetMaterial;
     
     private bool isRunning = true;
+    private bool updateCameraImage = false;
 
     private int number_of_devices;
     
@@ -83,8 +84,8 @@ public class UseRenderingPlugin : MonoBehaviour
     void SetEnabled(bool b)
     {
         GetComponent<Renderer>().enabled = b;
-
-	blurredPlane.GetComponent<Renderer>().enabled = b;
+	    blurredPlane.GetComponent<Renderer>().enabled = b;
+        updateCameraImage = b;
     }
 
     private void OnEnable()
@@ -121,7 +122,6 @@ public class UseRenderingPlugin : MonoBehaviour
         targetMaterial = blurredPlane.GetComponent<Renderer>().material;
         targetMaterial.mainTexture = blurredTexture;
         GetComponent<Renderer>().material.mainTexture = tex;
-        pussycat.texture = tex;
 
         // Pass texture pointer to the plugin
         SetTextureFromUnity(tex.GetNativeTexturePtr(), tex.width, tex.height);
@@ -134,12 +134,15 @@ public class UseRenderingPlugin : MonoBehaviour
             // Wait until all frame rendering is done
             yield return new WaitForEndOfFrame();
 
-            // Issue a plugin event with arbitrary integer identifier.
-            // The plugin can distinguish between different
-            // things it needs to do based on this ID.
-            // For our simple plugin, it does not matter which ID we pass here.
-            GL.IssuePluginEvent(GetRenderEventFunc(), 1);
-            BlurTexture(tex, blurredTexture);
+            if (updateCameraImage)
+            {
+                // Issue a plugin event with arbitrary integer identifier.
+                // The plugin can distinguish between different
+                // things it needs to do based on this ID.
+                // For our simple plugin, it does not matter which ID we pass here.
+                GL.IssuePluginEvent(GetRenderEventFunc(), 1);
+                BlurTexture(tex, blurredTexture);
+            }
         }
     }
 
@@ -148,7 +151,10 @@ public class UseRenderingPlugin : MonoBehaviour
     {
         while (isRunning)
         {
-            ReadFromCamera();
+            if (updateCameraImage)
+            {
+                ReadFromCamera();
+            }
         }
 
         // Perform clean up and close camera feed

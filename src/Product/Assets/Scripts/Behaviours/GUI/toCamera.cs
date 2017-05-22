@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 public class toCamera : MonoBehaviour {
-
+    public GameObject mainMenuView;
 	public Button camera_Button; 
 	//public int index = 0;
 
@@ -18,6 +18,7 @@ public class toCamera : MonoBehaviour {
 	public void press_Button (){
 		Debug.Log("Abling camera");
         gameObject.SetActive(true);
+        mainMenuView.SetActive(false);
     }
 
 }
