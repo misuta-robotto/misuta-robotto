@@ -34,7 +34,7 @@ public class ArmMove : MonoBehaviour {
         robCord.RightShoulder = ArmTranslation.TranslateShoulderPitchAndRoll(rightShoulder, rightUpperArm.position, rightForearm.position, Side.Right);
         robCord.RightElbow = ArmTranslation.TranslateElbowYawAndRoll(rightUpperArm, rightForearm.position, rightWrist.position, Side.Right);
 
-        robCord.LeftHandOpen = !leftController.triggerPressed;
-        robCord.RightHandOpen = !rightController.triggerPressed;
+        robCord.LeftHandClosedAmount = 1 - leftController.controllerState.rAxis1.x;
+        robCord.RightHandClosedAmount = 1 - rightController.controllerState.rAxis1.x;
     }
 }
