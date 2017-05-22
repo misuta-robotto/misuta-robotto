@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace AL
 {
@@ -195,6 +196,13 @@ namespace AL
 
             float[] arr = new float[3];
             Marshal.Copy(returned, arr, 0, 3);
+
+            Int32[] arr2 = new Int32[3];
+            Marshal.Copy(returned, arr2, 0, 3);
+
+            Debug.Log("Pos[0] = " + arr2[0]);
+            Debug.Log("Pos[1] = " + arr2[1]);
+            Debug.Log("Pos[2] = " + arr2[2]);
 
             // TODO: Release memory!!
             return arr;

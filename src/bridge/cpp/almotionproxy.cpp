@@ -7,6 +7,7 @@
 
 void* ALMotionProxyNew(char* server_, int port)
 {
+	freopen("debug.txt", "a", stdout);
     std::string server(server_);
     return new AL::ALMotionProxy(server, port);
 }
@@ -84,7 +85,14 @@ void ALMotionProxyMoveToAsync(void* self, float x, float y, float theta)
 void* ALMotionProxyGetRobotPosition(void* self, bool useSensors)
 {
     std::vector<float> robotPosition = THIS->getRobotPosition(useSensors);
-	printf("Position vector size: %d", robotPosition.size);
+	printf("Position vector size: %d\n", robotPosition.size());
+	printf("Position[0] = %08x\n", robotPosition[0]);
+	printf("Position[1] = %08x\n", robotPosition[1]);
+	printf("Position[2] = %08x\n", robotPosition[2]);
+	printf("Position[0] = %.6f\n", robotPosition[0]);
+	printf("Position[1] = %.6f\n", robotPosition[1]);
+	printf("Position[2] = %.6f\n", robotPosition[2]);
+	printf("size: %d\n", sizeof(float));
 	
     std::vector<float>* positionsPointer = new std::vector<float>(robotPosition);
 

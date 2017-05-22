@@ -14,6 +14,12 @@ build/Product.exe: build/extra src/Product/Assets/Plugins/bridge_d.dll src/Produ
 	@bin\build_executable.bat
 	@bin/touch.bat "build\Product.exe"
 	@echo "Executable built (found in build/Product.exe)"
+	
+bridge: src/Product/Assets/Plugins/bridge_d.dll;
+
+clean_bridge:
+	@cmd.exe /C "del src\Product\Assets\Plugins\bridge_d.dll"
+
 
 src/Product/Assets/Plugins/bridge_d.dll: build/extra/cmake build/extra/qibuild/sdk
 	@bin\build_qiconfig.bat
