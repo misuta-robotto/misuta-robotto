@@ -149,6 +149,11 @@ public class RobotCoordinator : MonoBehaviour {
 	{
 		float[] positions = motionProxy.GetRobotPosition (true);
 		currentTheta = positions[2];
+        Debug.Log("Positions:");
+        foreach (float f in positions)
+        {
+            Debug.Log(f);
+        }
 	}
 
     private float CalculateThetaAdaptionVelocity()
@@ -156,11 +161,11 @@ public class RobotCoordinator : MonoBehaviour {
         float baseVelocity = 0;
         if (desiredTheta < currentTheta)
         {
-            baseVelocity = -1;
+            baseVelocity = 1;
         }
         else if (desiredTheta > currentTheta)
         {
-            baseVelocity = 1;
+            baseVelocity = -1;
         }
 
         float diff = Mathf.Abs(desiredTheta - currentTheta);
@@ -192,10 +197,10 @@ public class RobotCoordinator : MonoBehaviour {
                 }, SPEED_FRACTION);
                 UpdateCurrentPosition(motionProxy);
                 float thetaVelocity = CalculateThetaAdaptionVelocity();
-                Debug.Log("currentTheta: " + currentTheta);
-                Debug.Log("desiredTheta: " + desiredTheta);
-                Debug.Log("thetaVelocity: " + thetaVelocity);
-                motionProxy.Move(x, y, thetaVelocity);
+
+                float thetaDiff = currentTheta - desiredTheta;
+                Debug.Log("thetaDiff: " + thetaDiff);
+                motionProxy.MoveToAsync(x, y, thetaDiff);
             }
             else
             {

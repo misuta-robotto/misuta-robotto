@@ -23,15 +23,8 @@ public class Calibration : MonoBehaviour {
         calibrationMode = true;
         userHeight = HeightTranslator.KYLE_HEIGHT;
         sizeRatio = 1f;
-
-        Invoke("AutomaticToggle", 3);
     }
-
-    void AutomaticToggle()
-    {
-        HandleMenuButtonClicked(null, new ClickedEventArgs());
-    }
-
+    
     /*
     When the script is enabled it subscribes itself to events for the controller
      actions TriggerClicked and MenuButtonClicked.

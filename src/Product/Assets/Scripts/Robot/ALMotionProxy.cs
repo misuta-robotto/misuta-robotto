@@ -196,7 +196,7 @@ namespace AL
             float[] arr = new float[3];
             Marshal.Copy(returned, arr, 0, 3);
 
-            // TODO: Release memory
+            // TODO: Release memory!!
             return arr;
         }
 

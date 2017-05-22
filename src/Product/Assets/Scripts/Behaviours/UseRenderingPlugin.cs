@@ -177,7 +177,11 @@ public class UseRenderingPlugin : MonoBehaviour
         int rtH = source.height;
         int iterations = 3;
         RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
-        Graphics.CopyTexture(source, buffer);
+        if (destination.IsCreated())
+        {
+            Graphics.CopyTexture(source, buffer);
+        }
+        
 
         // Blur the small texture
         for (int i = 0; i < iterations; i++)
