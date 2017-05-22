@@ -23,6 +23,14 @@ public class Calibration : MonoBehaviour {
         calibrationMode = true;
         userHeight = HeightTranslator.KYLE_HEIGHT;
         sizeRatio = 1f;
+
+        // Uncomment to enable automatic calibration when testing
+        //Invoke("ToggleManual", 3);
+    }
+
+    void ToggleManual()
+    {
+        ToggleMode(true);
     }
     
     /*

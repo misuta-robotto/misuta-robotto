@@ -1,6 +1,7 @@
 #include "naobridge_impl.h"
 #include <alproxies/almotionproxy.h>
 #include <alvalue/alvalue.h>
+#include <algorithm>
 
 #define THIS ((AL::ALMotionProxy*)self)
 #define ALVALUE(x) *((AL::ALValue*) x)
@@ -82,21 +83,10 @@ void ALMotionProxyMoveToAsync(void* self, float x, float y, float theta)
     THIS->post.moveTo(x, y, theta);
 }
 
-void* ALMotionProxyGetRobotPosition(void* self, bool useSensors)
+void ALMotionProxyGetRobotPosition(void* self, bool useSensors, float* buffer)
 {
     std::vector<float> robotPosition = THIS->getRobotPosition(useSensors);
-	printf("Position vector size: %d\n", robotPosition.size());
-	printf("Position[0] = %08x\n", robotPosition[0]);
-	printf("Position[1] = %08x\n", robotPosition[1]);
-	printf("Position[2] = %08x\n", robotPosition[2]);
-	printf("Position[0] = %.6f\n", robotPosition[0]);
-	printf("Position[1] = %.6f\n", robotPosition[1]);
-	printf("Position[2] = %.6f\n", robotPosition[2]);
-	printf("size: %d\n", sizeof(float));
-	
-    std::vector<float>* positionsPointer = new std::vector<float>(robotPosition);
-
-    return &positionsPointer[0];
+    std::copy(robotPosition.begin(), robotPosition.end(), buffer);
 }
 
 void ALMotionProxyStopMove(void* self)

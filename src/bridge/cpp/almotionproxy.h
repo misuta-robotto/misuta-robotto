@@ -17,7 +17,7 @@ EXTERN void ALMotionProxyMoveInit(void* self);
 EXTERN void ALMotionProxyMove(void* self, float x, float y, float theta);
 EXTERN void ALMotionProxyMoveTo(void* self, float x, float y, float theta);
 EXTERN void ALMotionProxyMoveToAsync(void* self, float x, float y, float theta);
-EXTERN void* ALMotionProxyGetRobotPosition(void* self, bool useSensors);
+EXTERN void ALMotionProxyGetRobotPosition(void* self, bool useSensors, float* buffer);
 EXTERN void ALMotionProxyStopMove(void* self);
 EXTERN void ALMotionProxyKillMove(void* self);
 

@@ -198,7 +198,7 @@ public class RobotCoordinator : MonoBehaviour {
                 UpdateCurrentPosition(motionProxy);
                 float thetaVelocity = CalculateThetaAdaptionVelocity();
 
-                float thetaDiff = currentTheta - desiredTheta;
+                float thetaDiff = desiredTheta - currentTheta;
                 Debug.Log("thetaDiff: " + thetaDiff);
                 motionProxy.MoveToAsync(x, y, thetaDiff);
             }
