@@ -54,6 +54,8 @@ public class RobotCoordinator : MonoBehaviour {
     private float desiredTheta = 0;
     public float LeftHandClosedAmount { get; set; }
     public float RightHandClosedAmount { get; set; }
+    public float LeftWristYaw;
+    public float RightWristYaw;
 
     private bool isRunning = true;
     private bool isUpdating = false;
@@ -160,7 +162,7 @@ public class RobotCoordinator : MonoBehaviour {
         while (isRunning)
         {
             if (isUpdating) {
-                motionProxy.SetAngles(ALL_JOINTS, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, 0, 0, RightHandClosedAmount, LeftHandClosedAmount }, SPEED_FRACTION);
+                motionProxy.SetAngles(ALL_JOINTS, new float[] { headPitch, -rawHeadYaw, leftShoulderPitch, leftShoulderRoll, leftElbowYaw, leftElbowRoll, rightShoulderPitch, rightShoulderRoll, rightElbowYaw, rightElbowRoll, RightWristYaw, LeftWristYaw, RightHandClosedAmount, LeftHandClosedAmount }, SPEED_FRACTION);
                 motionProxy.Move(x, y, theta);
             }
             else

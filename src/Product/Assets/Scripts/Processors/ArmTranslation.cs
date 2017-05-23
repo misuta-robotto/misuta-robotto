@@ -135,5 +135,33 @@ namespace Assets {
                 return Mathf.Atan2(-forearm.z, forearm.x);
             }
         }
+
+        public static float TranslateWristYaw(Transform wristJoint, Side side)
+        {
+            float angle = wristJoint.localEulerAngles.y;
+            if (angle > 180)
+            {
+                angle -= 360;
+            }
+
+            if (side == Side.Left)
+            {
+                if (angle > 70)
+                {
+                    angle = -82;
+                }
+            }
+            else
+            {
+                if (angle < -15)
+                {
+                    angle = 180;
+                }
+
+                angle -= 90;
+            }
+
+            return Mathf.Deg2Rad * angle;
+        }
     }
 }
