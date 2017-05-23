@@ -149,29 +149,8 @@ public class RobotCoordinator : MonoBehaviour {
 	{
 		float[] positions = motionProxy.GetRobotPosition (true);
 		currentTheta = positions[2];
-        Debug.Log("Positions:");
-        foreach (float f in positions)
-        {
-            Debug.Log(f);
-        }
 	}
-
-    private float CalculateThetaAdaptionVelocity()
-    {
-        float baseVelocity = 0;
-        if (desiredTheta < currentTheta)
-        {
-            baseVelocity = 1;
-        }
-        else if (desiredTheta > currentTheta)
-        {
-            baseVelocity = -1;
-        }
-
-        float diff = Mathf.Abs(desiredTheta - currentTheta);
-        return baseVelocity * diff;
-    }
-
+    
     private void ThreadedLoop()
     {
         ALMotionProxy motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
@@ -196,11 +175,13 @@ public class RobotCoordinator : MonoBehaviour {
                     WRIST_ANGLE
                 }, SPEED_FRACTION);
                 UpdateCurrentPosition(motionProxy);
-                float thetaVelocity = CalculateThetaAdaptionVelocity();
-
                 float thetaDiff = desiredTheta - currentTheta;
-                Debug.Log("thetaDiff: " + thetaDiff);
-                motionProxy.MoveToAsync(x, y, thetaDiff);
+
+                // Allow an error margin of 5 degree
+                if (Math.Abs(thetaDiff) > Mathf.PI / 36)
+                {
+                    motionProxy.MoveToAsync(x, y, thetaDiff);
+                }
             }
             else
             {
