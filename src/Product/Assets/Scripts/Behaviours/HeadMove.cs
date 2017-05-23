@@ -23,6 +23,6 @@ public class HeadMove : MonoBehaviour {
         float yaw = InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y; //get Vive yaw
 
         robCord.HeadPitch = headTranslator.TranslatePitch(pitch);
-        robCord.HeadYaw = headTranslator.TranslateYaw(yaw);
+        robCord.HeadYaw = yaw;
     }
 }

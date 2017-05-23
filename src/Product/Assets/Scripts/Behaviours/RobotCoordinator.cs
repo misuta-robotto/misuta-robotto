@@ -2,6 +2,7 @@ using AL;
 using System.Threading;
 using UnityEngine;
 using System;
+using Assets;
 
 /*
  * The intention of this class is to keep all the previus values sent to the robot for easier axess as well
@@ -73,6 +74,8 @@ public class RobotCoordinator : MonoBehaviour {
     private bool isRunning = true;
     private bool isUpdating = false;
 
+    private HeadTranslator headTranslator;
+
     // Setters for different Robot variables
     public float[] LeftShoulder {
         set {
@@ -142,6 +145,7 @@ public class RobotCoordinator : MonoBehaviour {
 	}
 
     void Start () {
+        headTranslator = new HeadTranslator();
         calibration.ToggleMode += SetEnabled;
         new Thread(new ThreadStart(ThreadedLoop)).Start();
     }
@@ -158,7 +162,7 @@ public class RobotCoordinator : MonoBehaviour {
 
     private void UpdateJaw()
     {
-        headYaw = -rawHeadYaw - currentTheta;
+        headYaw = headTranslator.TranslateYaw(rawHeadYaw, currentTheta);
     }
 
     private void UpdateCurrentPosition(ALMotionProxy motionProxy)
@@ -168,6 +172,20 @@ public class RobotCoordinator : MonoBehaviour {
         currentPositionZ = positions[1];
 		currentTheta = positions[2];
 	}
+
+    private float CalculateThetaDiff()
+    {
+        float baseDiff = desiredTheta - currentTheta;
+        if (baseDiff > Mathf.PI)
+        {
+            baseDiff -= 2 * Mathf.PI;
+        } else if (baseDiff < -Mathf.PI)
+        {
+            baseDiff += 2 * Mathf.PI;
+        }
+
+        return baseDiff;
+    }
     
     private void ThreadedLoop()
     {
@@ -189,13 +207,15 @@ public class RobotCoordinator : MonoBehaviour {
                     rightShoulderRoll,
                     rightElbowYaw,
                     rightElbowRoll,
-                    WRIST_ANGLE,
-                    WRIST_ANGLE
+                    RightWristYaw,
+                    LeftWristYaw,
+                    RightHandClosedAmount,
+                    LeftHandClosedAmount
                 }, SPEED_FRACTION);
 
                 UpdateCurrentPosition(motionProxy);
 
-                float thetaDiff = desiredTheta - currentTheta;
+                float thetaDiff = CalculateThetaDiff();
                 float xDiff = DesiredPositionX - currentPositionX;
                 float zDiff = DesiredPositionZ - currentPositionZ;
 
