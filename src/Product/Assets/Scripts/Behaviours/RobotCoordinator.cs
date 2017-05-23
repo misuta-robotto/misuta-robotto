@@ -15,6 +15,8 @@ public class RobotCoordinator : MonoBehaviour {
     private const float INITIAL_SHOULDER_PITCH = Mathf.PI / 2;
     private const float INITIAL_JOINT_ANGLE = 0;
     private const float WRIST_ANGLE = 0;
+    private const float ROTATION_THRESHOLD = Mathf.PI / 36;
+    private const float MOVEMENT_THRESHOLD = 0.0f;
 
     private string[] pitchJoint = new string[] { "HeadPitch" };
     private string[] yawJoint = new string[] { "HeadYaw" };
@@ -53,6 +55,12 @@ public class RobotCoordinator : MonoBehaviour {
     private float theta = 0;
     private float currentTheta = 0;
     private float desiredTheta = 0;
+
+    public float DesiredPositionX = 0;
+    public float DesiredPositionZ = 0;
+
+    private float currentPositionX = 0;
+    private float currentPositionZ = 0;
 
     private bool isRunning = true;
     private bool isUpdating = false;
@@ -142,12 +150,14 @@ public class RobotCoordinator : MonoBehaviour {
 
     private void UpdateJaw()
     {
-        headYaw = rawHeadYaw - desiredTheta; // TODO: Consider using currentTheta or some mix between these two.
+        headYaw = rawHeadYaw - currentTheta; // TODO: Think this through
     }
 
-	private void UpdateCurrentPosition(ALMotionProxy motionProxy)
-	{
-		float[] positions = motionProxy.GetRobotPosition (true);
+    private void UpdateCurrentPosition(ALMotionProxy motionProxy)
+    {
+        float[] positions = motionProxy.GetRobotPosition(true);
+        currentPositionX = positions[0];
+        currentPositionZ = positions[1];
 		currentTheta = positions[2];
 	}
     
@@ -174,14 +184,21 @@ public class RobotCoordinator : MonoBehaviour {
                     WRIST_ANGLE,
                     WRIST_ANGLE
                 }, SPEED_FRACTION);
-                UpdateCurrentPosition(motionProxy);
-                float thetaDiff = desiredTheta - currentTheta;
 
-                // Allow an error margin of 5 degree
-                if (Math.Abs(thetaDiff) > Mathf.PI / 36)
-                {
-                    motionProxy.MoveToAsync(x, y, thetaDiff);
-                }
+                UpdateCurrentPosition(motionProxy);
+
+                float thetaDiff = desiredTheta - currentTheta;
+                float xDiff = DesiredPositionX - currentPositionX;
+                float zDiff = DesiredPositionZ - currentPositionZ;
+
+                if (Math.Abs(thetaDiff) < ROTATION_THRESHOLD) thetaDiff = 0;
+                if (Math.Abs(xDiff) < MOVEMENT_THRESHOLD) xDiff = 0;
+                if (Math.Abs(zDiff) < MOVEMENT_THRESHOLD) zDiff = 0;
+
+                xDiff = 0;
+                zDiff = 0;
+
+                motionProxy.MoveToAsync(xDiff, zDiff, thetaDiff);
             }
             else
             {

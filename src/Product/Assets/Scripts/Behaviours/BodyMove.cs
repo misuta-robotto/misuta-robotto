@@ -35,6 +35,8 @@ public class BodyMove : MonoBehaviour {
         transform.Rotate(Vector3.up * (bodyAngle - transform.eulerAngles.y));
 
         // Send data to RobotCoordinator
+        robCord.DesiredPositionX = headPos.x;
+        robCord.DesiredPositionZ = headPos.z;
         robCord.DesiredTheta = normalizedRadian(-bodyAngle);
     }
 
