@@ -2,7 +2,7 @@
 {
     class RobotConfiguration
     {
-        public const string ADRESS = "127.0.0.1";
-        public const int PORT = 3008;
+        public const string ADRESS = "192.168.1.130";
+        public const int PORT = 9559;
     }
 }

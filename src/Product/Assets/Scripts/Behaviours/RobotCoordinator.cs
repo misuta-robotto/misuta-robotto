@@ -150,7 +150,7 @@ public class RobotCoordinator : MonoBehaviour {
 
     private void UpdateJaw()
     {
-        headYaw = rawHeadYaw - currentTheta; // TODO: Think this through
+        headYaw = -rawHeadYaw - currentTheta;
     }
 
     private void UpdateCurrentPosition(ALMotionProxy motionProxy)
@@ -172,7 +172,7 @@ public class RobotCoordinator : MonoBehaviour {
             {
                 motionProxy.SetAngles(allJoints, new float[] {
                     headPitch,
-                    -headYaw,
+                    headYaw,
                     leftShoulderPitch,
                     leftShoulderRoll,
                     leftElbowYaw,
@@ -198,7 +198,7 @@ public class RobotCoordinator : MonoBehaviour {
                 xDiff = 0;
                 zDiff = 0;
 
-                motionProxy.MoveToAsync(xDiff, zDiff, thetaDiff);
+                motionProxy.MoveToAsync(x, y, thetaDiff);
             }
             else
             {
