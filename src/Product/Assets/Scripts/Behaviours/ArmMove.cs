@@ -2,6 +2,9 @@
 using UnityEngine;
 
 public class ArmMove : MonoBehaviour {
+    public SteamVR_TrackedController leftController;
+    public SteamVR_TrackedController rightController;
+
     public Transform leftShoulder;
     public Transform leftUpperArm;
     public Transform leftForearm;
@@ -25,10 +28,15 @@ public class ArmMove : MonoBehaviour {
     }
 
     // Translate arm data and send to RobotCoordinator
-	void Update () {
+    void Update () {
         robCord.LeftShoulder = ArmTranslation.TranslateShoulderPitchAndRoll(leftShoulder, leftUpperArm.position, leftForearm.position, Side.Left);
         robCord.LeftElbow = ArmTranslation.TranslateElbowYawAndRoll(leftUpperArm, leftForearm.position, leftWrist.position, Side.Left);
         robCord.RightShoulder = ArmTranslation.TranslateShoulderPitchAndRoll(rightShoulder, rightUpperArm.position, rightForearm.position, Side.Right);
         robCord.RightElbow = ArmTranslation.TranslateElbowYawAndRoll(rightUpperArm, rightForearm.position, rightWrist.position, Side.Right);
+        robCord.LeftWristYaw = ArmTranslation.TranslateWristYaw(leftWrist, Side.Left);
+        robCord.RightWristYaw = ArmTranslation.TranslateWristYaw(rightWrist, Side.Right);
+
+        robCord.LeftHandClosedAmount = 1 - leftController.controllerState.rAxis1.x;
+        robCord.RightHandClosedAmount = 1 - rightController.controllerState.rAxis1.x;
     }
 }
