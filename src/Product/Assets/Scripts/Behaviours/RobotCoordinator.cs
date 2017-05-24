@@ -240,5 +240,7 @@ public class RobotCoordinator : MonoBehaviour {
                 motionProxy.Move(0, 0, 0);
             }
         }
+
+        motionProxy.Disconnect();
     }
 }

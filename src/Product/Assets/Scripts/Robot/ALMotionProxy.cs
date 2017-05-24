@@ -79,6 +79,12 @@ namespace AL
             return unmanagedMem != IntPtr.Zero;
         }
 
+        public void Disconnect()
+        {
+            ALMotionProxyFree(unmanagedMem);
+            unmanagedMem = IntPtr.Zero;
+        }
+
         public void AngleInterpolation(string[] names, float[] angles, float[] timeLists, bool isAbsolute)
         {
             ALMotionProxyAngleInterpolation(
