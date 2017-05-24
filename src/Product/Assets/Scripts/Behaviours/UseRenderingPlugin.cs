@@ -118,7 +118,7 @@ public class UseRenderingPlugin : MonoBehaviour
         tex.Apply();
 
         // Set texture onto our material
-        blurredTexture = RenderTexture.GetTemporary(tex.width, tex.height);
+        blurredTexture = new RenderTexture(tex.width, tex.height, 24, RenderTextureFormat.ARGB32);
         targetMaterial = blurredPlane.GetComponent<Renderer>().material;
         targetMaterial.mainTexture = blurredTexture;
         GetComponent<Renderer>().material.mainTexture = tex;
@@ -171,6 +171,7 @@ public class UseRenderingPlugin : MonoBehaviour
     {
         float blurSpread = 2f;
         float off = 0.5f + (iteration * blurSpread);
+
         Graphics.BlitMultiTap(source, dest, material,
                                new Vector2(-off, -off),
                                new Vector2(-off, off),
@@ -186,7 +187,11 @@ public class UseRenderingPlugin : MonoBehaviour
         int rtH = source.height;
         int iterations = 3;
         RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
+        buffer.Create();
         Graphics.CopyTexture(source, buffer);
+
+        bool previousSRGBWrite = GL.sRGBWrite;
+        GL.sRGBWrite = true;
 
         // Blur the small texture
         for (int i = 0; i < iterations; i++)
@@ -199,5 +204,7 @@ public class UseRenderingPlugin : MonoBehaviour
         Graphics.Blit(buffer, destination);
 
         RenderTexture.ReleaseTemporary(buffer);
+
+        GL.sRGBWrite = previousSRGBWrite;
     }
 }
