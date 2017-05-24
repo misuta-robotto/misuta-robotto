@@ -13,17 +13,28 @@ public class ConnectButton : MonoBehaviour {
     public InputField IP_input;
     public InputField port_input;
 
+    private bool connected = false;
+
     public void ConnectingButton()
     {
-        int portInt;
-        if (Int32.TryParse(port_input.text, out portInt))
+        if (!connected)
         {
-            robotCoordinator.Connect(IP_input.text, portInt);
-            buttonText.text = "Disconnect";
+            int portInt;
+            if (Int32.TryParse(port_input.text, out portInt))
+            {
+                robotCoordinator.Connect(IP_input.text, portInt);
+                buttonText.text = "Disconnect";
+                connected = true;
+            }
+            else
+            {
+                buttonText.text = "Invalid port";
+            }
         }
         else
         {
-            buttonText.text = "Invalid port";
+            robotCoordinator.Disconnect();
+            buttonText.text = "Connect";
         }
     }
 }
