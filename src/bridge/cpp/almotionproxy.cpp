@@ -2,15 +2,22 @@
 #include <alproxies/almotionproxy.h>
 #include <alvalue/alvalue.h>
 #include <algorithm>
+#include <alerror/alerror.h>
 
 #define THIS ((AL::ALMotionProxy*)self)
 #define ALVALUE(x) *((AL::ALValue*) x)
 
 void* ALMotionProxyNew(char* server_, int port)
 {
-	freopen("debug.txt", "a", stdout);
     std::string server(server_);
-    return new AL::ALMotionProxy(server, port);
+	try
+	{
+		return new AL::ALMotionProxy(server, port);
+	}
+	catch (const AL::ALError &e)
+	{
+		return NULL;
+	}
 }
 
 void ALMotionProxyAngleInterpolation(void* self, void* names, void* angleLists, void* timeLists, bool isAbsolute)

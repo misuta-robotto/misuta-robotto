@@ -190,6 +190,12 @@ public class RobotCoordinator : MonoBehaviour {
     private void ThreadedLoop()
     {
         ALMotionProxy motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
+        if (!motionProxy.IsConnected())
+        {
+            Debug.Log("Unable to connect to robot");
+            return;
+        }
+
         motionProxy.MoveInit();
 
         while (isRunning)
