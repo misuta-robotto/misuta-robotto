@@ -101,7 +101,16 @@ public class UseRenderingPlugin : MonoBehaviour
 
     private void CreateTextureAndPassToPlugin()
     {
-        tex = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
+        tex = new Texture2D(1920, 1920, TextureFormat.ARGB32, false);
+        for (int x = 0; x < 1920; x++)
+        {
+            for (int y = 0; y < 1920; y++)
+            {
+                tex.SetPixel(x, y, Color.black);
+            }
+        }
+        tex.Apply();
+
         tex.filterMode = FilterMode.Trilinear;
         // uploaded to the GPU
         tex.Apply();
@@ -113,7 +122,7 @@ public class UseRenderingPlugin : MonoBehaviour
         GetComponent<Renderer>().material.mainTexture = tex;
 
         // Pass texture pointer to the plugin
-        SetTextureFromUnity(tex.GetNativeTexturePtr(), tex.width, tex.height);
+        SetTextureFromUnity(tex.GetNativeTexturePtr(), 1920, 1080);
     }
 
     private IEnumerator CallPluginAtEndOfFrames()
@@ -124,7 +133,7 @@ public class UseRenderingPlugin : MonoBehaviour
 
             // Tell plugin to copy camera data to texture
             GL.IssuePluginEvent(GetRenderEventFunc(), 1);
-            BlurTexture(tex, blurredTexture);
+            //BlurTexture(tex, blurredTexture);
         }
     }
 
@@ -165,7 +174,10 @@ public class UseRenderingPlugin : MonoBehaviour
         int rtH = source.height;
         int iterations = 3;
         RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
-        buffer.Create();
+        if (!buffer.IsCreated())
+        {
+            buffer.Create();
+        }
         Graphics.CopyTexture(source, buffer);
 
         // Blur the small texture

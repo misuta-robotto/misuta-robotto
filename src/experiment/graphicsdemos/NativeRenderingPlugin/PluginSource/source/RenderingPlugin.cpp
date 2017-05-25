@@ -196,8 +196,8 @@ static void ReadCamPictureToBuffer(void* textureDataPtr, int textureRowPitch)
 static void ModifyTexturePixels()
 {
 	void* textureHandle = g_TextureHandle;
-	int width = g_TextureWidth;
-	int height = g_TextureHeight;
+	int width = 1920;
+	int height = 1920;
 	if (!textureHandle)
 		return;
 
@@ -210,7 +210,7 @@ static void ModifyTexturePixels()
 	bufferMutex.lock();
 		if (cameraDataBuffer != NULL)
 		{
-			memcpy(textureDataPtr, cameraDataBuffer, bufferSize);
+			memcpy((void*)((int) textureDataPtr + 420 * textureRowPitch), cameraDataBuffer, bufferSize);
 		}
 	bufferMutex.unlock();
 
