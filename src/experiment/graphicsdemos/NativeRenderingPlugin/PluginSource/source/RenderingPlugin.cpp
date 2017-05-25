@@ -126,6 +126,85 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API RegisterPlugin()
 static RenderAPI* s_CurrentAPI = NULL;
 static UnityGfxRenderer s_DeviceType = kUnityGfxRendererNull;
 
+/*
+static void ReprojectImage()
+{
+	
+
+	cv::undi
+
+	cvInitUndistortMap(intrinsics, )
+
+	cvCreateImage(cv::GetSize(frame.data), frame.depth, frame.channels);
+	
+}
+*/
+
+static void ReprojectImage() 
+{
+	/*
+
+	C:\Users\patsl736\chessboard_calibration\Release>CheckerboardCalibration.exe test2.jpg
+
+	Reading test2.jpg
+	RMS: 1.42314
+
+	Camera matrix: [
+		516.3939301743485, 0, 913.5923630992136;
+		0, 466.1756099239591, 549.2682172870995;
+		0, 0, 1
+	]
+
+	Distortion _coefficients: [
+		-0.1064244278638898;
+		-0.07506617586690612;
+		-0.00940286026016782;
+		0.02439966999001187;
+		0.07359143173262066
+	]
+
+	*/
+
+	float fx = 516.3939301743485;
+	float fy = 466.1756099239591;
+	float cx = 913.5923630992136;
+	float cy = 549.2682172870995;
+
+	float k1 = -0.1064244278638898;
+	float k2 = -0.07506617586690612;
+	float p1 = -0.00940286026016782;
+	float p2 = 0.02439966999001187;
+	float k3 = 0.07359143173262066;
+
+	cv::Mat K(3, 3, CV_64FC1, 0.0);
+	K.at<float>(0, 0) = fx;
+	K.at<float>(1, 1) = fy;
+	K.at<float>(2, 2) = 1.0;
+	K.at<float>(0, 2) = cx;
+	K.at<float>(1, 2) = cy;
+
+	cv::Mat D(1, 5, CV_64FC1, 0.0);
+	D.at<float>(0) = k1;
+	D.at<float>(1) = k2;
+	D.at<float>(2) = p1;
+	D.at<float>(3) = p2;
+	D.at<float>(4) = k3;
+
+	cv::Mat output;
+	cv::Mat newK;
+	cv::Mat view, map1, map2;
+
+	cv::Size newSize(1920, 1080);
+	cv::Mat rview(newSize, frame.type());
+	//resize(rview, rview, newSize);
+
+	//cv::fisheye::estimateNewCameraMatrixForUndistortRectify(K, D, frame.size(), cv::Matx33d::eye(), newK, 1);
+
+	//cv::fisheye::initUndistortRectifyMap(K, D, cv::Matx33d::eye(), newK, frame.size(), CV_16SC2, map1, map2);
+
+	//remap(frame, rview, map1, map2, cv::INTER_LINEAR);
+}
+
 
 static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType eventType)
 {
@@ -162,7 +241,11 @@ static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType ev
 
 static void ReadCamPictureToBuffer(void* textureDataPtr, int textureRowPitch)
 {
-	cap.read(frame);
+	bool success = cap.read(frame);
+	if (success)
+	{
+		ReprojectImage();
+	}
 
     int width = g_TextureWidth;
 	int height = g_TextureHeight;
