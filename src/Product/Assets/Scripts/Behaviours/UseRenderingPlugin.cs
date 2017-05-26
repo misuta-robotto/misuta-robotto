@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
-    public RawImage pussycat;
     public Calibration calibration;
     public Shader blurShader;
     public GameObject blurredPlane;
