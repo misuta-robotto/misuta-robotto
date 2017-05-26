@@ -9,7 +9,7 @@ else
 	ALDEBARAN_URL = "https://developer.softbankrobotics.com/Software/C%%2B%%2B/2.5.5/Windows/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
 endif
 
-build/Product.exe: build/extra src/Product/Assets/Plugins/bridge_d.dll src/Product/Assets/Plugins/RenderingPlugin.dll
+build/MisutaRobotto.exe: build/extra src/Product/Assets/Plugins/bridge_d.dll src/Product/Assets/Plugins/RenderingPlugin.dll
 	@echo Building exectuable...
 	@bin\build_executable.bat
 	@bin/touch.bat "build\Product.exe"
