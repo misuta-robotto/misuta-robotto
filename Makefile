@@ -58,7 +58,7 @@ src/MisutaRobotto/Assets/Plugins/RenderingPlugin.dll: build/extra/opencv/build_w
 	@echo Building RenderingPlugin...
 	@bin\compile_renderingplugin.bat
 	@bin/mkdir.bat "src\MisutaRobotto\Assets\Plugins"
-	@bin/copy.bat "src\experiment\graphicsdemos\NativeRenderingPlugin\PluginSource\build\Win32\Debug\RenderingPlugin.dll" "src\MisutaRobotto\Assets\Plugins"
+	@bin/copy.bat "src\RenderingPlugin\build\Win32\Debug\RenderingPlugin.dll" "src\MisutaRobotto\Assets\Plugins"
 	@bin/copy.bat "build\extra\opencv\build_world\bin\Release\opencv_world320.dll" "src\MisutaRobotto\Assets\Plugins"
 
 build/extra/opencv/build_world/lib/Release/opencv_world320.lib: build/extra/opencv build/extra/cmake
