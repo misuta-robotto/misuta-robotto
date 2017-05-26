@@ -9,19 +9,19 @@ else
 	ALDEBARAN_URL = "https://developer.softbankrobotics.com/Software/C%%2B%%2B/2.5.5/Windows/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
 endif
 
-build/MisutaRobotto.exe: build/extra src/Product/Assets/Plugins/bridge_d.dll src/Product/Assets/Plugins/RenderingPlugin.dll
+build/MisutaRobotto.exe: build/extra src/MisutaRobotto/Assets/Plugins/bridge_d.dll src/MisutaRobotto/Assets/Plugins/RenderingPlugin.dll
 	@echo Building exectuable...
 	@bin\build_executable.bat
-	@bin/touch.bat "build\Product.exe"
-	@echo "Executable built (found in build/Product.exe)"
+	@bin/touch.bat "build\MisutaRobotto.exe"
+	@echo "Executable built (found in build/MisutaRobotto.exe)"
 	
-bridge: src/Product/Assets/Plugins/bridge_d.dll;
+bridge: src/MisutaRobotto/Assets/Plugins/bridge_d.dll;
 
 clean_bridge:
-	@cmd.exe /C "del src\Product\Assets\Plugins\bridge_d.dll"
+	@cmd.exe /C "del src\MisutaRobotto\Assets\Plugins\bridge_d.dll"
 
 
-src/Product/Assets/Plugins/bridge_d.dll: build/extra/cmake build/extra/qibuild/sdk
+src/MisutaRobotto/Assets/Plugins/bridge_d.dll: build/extra/cmake build/extra/qibuild/sdk
 	@bin\build_qiconfig.bat
 	@bin/mkdir.bat "%userprofile%\.config\qi"
 	@bin/copy.bat "%userprofile%\.config\qi\qibuild.xml" "build\extra\config.bak"
@@ -33,9 +33,9 @@ src/Product/Assets/Plugins/bridge_d.dll: build/extra/cmake build/extra/qibuild/s
 	qibuild configure --work-tree "..\..\..\build\extra\qibuild" -c default && \
 	qibuild make --work-tree "..\..\..\build\extra\qibuild" -c default
 	@bin/copy.bat "build\extra\config.bak" "%userprofile%\.config\qi\qibuild.xml"
-	@bin/mkdir.bat "src\Product\Assets\Plugins"
-	@bin/copy.bat "src\bridge\cpp\build-default\sdk\bin\*" "src\Product\Assets\Plugins"
-	@bin/touch.bat "src\Product\Assets\Plugins\bridge_d.dll"
+	@bin/mkdir.bat "src\MisutaRobotto\Assets\Plugins"
+	@bin/copy.bat "src\bridge\cpp\build-default\sdk\bin\*" "src\MisutaRobotto\Assets\Plugins"
+	@bin/touch.bat "src\MisutaRobotto\Assets\Plugins\bridge_d.dll"
 
 build/extra/qibuild/sdk: build/extra/unzip.exe build/extra/aldebaran.zip
 	@echo Extracting Aldebaran C++ SDK...
@@ -54,12 +54,12 @@ build/extra/qibuild/.qi:
 	@cd "build\extra\qibuild" && \
 	qibuild init
 
-src/Product/Assets/Plugins/RenderingPlugin.dll: build/extra/opencv/build_world/lib/Release/opencv_world320.lib
+src/MisutaRobotto/Assets/Plugins/RenderingPlugin.dll: build/extra/opencv/build_world/lib/Release/opencv_world320.lib
 	@echo Building RenderingPlugin...
 	@bin\compile_renderingplugin.bat
-	@bin/mkdir.bat "src\Product\Assets\Plugins"
-	@bin/copy.bat "src\experiment\graphicsdemos\NativeRenderingPlugin\PluginSource\build\Win32\Debug\RenderingPlugin.dll" "src\Product\Assets\Plugins"
-	@bin/copy.bat "build\extra\opencv\build_world\bin\Release\opencv_world320.dll" "src\Product\Assets\Plugins"
+	@bin/mkdir.bat "src\MisutaRobotto\Assets\Plugins"
+	@bin/copy.bat "src\experiment\graphicsdemos\NativeRenderingPlugin\PluginSource\build\Win32\Debug\RenderingPlugin.dll" "src\MisutaRobotto\Assets\Plugins"
+	@bin/copy.bat "build\extra\opencv\build_world\bin\Release\opencv_world320.dll" "src\MisutaRobotto\Assets\Plugins"
 
 build/extra/opencv/build_world/lib/Release/opencv_world320.lib: build/extra/opencv build/extra/cmake
 	@echo Building OpenCV...
@@ -91,5 +91,5 @@ build/extra:
 .PHONY: clean
 clean:
 	@bin\rmdir.bat build
-	@bin\rmdir.bat src\Product\Assets\Plugins
+	@bin\rmdir.bat src\MisutaRobotto\Assets\Plugins
 
