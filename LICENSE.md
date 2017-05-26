@@ -210,6 +210,7 @@ Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård
 #EXHIBIT B. Attribution Information
 
 Attribution Copyright Notice: Copyright (c) 2017, Misuta Robotto Group
+
 Attribution Phrase (not exceeding 10 words): Powered by Misuta Robotto
 
 Attribution URL: https://github.com/Emiluren/misuta-robotto
