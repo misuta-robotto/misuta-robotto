@@ -194,14 +194,14 @@ The term “External Deployment” means the use, distribution, or communication
  
 #EXHIBIT A. Common Public Attribution License Version 1.0.
 
-“The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at __. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
+“The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at https://github.com/Emiluren/misuta-robotto/blob/master/LICENSE.md. The License is based on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been added to cover use of software over a computer network and provide for limited attribution for the Original Developer. In addition, Exhibit A has been modified to be consistent with Exhibit B.
 Software distributed under the License is distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License.
 
-The Original Code is______________________.
+The Original Code is Misuta Robotto.
 
-The Original Developer is not the Initial Developer and is __________. If left blank, the Original Developer is the Initial Developer.
-
-The Initial Developer of the Original Code is Jacob Lundberg, Patrik Sletmo, Ylva Lundegård, David Wajngot, Emil Segerbäck, Robin Christensen, Teo Tiefenbacher and Jon Vik. All portions of the code written by Jacob Lundberg, Patrik Sletmo, Ylva Lundegård, David Wajngot, Emil Segerbäck, Robin Christensen, Teo Tiefenbacher and Jon Vik are Copyright (c) 2017. All Rights Reserved.
+The Initial Developer of the Original Code is Misuta Robotto Group. All portions of the code written by Misuta Robotto Group are Copyright (c) 2017. All Rights Reserved.
+ 
+Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård, Emil Segerbäck, Patrik Sletmo, Teo Tiefenbacher, Jon Vik and David Wajngot.” 
 
 [NOTE: The text of this Exhibit A may differ slightly from the text of the notices in the Source Code files of the Original Code. You should use the text of this Exhibit A rather than the text found in the Original Code Source Code for Your Modifications.]
 
@@ -209,10 +209,10 @@ The Initial Developer of the Original Code is Jacob Lundberg, Patrik Sletmo, Ylv
  
 #EXHIBIT B. Attribution Information
 
-Attribution Copyright Notice: Copyright (c) 2017, Misuta Robotto
-Attribution Phrase (not exceeding 10 words): Powered by Misutā Robotto
+Attribution Copyright Notice: Copyright (c) 2017, Misuta Robotto Group
+Attribution Phrase (not exceeding 10 words): Powered by Misuta Robotto
 
-Attribution URL: https://github.com/Emiluren/tddd96-grupp3 
+Attribution URL: https://github.com/Emiluren/misuta-robotto
 
 Graphic Image as provided in the Covered Code, if any.
 
