@@ -73,8 +73,11 @@ public class RobotCoordinator : MonoBehaviour {
 
     private bool isRunning = true;
     private bool isUpdating = false;
-
+    
     private HeadTranslator headTranslator;
+
+    private string address;
+    private int port;
 
     // Setters for different Robot variables
     public float[] LeftShoulder {
@@ -147,12 +150,24 @@ public class RobotCoordinator : MonoBehaviour {
     void Start () {
         headTranslator = new HeadTranslator();
         calibration.ToggleMode += SetEnabled;
-        new Thread(new ThreadStart(ThreadedLoop)).Start();
     }
 
     void SetEnabled(bool enabled)
     {
         isUpdating = enabled;
+    }
+
+    public void Connect(string address, int port)
+    {
+        this.address = address;
+        this.port = port;
+        this.isRunning = true;
+        new Thread(new ThreadStart(ThreadedLoop)).Start();
+    }
+
+    public void Disconnect()
+    {
+        isRunning = false;
     }
 
     private void OnDisable()
@@ -189,13 +204,12 @@ public class RobotCoordinator : MonoBehaviour {
     
     private void ThreadedLoop()
     {
-        ALMotionProxy motionProxy = new ALMotionProxy(RobotConfiguration.ADRESS, RobotConfiguration.PORT);
+        ALMotionProxy motionProxy = new ALMotionProxy(address, port);
         if (!motionProxy.IsConnected())
         {
             Debug.Log("Unable to connect to robot");
             return;
         }
-
         motionProxy.MoveInit();
 
         while (isRunning)

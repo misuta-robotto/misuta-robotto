@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
+using UnityEngine.UI;
 
 public class UseRenderingPlugin : MonoBehaviour
 {
+    public RawImage pussycat;
     public Calibration calibration;
     public Shader blurShader;
     public GameObject blurredPlane;
@@ -15,6 +17,7 @@ public class UseRenderingPlugin : MonoBehaviour
     private Material targetMaterial;
     
     private bool isRunning = true;
+    private bool updateCameraImage = false;
 
     private int number_of_devices;
     
@@ -65,7 +68,7 @@ public class UseRenderingPlugin : MonoBehaviour
         CreateTextureAndPassToPlugin();
         InitOpenCV();
     
-    	number_of_devices = GetDeviceCount();
+    	//number_of_devices = GetDeviceCount();
         current_device = 0;
 
         BeginUpdatingCameraData();
@@ -75,8 +78,8 @@ public class UseRenderingPlugin : MonoBehaviour
     void SetEnabled(bool b)
     {
         GetComponent<Renderer>().enabled = b;
-
-	blurredPlane.GetComponent<Renderer>().enabled = b;
+	    blurredPlane.GetComponent<Renderer>().enabled = b;
+        updateCameraImage = b;
     }
 
     private void OnEnable()
@@ -107,7 +110,7 @@ public class UseRenderingPlugin : MonoBehaviour
         tex.Apply();
 
         // Set texture onto our material
-        blurredTexture = RenderTexture.GetTemporary(tex.width, tex.height);
+        blurredTexture = new RenderTexture(tex.width, tex.height, 24, RenderTextureFormat.ARGB32);
         targetMaterial = blurredPlane.GetComponent<Renderer>().material;
         targetMaterial.mainTexture = blurredTexture;
         GetComponent<Renderer>().material.mainTexture = tex;
@@ -122,9 +125,12 @@ public class UseRenderingPlugin : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
 
-            // Tell plugin to copy camera data to texture
-            GL.IssuePluginEvent(GetRenderEventFunc(), 1);
-            BlurTexture(tex, blurredTexture);
+            if (updateCameraImage)
+            {
+                // Tell plugin to copy camera data to texture
+                GL.IssuePluginEvent(GetRenderEventFunc(), 1);
+                BlurTexture(tex, blurredTexture);
+            }
         }
     }
 
@@ -133,7 +139,10 @@ public class UseRenderingPlugin : MonoBehaviour
     {
         while (isRunning)
         {
-            ReadFromCamera();
+            if (updateCameraImage)
+            {
+                ReadFromCamera();
+            }
         }
 
         // Perform clean up and close camera feed
@@ -150,6 +159,7 @@ public class UseRenderingPlugin : MonoBehaviour
     {
         float blurSpread = 2f;
         float off = 0.5f + (iteration * blurSpread);
+
         Graphics.BlitMultiTap(source, dest, material,
                                new Vector2(-off, -off),
                                new Vector2(-off, off),
@@ -168,6 +178,9 @@ public class UseRenderingPlugin : MonoBehaviour
         buffer.Create();
         Graphics.CopyTexture(source, buffer);
 
+        bool previousSRGBWrite = GL.sRGBWrite;
+        GL.sRGBWrite = true;
+
         // Blur the small texture
         for (int i = 0; i < iterations; i++) {
             RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
@@ -178,5 +191,7 @@ public class UseRenderingPlugin : MonoBehaviour
         Graphics.Blit(buffer, destination);
 
         RenderTexture.ReleaseTemporary(buffer);
+
+        GL.sRGBWrite = previousSRGBWrite;
     }
 }

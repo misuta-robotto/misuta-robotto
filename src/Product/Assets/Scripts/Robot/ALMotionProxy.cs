@@ -73,7 +73,7 @@ namespace AL
         {
             ALMotionProxyFree(unmanagedMem);
         }
-
+        
         public bool IsConnected()
         {
             return unmanagedMem != IntPtr.Zero;
