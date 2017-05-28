@@ -29,9 +29,7 @@ If you only wish to create a distributable copy of the product you may use the f
 make dist
 ```
 
-There is an error in one of the final build steps and it will look like the build failed. This is completely normal and the build should still complete successfully with the message "Executable built (found in build/MisutaRobotto.exe)".
-
-If the build system does not produce the message mentioned above a failure may have occured. You should consult the Unity Editor log for further information, which can be found in `~/AppData/Local/Unity/Editor/Editor.log`.
+If the build system does not produce the message "Executable built (found in build/MisutaRobotto.exe)" a failure may have occured. You should consult the Unity Editor log for further information, which can be found in `~/AppData/Local/Unity/Editor/Editor.log`.
 
 ### Cleaning the application
 As the build system does not keep track of changed files you may need to clean compiled binaries before building again. This can be done with the following command.
