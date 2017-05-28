@@ -9,5 +9,4 @@ set MSBuildPath=
 for /f "tokens=2*" %%a in ('REG QUERY "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\14.0" /v MSBuildToolsPath') do set "MSBuildPath=%%~b"
 echo %MSBuildPath%
 
-:: Exit code is surpressed as the project contains an invalid post-build script
-"%MSBuildPath%\MSBuild.exe" RenderingPlugin.sln & exit 0
+"%MSBuildPath%\MSBuild.exe" RenderingPlugin.sln
