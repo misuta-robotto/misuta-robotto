@@ -9,17 +9,17 @@ else
 	ALDEBARAN_URL = "https://developer.softbankrobotics.com/Software/C%%2B%%2B/2.5.5/Windows/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
 endif
 
+.PHONY: all
+all: build/extra src/MisutaRobotto/Assets/Plugins/bridge_d.dll src/MisutaRobotto/Assets/Plugins/RenderingPlugin.dll;
+
+.PHONY: dist
+dist: build/MisutaRobotto.exe;
+
 build/MisutaRobotto.exe: build/extra src/MisutaRobotto/Assets/Plugins/bridge_d.dll src/MisutaRobotto/Assets/Plugins/RenderingPlugin.dll
 	@echo Building exectuable...
 	@bin\build_executable.bat
 	@bin/touch.bat "build\MisutaRobotto.exe"
 	@echo "Executable built (found in build/MisutaRobotto.exe)"
-	
-bridge: src/MisutaRobotto/Assets/Plugins/bridge_d.dll;
-
-clean_bridge:
-	@cmd.exe /C "del src\MisutaRobotto\Assets\Plugins\bridge_d.dll"
-
 
 src/MisutaRobotto/Assets/Plugins/bridge_d.dll: build/extra/cmake build/extra/qibuild/sdk
 	@bin\build_qiconfig.bat
@@ -90,6 +90,10 @@ build/extra:
 
 .PHONY: clean
 clean:
-	@bin\rmdir.bat build
 	@bin\rmdir.bat src\MisutaRobotto\Assets\Plugins
+	@bin\rmdir.bat build\MisutaRobotto_Data
+	@bin\rm.bat build\MisutaRobotto.exe
 
+.PHONY: distclean
+reset: clean
+	@bin\rmdir.bat build

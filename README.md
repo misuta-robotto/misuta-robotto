@@ -15,24 +15,40 @@ Most of the dependencies and tools needed to compile the project are automatical
 ## How to build
 Building is as simple as running the command "make" from either cmd (Windows Command Prompt) or Git Bash with the working directory set to the project root. **Building from another shell is untested and may not work correctly.**
 
-### Building the application
-Building the application for the first time is a time consuming task and will require at least 20 minutes. **IMPORTANT: Do not build the application with Unity running.**
+### Building the application dependencies
+To prepare for development you must first build the application dependencies. This is a time consuming task and will require at least 20 minutes.
 ```bash
 make
 ```
 
-There is an error in one of the final build steps and it will look like the build failed. This is completely normal and the build should still complete successfully with the message "Executable built (found in build/Product.exe)".
-
 **NOTE:** The build system does not keep track of changes to source files and will only rebuild missing binaries.
 
+### Building the application
+If you only wish to create a distributable copy of the product you may use the following command. **IMPORTANT: Do not build the application with Unity running.**
+
+```bash
+make dist
+```
+
+There is an error in one of the final build steps and it will look like the build failed. This is completely normal and the build should still complete successfully with the message "Executable built (found in build/MisutaRobotto.exe)".
+
+If the build system does not produce the message mentioned above a failure may have occured. You should consult the Unity Editor log for further information, which can be found in `~/AppData/Local/Unity/Editor/Editor.log`.
+
 ### Cleaning the application
-If you need to reset the build environment you should use the command below, which will ensure that all built Unity plugins are removed. **This will require a re-download of all dependencies.**
+As the build system does not keep track of changed files you may need to clean compiled binaries before building again. This can be done with the following command.
+
 ```bash
 make clean
 ```
 
+### Resetting the build environment
+If you need to reset the build environment completely you should use the command below, which will ensure that everything created by the build system is removed. **This will require a re-download of all dependencies.**
+```bash
+make distclean
+```
+
 ## Development
-With the project built you are also up and running for continued development. The project should appear in the recent projects list in the Unity Editor, otherwise it may be opened manually.
+With the project dependencies built you are up and running for continued development. The project should appear in the recent projects list in the Unity Editor if you also created a distributable copy, otherwise it may be opened manually.
 
 # Running
-After compiling the project an executable will be created at `build/Product.exe`. This executable starts the application and must be distributed together with the generated folder `build/Product_Data`.
+After building the distributable copy an executable will be created at `build/MisutaRobotto.exe`. This executable starts the application and must be distributed together with the generated folder `build/MisutaRobotto_Data`.
