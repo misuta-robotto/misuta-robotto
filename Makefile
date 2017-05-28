@@ -95,5 +95,5 @@ clean:
 	@bin\rm.bat build\MisutaRobotto.exe
 
 .PHONY: distclean
-reset: clean
+distclean: clean
 	@bin\rmdir.bat build
