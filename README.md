@@ -6,7 +6,6 @@ Most of the dependencies and tools needed to compile the project are automatical
 
 * GNU/Make for Windows
 * Microsoft Visual Studio 2013
-* Microsoft Visual Studio 2015
 * Python 2.7 with pip (32-bit)
 * Unity Editor (32-bit)
 
