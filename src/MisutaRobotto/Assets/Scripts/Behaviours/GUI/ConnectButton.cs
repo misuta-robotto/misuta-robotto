@@ -60,6 +60,7 @@ public class ConnectButton : MonoBehaviour {
         {
             robotCoordinator.Disconnect();
             buttonText.text = "Connect";
+            connected = false;
         }
     }
 }
