@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2017, Misuta Robotto Group
 
 The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); 
@@ -23,12 +23,24 @@ Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård
 Patrik Sletmo, Teo Tiefenbacher, Jon Vik and David Wajngot.
 */
 
-#include <string>
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-#ifdef _WIN32
-    #define EXTERN extern "C" __declspec(dllimport)
-#else
-    #define EXTERN extern "C"
-#endif
+namespace Assets {
+    class HeightTranslator {
+        private const float VRNODE_TO_REAL_HEIGHT_RATIO = 1.13f;
+        private const float SHOE_SOUL_HEIGHT = 0.02f;
+        public const float KYLE_HEIGHT = 1.8f;
 
-#include "naobridge.h"
+        public static float CalculateHeight(Vector3 head) {
+            float userHeight = (head.y - SHOE_SOUL_HEIGHT) * VRNODE_TO_REAL_HEIGHT_RATIO;
+            return userHeight;
+        }
+
+        public static float CalculateSizeRatio(float userHeight) {
+            float sizeRatio = userHeight / KYLE_HEIGHT;
+            return sizeRatio;
+        }
+    }
+}
