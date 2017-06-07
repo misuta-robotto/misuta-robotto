@@ -39,7 +39,7 @@ make clean
 ```
 
 ### Resetting the build environment
-If you need to reset the build environment completely you should use the command below, which will ensure that everything created by the build system is removed. **This will require a re-download of all dependencies.**
+If you need to reset the build environment completely you should use the command below, which will ensure that everything created by the build system is removed. **This will require a re-download of all dependencies!**
 ```bash
 make distclean
 ```
