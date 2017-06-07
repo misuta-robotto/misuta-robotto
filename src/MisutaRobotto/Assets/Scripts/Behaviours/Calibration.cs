@@ -136,7 +136,6 @@ public class Calibration : MonoBehaviour
         float heightFloat;
         if (float.TryParse(height, out heightFloat))
         {
-
             userHeight = heightFloat.Clamp(MIN_HEIGHT, MAX_HEIGHT);
             if (toggle.isOn)
             {
