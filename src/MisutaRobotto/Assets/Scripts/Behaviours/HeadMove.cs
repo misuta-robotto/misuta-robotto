@@ -1,3 +1,6 @@
+﻿using Assets;
+using UnityEngine;
+using UnityEngine.VR;
 /*
 Copyright (c) 2017, Misuta Robotto Group
 
@@ -23,12 +26,27 @@ Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård
 Patrik Sletmo, Teo Tiefenbacher, Jon Vik and David Wajngot.
 */
 
-#include <string>
+public class HeadMove : MonoBehaviour {
+    public RobotCoordinator robCord;
+    public Calibration calibration;
 
-#ifdef _WIN32
-    #define EXTERN extern "C" __declspec(dllimport)
-#else
-    #define EXTERN extern "C"
-#endif
+    private HeadTranslator headTranslator;
 
-#include "naobridge.h"
+    void Start () {
+        headTranslator = new HeadTranslator();
+        calibration.ToggleMode += SetEnabled;
+        enabled = false;
+    }
+
+    void SetEnabled (bool b) {
+        enabled = b;
+    }
+
+	void Update () {
+        float pitch = InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.x; //get Vive pitch
+        float yaw = InputTracking.GetLocalRotation(VRNode.Head).eulerAngles.y; //get Vive yaw
+
+        robCord.HeadPitch = headTranslator.TranslatePitch(pitch);
+        robCord.HeadYaw = yaw;
+    }
+}

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2017, Misuta Robotto Group
 
 The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); 
@@ -23,12 +23,17 @@ Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård
 Patrik Sletmo, Teo Tiefenbacher, Jon Vik and David Wajngot.
 */
 
-#include <string>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-#ifdef _WIN32
-    #define EXTERN extern "C" __declspec(dllimport)
-#else
-    #define EXTERN extern "C"
-#endif
-
-#include "naobridge.h"
+namespace MishutaRoboto {
+    static class Util {
+        public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T> {
+            if (val.CompareTo(min) < 0) return min;
+            else if (val.CompareTo(max) > 0) return max;
+            else return val;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2017, Misuta Robotto Group
 
 The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); 
@@ -23,12 +23,44 @@ Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård
 Patrik Sletmo, Teo Tiefenbacher, Jon Vik and David Wajngot.
 */
 
-#include <string>
+using UnityEngine;
+using UnityEngine.UI;
 
-#ifdef _WIN32
-    #define EXTERN extern "C" __declspec(dllimport)
-#else
-    #define EXTERN extern "C"
-#endif
+/*
+ * Manages VR HUD and settings
+ */
+public class VRHud : MonoBehaviour {
+    public Text heightText;
+    public Calibration calibration;
 
-#include "naobridge.h"
+    public Canvas hud;
+    public Canvas crosshairTarget;
+    public SteamVR_Camera cam;
+
+    void Start() {
+        calibration.ToggleMode += SetEnabled;
+        hud.enabled = true;
+        crosshairTarget.enabled = true;
+        cam.camera.farClipPlane = 5020f;
+    }
+
+    private void SetEnabled(bool b) {
+        // Enable/disable HUD Canvases
+        hud.enabled = !b;
+        crosshairTarget.enabled = !b;
+
+        // Change camera render distance
+        if (b) {
+            cam.camera.farClipPlane = 500f;
+        }
+        else {
+            cam.camera.farClipPlane = 5020f;
+        }
+    }
+
+    // Update local text and convert m to cm
+    public void UpdateHeight(float height)
+    {
+        heightText.text = Mathf.Round(height * 100f).ToString();
+    }
+}

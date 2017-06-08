@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2017, Misuta Robotto Group
 
 The contents of this file are subject to the Common Public Attribution License Version 1.0 (the “License”); 
@@ -23,12 +23,21 @@ Misuta Robotto Group includes Robin Christensen, Jacob Lundberg, Ylva Lundegård
 Patrik Sletmo, Teo Tiefenbacher, Jon Vik and David Wajngot.
 */
 
-#include <string>
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.VR;
 
-#ifdef _WIN32
-    #define EXTERN extern "C" __declspec(dllimport)
-#else
-    #define EXTERN extern "C"
-#endif
+public class ControllerEventManager : MonoBehaviour
+{
+    public delegate void ClickAction();
+    public static event ClickAction OnClicked;
 
-#include "naobridge.h"
+    public void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            OnClicked();
+        }
+    }
+}
