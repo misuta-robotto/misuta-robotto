@@ -1,13 +1,7 @@
 CMAKE_URL = "https://cmake.org/files/v3.8/cmake-3.8.1-win64-x64.zip"
 OPENCV_URL = "https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.2.0/opencv-3.2.0-vc14.exe/download"
 UNZIP_URL = "http://stahlworks.com/dev/unzip.exe"
-
-# When running under Git Bash we are required to not double-escape percentage tokens
-ifdef HOME
-	ALDEBARAN_URL = "https://developer.softbankrobotics.com/Software/C%2B%2B/2.5.5/Windows/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
-else
-	ALDEBARAN_URL = "https://developer.softbankrobotics.com/Software/C%%2B%%2B/2.5.5/Windows/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
-endif
+ALDEBARAN_URL = "https://community-static.aldebaran.com/resources/2.5.5/naoqi-sdk/naoqi-sdk-2.5.5.5-win32-vs2013.zip"
 
 .PHONY: all
 all: build/extra src/MisutaRobotto/Assets/Plugins/bridge_d.dll src/MisutaRobotto/Assets/Plugins/RenderingPlugin.dll;
